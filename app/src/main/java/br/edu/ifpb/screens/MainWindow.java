@@ -1,3 +1,5 @@
+package br.edu.ifpb.screens;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -5,9 +7,9 @@ import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaInicial extends JFrame implements ActionListener {
+public class MainWindow extends JFrame implements ActionListener {
 
-    public TelaInicial() {
+    public MainWindow() {
         setTitle("Sistema de Gerenciamento de Hotel");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 300);
@@ -42,7 +44,7 @@ public class TelaInicial extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new TelaInicial();
+        new MainWindow();
     }
 
     @Override
