@@ -12,22 +12,22 @@ public class MainWindow extends JFrame implements ActionListener {
     public MainWindow() {
         setTitle("Sistema de Gerenciamento de Hotel");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(800, 300);
         setLocationRelativeTo(null); 
 
         JPanel panel = new JPanel();
         panel.setLayout(null); 
 
-        JLabel titulo = new JLabel("Bem-vindo ao Sistema de Gerenciamento de Hotel");
-        titulo.setBounds(50, 20, 300, 30);
+        JLabel titulo = new JLabel("Sistema de Gerenciamento de Hotel");
+        titulo.setBounds(250, 20, 300, 30); 
 
         JButton reservasBtn = new JButton("Gerenciar Reservas");
         JButton hospedesBtn = new JButton("Gerenciar Hóspedes");
         JButton quartosBtn = new JButton("Gerenciar Quartos");
 
-        reservasBtn.setBounds(100, 70, 200, 30);
-        hospedesBtn.setBounds(100, 120, 200, 30);
-        quartosBtn.setBounds(100, 170, 200, 30);
+        reservasBtn.setBounds(300, 70, 200, 30);
+        hospedesBtn.setBounds(300, 120, 200, 30); 
+        quartosBtn.setBounds(300, 170, 200, 30); 
 
         reservasBtn.addActionListener(this);
         hospedesBtn.addActionListener(this);
