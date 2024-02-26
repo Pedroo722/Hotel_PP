@@ -1,6 +1,7 @@
 package br.edu.ifpb.model;
 
 import br.edu.ifpb.interfaces.AutenticationIF;
+import br.edu.ifpb.validators.StringValidator;
 
 public class Autentication implements AutenticationIF {
     public static void login(String username, String password) {
@@ -10,8 +11,13 @@ public class Autentication implements AutenticationIF {
     };
 
     public static boolean validateUser(String username, String password) {
-        // fazer validators
+        boolean isNameValid = new StringValidator().validate(username);
+        boolean isPasswordValid = new StringValidator().validate(password);
 
-        return true;
+        if (isNameValid && isPasswordValid) {
+            return true;
+        }
+
+        return false;
     };
 }
