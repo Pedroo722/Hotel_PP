@@ -4,11 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class NovoCliente extends JFrame{
+public class NewClient extends JFrame{
 	JTextField textFieldNome, textFieldIdade, textFieldTelefone, textFieldEmail;
     JComboBox generoOpcoes;
 
-    public NovoCliente(){
+    public NewClient(){
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
         setTitle("Cadastrar Cliente");
@@ -83,13 +83,13 @@ public class NovoCliente extends JFrame{
 
         // Butão de Salvar Cliente
 
-        JButton Next = new JButton("Salvar");
-        Next.setBounds(200, 300, 150, 30);
-        Next.setBackground(Color.BLACK);
-        Next.setForeground(Color.WHITE);
-        add(Next);
+        JButton SaveButton = new JButton("Salvar");
+        SaveButton.setBounds(200, 300, 150, 30);
+        SaveButton.setBackground(Color.BLACK);
+        SaveButton.setForeground(Color.WHITE);
+        add(SaveButton);
         
-        Next.addActionListener(new ActionListener(){
+        SaveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 // ação para salvar o Cliente
             }
@@ -101,6 +101,6 @@ public class NovoCliente extends JFrame{
 	}
         
     public static void main(String[] args){
-        new NovoCliente();
+        new NewClient();
     }   
 }
