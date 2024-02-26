@@ -1,14 +1,14 @@
 package br.edu.ifpb.interfaces;
 
 public interface GuestIF {
-    public void cadastrarHospede();
+    public void registerGuest();
 
-    public void atualizarHospede(); // atualizar informações do hospedé
+    public void updateGuest(int userId, String newName, String newPassword, String newCpf);
 
-    public void cancelarCadastro();
+    public void cancelRegistration(int userId);
 
-    public void realizarCheckIn();
+    public void checkIn(int userId);
 
-    public void realizarCheckOut(); 
+    public void checkOut(int userId); 
 
 }
