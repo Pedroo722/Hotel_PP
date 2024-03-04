@@ -1,29 +1,26 @@
 package br.edu.ifpb.model;
 
 import br.edu.ifpb.interfaces.GuestIF;
+import br.edu.ifpb.wrappers.*;
 
 public class Guest implements GuestIF {
-    private int userId;
-    private String name, password, cpf;
+    private final Id userId;
+    private final Name name;
+    private final CPF cpf;
 
-    public Guest(String name, String password, String cpf) {
+    public Guest(Name name , CPF cpf) {
+        this.userId = new Id();
         this.name = name;
-        this.password = password;
         this.cpf = cpf;
-    };
-
-    public Guest returnGuest(int userId) {
-        if (this.userId == userId) {
-            return this;
-        } 
-        
-        return null;
     }
 
-    public void updateGuest(Guest guest, String newName, String newPassword, String newCpf) {
-        guest.name = newName;
-        guest.password = newPassword;
-        guest.cpf = newCpf;
+    public Guest updateGuest(Name newName, CPF newCpf) {
+        return new Guest(newName, newCpf);
     }
-    
+
+    public boolean isSameGuest(Id userId) {
+        return this.userId.equals(userId);
+    }
 }
+
+
