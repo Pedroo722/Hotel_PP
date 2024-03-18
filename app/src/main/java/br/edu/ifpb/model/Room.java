@@ -16,11 +16,8 @@ public class Room implements RoomIF {
         this.status = status;
     }
 
-    public Room returnRoom(Id roomId) {
-        if (this.roomId == roomId) {
-            return this;
-        } 
-        
-        return null;
+    public boolean isSameRoom(Id roomId) {
+        return this.roomId.equals(roomId);
     }
+
 }
