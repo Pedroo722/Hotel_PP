@@ -6,4 +6,12 @@ public class GuestStatus {
     public GuestStatus(boolean status) {
         this.status = status;
     }
+
+    public boolean isHosted() {
+        return status;
+    }
+
+    public void updateStatus(boolean newStatus) {
+        status = newStatus;
+    }
 }

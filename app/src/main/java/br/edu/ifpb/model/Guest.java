@@ -7,14 +7,14 @@ public class Guest implements GuestIF {
     private final Id userId;
     private final Name name;
     private final CPF cpf;
-    private final GuestStatus isHosted;
+    private final GuestStatus status;
     private final RoomNumber roomNumber;
 
-    public Guest(Name name , CPF cpf, GuestStatus isHosted, RoomNumber roomNumber) {
+    public Guest(Name name , CPF cpf, GuestStatus status, RoomNumber roomNumber) {
         this.userId = new Id();
         this.name = name;
         this.cpf = cpf;
-        this.isHosted = isHosted;
+        this.status = status;
         this.roomNumber = roomNumber;
     }
 
@@ -26,13 +26,11 @@ public class Guest implements GuestIF {
         return new Guest(newName, newCpf, isHosted, roomNumber);
     }
 
-    public void registerGuest(Id guestId) {
-        
+    public void updateStatus(boolean newStatus) {
+        status.updateStatus(newStatus);
     }
 
-    public void cancelRegistration(Id userId) {
-
+    public boolean isHosted() {
+        return status.isHosted();
     }
- 
-
 }
