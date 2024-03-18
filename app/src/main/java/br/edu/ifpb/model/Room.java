@@ -20,4 +20,19 @@ public class Room implements RoomIF {
         return this.roomId.equals(roomId);
     }
 
+    public void registerRoom() {
+
+    }
+
+    public void updateRoom() {
+    
+    }
+
+    public void removeRoom() {
+       
+    }
+
+    public void cleanRoom() {
+       
+    }
 }

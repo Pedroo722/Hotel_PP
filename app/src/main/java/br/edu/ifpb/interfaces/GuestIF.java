@@ -8,7 +8,4 @@ public interface GuestIF {
 
     public void updateStatus(boolean newStatus);
 
-    public void checkIn(Id userId);
-
-    public void checkOut(Id userId); 
 }

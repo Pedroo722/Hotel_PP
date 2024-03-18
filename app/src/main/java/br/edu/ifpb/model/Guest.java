@@ -33,4 +33,5 @@ public class Guest implements GuestIF {
     public boolean isHosted() {
         return status.isHosted();
     }
+    
 }
