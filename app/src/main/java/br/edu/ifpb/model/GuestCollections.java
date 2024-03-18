@@ -29,10 +29,10 @@ public class GuestCollections {
         List<Guest> activeGuestList = new ArrayList<>();
 
         for (Guest guest : guestList) {
-            if (guest.IsHosted) { // checa se ishosted é true
-                // adicionar a activeGuestList
-                }
-            }   
+            if (guest.isHosted()) { 
+                activeGuestList.add(guest);   
+            }
+        }   
         return activeGuestList;
     }
 }

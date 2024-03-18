@@ -22,8 +22,8 @@ public class Guest implements GuestIF {
         return this.userId.equals(userId);
     }
 
-    public Guest updateGuest(Name newName, CPF newCpf, GuestStatus isHosted, RoomNumber roomNumber) {
-        return new Guest(newName, newCpf, isHosted, roomNumber);
+    public Guest updateGuest(Name newName, CPF newCpf, GuestStatus status, RoomNumber roomNumber) {
+        return new Guest(newName, newCpf, status, roomNumber);
     }
 
     public void updateStatus(boolean newStatus) {
