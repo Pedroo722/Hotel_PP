@@ -4,21 +4,21 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class NewClient extends JFrame{
-	JTextField textFieldNome, textFieldIdade, textFieldTelefone, textFieldEmail;
+public class NewGuest extends JFrame{
+	JTextField textFieldNome, textFieldIdade, textFieldCpf, textFieldEmail;
     JComboBox generoOpcoes;
 
-    public NewClient(){
+    public NewGuest(){
         getContentPane().setForeground(Color.BLUE);
         getContentPane().setBackground(Color.WHITE);
-        setTitle("Cadastrar Cliente");
+        setTitle("Cadastrar Hospedè");
         setVisible(true);
         
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(778,486);
         getContentPane().setLayout(null);
         
-        JLabel detalhesLabel = new JLabel("Detalhes do Cliente");
+        JLabel detalhesLabel = new JLabel("Detalhes do Hospedè");
         detalhesLabel.setForeground(Color.BLUE);
         detalhesLabel.setFont(new Font("Tahoma", Font.PLAIN, 31));
         detalhesLabel.setBounds(450, 24, 442, 35);
@@ -59,16 +59,16 @@ public class NewClient extends JFrame{
         generoOpcoes.setBounds(200, 120, 150, 27);
         add(generoOpcoes);
 
-        // Telefone
+        // Cpf
 
-        JLabel telefone = new JLabel("Telefone:");
-        telefone.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        telefone.setBounds(60, 170, 170, 27);
-        add(telefone);
+        JLabel Cpf = new JLabel("CPF:");
+        Cpf.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Cpf.setBounds(60, 170, 170, 27);
+        add(Cpf);
 
-        textFieldTelefone = new JTextField();
-        textFieldTelefone.setBounds(200, 170, 150, 27);
-        add(textFieldTelefone);
+        textFieldCpf = new JTextField();
+        textFieldCpf.setBounds(200, 170, 150, 27);
+        add(textFieldCpf);
 
         // Email
         
@@ -81,7 +81,7 @@ public class NewClient extends JFrame{
         textFieldEmail.setBounds(200, 220, 150, 27);
         add(textFieldEmail);
 
-        // Butão de Salvar Cliente
+        // Butão de Salvar Guest
 
         JButton SaveButton = new JButton("Salvar");
         SaveButton.setBounds(200, 300, 150, 30);
@@ -91,7 +91,7 @@ public class NewClient extends JFrame{
         
         SaveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
-                // ação para salvar o Cliente
+                // ação para salvar o Guest
             }
         });
         
@@ -101,6 +101,6 @@ public class NewClient extends JFrame{
 	}
         
     public static void main(String[] args){
-        new NewClient();
+        new NewGuest();
     }   
 }

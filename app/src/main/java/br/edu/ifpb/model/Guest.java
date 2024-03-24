@@ -8,22 +8,22 @@ public class Guest implements GuestIF {
     private final Name name;
     private final CPF cpf;
     private final GuestStatus status;
-    private final RoomNumber roomNumber;
+    private final Id reserveId;
 
-    public Guest(Name name , CPF cpf, GuestStatus status, RoomNumber roomNumber) {
+    public Guest(Name name, CPF cpf, GuestStatus status, Id reserveId) {
         this.userId = new Id();
         this.name = name;
         this.cpf = cpf;
         this.status = status;
-        this.roomNumber = roomNumber;
+        this.reserveId = reserveId;
     }
 
     public boolean isSameGuest(Id userId) {
         return this.userId.equals(userId);
     }
 
-    public Guest updateGuest(Name newName, CPF newCpf, GuestStatus status, RoomNumber roomNumber) {
-        return new Guest(newName, newCpf, status, roomNumber);
+    public Guest updateGuest(Id userId, Name newName, CPF newCpf, GuestStatus status, Id newReserveId) {
+        return new Guest(newName, newCpf, status, newReserveId);
     }
 
     public void updateStatus(boolean newStatus) {

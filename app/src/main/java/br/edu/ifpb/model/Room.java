@@ -6,13 +6,13 @@ import br.edu.ifpb.wrappers.*;
 public class Room implements RoomIF {
     private Id roomId;
     private RoomNumber number;
-    private RoomType type;
-    private RoomStatus status;
+    private Id roomTypeId;
+    private RoomStatus status; // status do quarto | true = livre e false = sujo/ocupado
 
-    public Room(Id roomId, RoomNumber number, RoomType type, RoomStatus status) {
+    public Room(RoomNumber number, Id roomTypeId, RoomStatus status) {
         this.roomId = new Id();;
         this.number = number;
-        this.type = type;
+        this.roomTypeId = roomTypeId;
         this.status = status;
     }
 
@@ -20,19 +20,17 @@ public class Room implements RoomIF {
         return this.roomId.equals(roomId);
     }
 
-    public void registerRoom() {
-
+    public Room updateRoom(Id rooomID, RoomNumber newNumber, Id newRoomTypeId, RoomStatus newStatus) {
+        return new Room(newNumber, newRoomTypeId, newStatus);
     }
 
-    public void updateRoom() {
+    public void removeRoom(Room room) {
+        if (room.isSameRoom(roomId)) {
+            room = null;
+        }
+    }
     
-    }
-
-    public void removeRoom() {
-       
-    }
-
-    public void cleanRoom() {
-       
+    public void cleanRoom(Id rooomID) {
+       this.status.updateStatus(true);
     }
 }
