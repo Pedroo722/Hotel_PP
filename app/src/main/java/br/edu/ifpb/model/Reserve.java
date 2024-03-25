@@ -48,7 +48,7 @@ public class Reserve {
 
     public void cancelReserve(Reserve reserve) {
         if (reserve.isSameReserve(reserveId)) {
-            reserveId = null;
+            reserveId = null; 
         }
 
     }
