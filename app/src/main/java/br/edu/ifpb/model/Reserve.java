@@ -25,11 +25,20 @@ public class Reserve {
     }
 
     public void checkIn(LocalDate checkInDate) {
-
-    }
-
-    public void checkOut(LocalDate checkOutDate) {
+        if (checkInDate == null || checkInDate.isBefore(LocalDate.now())) {
+            return;
+        }
         
+        this.checkIn = checkInDate;
+        this.status = new ReserveStatus(true); 
+    }
+    
+    public void checkOut(LocalDate checkOutDate) {
+        if (checkOutDate == null || checkOutDate.isBefore(checkIn)) {
+            return;
+        }
+        
+        this.checkOut = checkOutDate;
     }
 
     public void updateReserve(Id reserveId, Boolean newStatus) {
