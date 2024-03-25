@@ -12,12 +12,12 @@ public class Reserve {
     private LocalDate checkOut;
     private ReserveStatus status;
 
-    public Reserve(Id userId, RoomNumber number, LocalDate checkIn, LocalDate checkOut) {
+    public Reserve(Id userId, RoomNumber number) {
         this.reserveId = new Id();
         this.userId = userId;
         this.number = number;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
+        this.checkIn = null;
+        this.checkOut = null;
     }
 
     public boolean isSameReserve(Id reserveId) {
@@ -41,11 +41,15 @@ public class Reserve {
         this.checkOut = checkOutDate;
     }
 
-    public void updateReserve(Id reserveId, Boolean newStatus) {
+    public Reserve updateReserve(Id reserveId, Boolean newStatus) {
+        return new Reserve(reserveId, number);
 
     }
 
-    public void cancelReserve(Id reserveId) {
+    public void cancelReserve(Reserve reserve) {
+        if (reserve.isSameReserve(reserveId)) {
+            reserveId = null;
+        }
 
     }
 }
