@@ -3,7 +3,7 @@ package br.edu.ifpb.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ifpb.domain.cases.CheckReserveIdentityUseCase;
+import br.edu.ifpb.domain.cases.ReserveUseCase.CheckReserveIdentityUseCase;
 import br.edu.ifpb.domain.wrappers.Id;
 
 public class ReserveCollections {

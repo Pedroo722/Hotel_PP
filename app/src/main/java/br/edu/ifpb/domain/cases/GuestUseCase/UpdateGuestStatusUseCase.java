@@ -1,4 +1,4 @@
-package br.edu.ifpb.domain.cases;
+package br.edu.ifpb.domain.cases.GuestUseCase;
 
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
