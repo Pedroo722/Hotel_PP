@@ -1,7 +1,7 @@
 package br.edu.ifpb.interfaces.controller;
 
-import br.edu.ifpb.domain.model.Guest;
+import br.edu.ifpb.domain.wrappers.*;
 
 public interface RemoveGuestUseCaseIF {
-    public void removeGuest(Guest guest);
+    public void removeGuest(Id userId);
 }

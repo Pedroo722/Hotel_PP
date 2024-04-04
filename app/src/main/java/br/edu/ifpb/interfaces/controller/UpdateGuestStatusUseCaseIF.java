@@ -1,8 +1,8 @@
 package br.edu.ifpb.interfaces.controller;
 
-import br.edu.ifpb.domain.model.Guest;
 import br.edu.ifpb.domain.wrappers.GuestStatus;
+import br.edu.ifpb.domain.wrappers.Id;
 
 public interface UpdateGuestStatusUseCaseIF {
-    public void updateStatus(Guest guest, GuestStatus newStatus);   
+    public void updateStatus(Id useId, GuestStatus newStatus);   
 }

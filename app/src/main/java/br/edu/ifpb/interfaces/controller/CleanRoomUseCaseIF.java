@@ -1,8 +1,7 @@
 package br.edu.ifpb.interfaces.controller;
 
-import br.edu.ifpb.domain.model.Room;
-import br.edu.ifpb.domain.wrappers.RoomStatus;
+import br.edu.ifpb.domain.wrappers.*;
 
 public interface CleanRoomUseCaseIF {
-    public void cleanRoom(Room room, RoomStatus statusClean);
+    public void cleanRoom(Id roomId, RoomStatus statusClean);
 }
