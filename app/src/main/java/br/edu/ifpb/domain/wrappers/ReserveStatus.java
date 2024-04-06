@@ -1,9 +1,16 @@
 package br.edu.ifpb.domain.wrappers;
 
-public class ReserveStatus {
+public enum ReserveStatus {
+    ACTIVE(true),
+    CANCELED(false);
+
     private final boolean status;
 
-    public ReserveStatus(boolean status) {
+    ReserveStatus(boolean status) {
         this.status = status;
+    }
+
+    public boolean getStatus() {
+        return status;
     }
 }

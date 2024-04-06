@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
-import br.edu.ifpb.domain.wrappers.ReserveStatus;
 
 public class ReserveCheckInUseCase {
     private ReserveRepositoryInterface repository;
@@ -22,6 +21,6 @@ public class ReserveCheckInUseCase {
             return;
         }
         reserve.setCheckIn(checkInDate);
-        reserve.setStatus(new ReserveStatus(true));
+        reserve.setStatus(ReserveStatus.ACTIVE);
     }
 }
