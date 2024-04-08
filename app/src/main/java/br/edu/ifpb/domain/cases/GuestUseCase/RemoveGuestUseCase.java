@@ -17,10 +17,11 @@ public class RemoveGuestUseCase implements RemoveGuestUseCaseIF {
         Guest guest = repository.findGuestById(userId);
 
         if(guest == null) {
-            System.out.println("Guest não encontrado!");
+            // System.out.println("Guest não encontrado!");
             return;
         }
 
-        guest = null;
+        repository.getGuests().remove(guest);
+        // System.out.println("Guest removido com sucesso!");
     }
 }

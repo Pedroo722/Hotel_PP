@@ -9,4 +9,9 @@ public class RoomSize {
         }
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(size);
+    }
 }
