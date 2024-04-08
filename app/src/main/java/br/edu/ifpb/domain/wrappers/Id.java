@@ -22,4 +22,9 @@ public class Id {
         Id userId = (Id) obj;
         return id == userId.id;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 }

@@ -1,5 +1,6 @@
     package br.edu.ifpb.domain.cases.GuestUseCase;
 
+    import br.edu.ifpb.data.GuestRepository;
     import br.edu.ifpb.domain.model.*;
     import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
     import br.edu.ifpb.domain.wrappers.*;
@@ -7,6 +8,10 @@
 
     public class UpdateGuestUseCase implements UpdateGuestUseCaseIF {
         private GuestRepositoryInterface repository;
+
+        public UpdateGuestUseCase() {
+            this.repository = GuestRepository.getInstance();
+        }
 
         public void updateGuest(Id userId, Name newName, CPF newCpf, GuestStatus newStatus, Id newReserveId) {
             Guest guest = repository.findGuestById(userId);

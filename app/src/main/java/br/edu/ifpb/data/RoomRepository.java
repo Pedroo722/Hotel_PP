@@ -11,12 +11,20 @@ import br.edu.ifpb.domain.wrappers.Id;;
 
 public class RoomRepository implements RoomRepositoryInterface {
     private List<Room> Rooms = new ArrayList<>();
+    private static RoomRepository instance;
 
     public static void main(String [] args) throws FileNotFoundException {
         RoomRepository RoomRepository = new RoomRepository();
 
         RoomRepository.saveRoomsToFile();
         RoomRepository.loadRoomsFromFile();
+    }
+
+    public static RoomRepository getInstance() {
+        if (instance == null) {
+        instance = new RoomRepository();
+        }
+        return instance;
     }
 
     // Serialização de Rooms

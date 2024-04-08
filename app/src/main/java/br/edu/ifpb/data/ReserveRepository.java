@@ -11,12 +11,20 @@ import br.edu.ifpb.domain.wrappers.Id;;
 
 public class ReserveRepository implements ReserveRepositoryInterface {
     private List<Reserve> Reserves = new ArrayList<>();
+    private static ReserveRepository instance;
 
     public static void main(String [] args) throws FileNotFoundException {
         ReserveRepository ReserveRepository = new ReserveRepository();
 
         ReserveRepository.saveReservesToFile();
         ReserveRepository.loadReservesFromFile();
+    }
+
+    public static ReserveRepository getInstance() {
+        if (instance == null) {
+        instance = new ReserveRepository();
+        }
+        return instance;
     }
 
     // Serialização de Reserves

@@ -28,4 +28,15 @@ public class Guest {
     public void setCpf(CPF cpf) { this.cpf = cpf; }
     public void setStatus(GuestStatus status) { this.status = status; }
     public void setReserveId(Id reserveId) { this.reserveId = reserveId; }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("* ID: ").append(userId).append("\n");
+        stringBuilder.append("* Nome: ").append(name).append("\n");
+        stringBuilder.append("* CPF: ").append(cpf).append("\n");
+        stringBuilder.append("* Reserva: ").append(reserveId != null ? "[" + reserveId + "]" : "N/A").append("\n");
+        stringBuilder.append("* Status: ").append(status);
+        return stringBuilder.toString();
+    }
 }

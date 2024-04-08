@@ -23,7 +23,7 @@ public class MainMenu {
         System.out.println("Bem-vindo ao Hotel!");
 
         while (processamento) {
-            System.out.println("=== Menu ===");
+            System.out.println("\n=== Menu ===");
             System.out.println("Selecione uma opção: ");
             System.out.println("1 - Operações nos Reservas");
             System.out.println("2 - Operações nas Hóspedes");

@@ -21,7 +21,7 @@ public class GuestMenu {
         boolean guestProcessing = true;
 
         while (guestProcessing) {
-            System.out.println("== Operações de Hóspedes ==");
+            System.out.println("\n== Operações de Hóspedes ==");
             System.out.println("* 1 - Cadastrar um Hóspede");
             System.out.println("* 2 - Listar os Hóspedes atuais");
             System.out.println("* 3 - Editar um Hóspede");
@@ -33,12 +33,12 @@ public class GuestMenu {
 
             switch (optionGuest) {
                 case 1:
-                    System.out.print("Nome do hóspede: ");
-                    String name = scanner.nextLine();
+                    System.out.print("\nNome do hóspede: ");
+                    String name = scanner.next();
                     Name newName = new Name(name);
                 
                     System.out.print("CPF do hóspede: ");
-                    String cpf = scanner.nextLine();
+                    String cpf = scanner.next();
                     CPF newCpf = new CPF(cpf);
                 
                     System.out.print("Status do hóspede (ATIVO ou INATIVO): ");
@@ -56,22 +56,22 @@ public class GuestMenu {
                     Id id = new Id(userId);
 
                     System.out.print("Novo nome do hóspede: ");
-                    String nameStr = scanner.nextLine();
+                    String nameStr = scanner.next();
                     Name editedName = new Name(nameStr);
                 
-                    System.out.print("Novo CPF do hóspede: ");
-                    String cpfStr = scanner.nextLine();
+                    System.out.print("Novo CPF do hóspede: \n(EXEMPLO: 11122233340)\n");
+                    String cpfStr = scanner.next();
                     CPF editedCpf = new CPF(cpfStr);
                 
-                    System.out.print("Novo status do hóspede (ATIVO ou INATIVO): ");
+                    System.out.print("Novo status do hóspede (HOSTED ou NOT_HOSTED): ");
                     String newStatusStr = scanner.next();
                     GuestStatus editedStatus = GuestStatus.valueOf(newStatusStr);
 
-                    System.out.print("ID do hóspede a ser editado: ");
-                    int reserveInt = scanner.nextInt();
-                    Id reserveId = new Id(reserveInt);
+                    // System.out.print("ID da reserva a ser editado: ");
+                    // int reserveInt = scanner.nextInt();
+                    // Id reserveId = new Id(reserveInt);
                 
-                    guestController.editGuest(id, editedName, editedCpf, editedStatus, reserveId);
+                    guestController.editGuest(id, editedName, editedCpf, editedStatus, null);
                     break;
                 case 4:
                     System.out.print("ID do hóspede a ser removido: ");

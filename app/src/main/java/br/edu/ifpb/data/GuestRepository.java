@@ -10,6 +10,7 @@ import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;;
 
 public class GuestRepository implements GuestRepositoryInterface {
+    private static GuestRepository instance;
     private List<Guest> guests = new ArrayList<>();
 
     public static void main(String [] args) throws FileNotFoundException {
@@ -17,6 +18,13 @@ public class GuestRepository implements GuestRepositoryInterface {
 
         guestRepository.saveGuestsToFile();
         guestRepository.loadGuestsFromFile();
+    }
+
+    public static GuestRepository getInstance() {
+        if (instance == null) {
+        instance = new GuestRepository();
+        }
+        return instance;
     }
 
     // Serialização de Guests
@@ -45,8 +53,17 @@ public class GuestRepository implements GuestRepositoryInterface {
         //
     }
 
+    public void addGuest(Guest guest) {
+        guests.add(guest);
+    }
+
+
+    public List<Guest> getGuests() {
+        return guests;
+    }
+
     public Guest findGuestById(Id id) {
-        for (Guest guest : this.guests) {
+        for (Guest guest : guests) {
             if (CheckGuestIdentityUseCase.isSameGuest(guest, id)) {
                 return guest;
             }
