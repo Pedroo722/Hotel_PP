@@ -1,6 +1,8 @@
 package br.edu.ifpb.domain.wrappers;
 
-public class Id {
+import java.io.Serializable;
+
+public class Id implements Serializable {
     private static int idCounter = 0;
     private final int id;
 

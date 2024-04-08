@@ -1,6 +1,8 @@
 package br.edu.ifpb.domain.wrappers;
 
-public class Name {
+import java.io.Serializable;
+
+public class Name implements Serializable {
     private final String name;
 
     public Name(String name) {

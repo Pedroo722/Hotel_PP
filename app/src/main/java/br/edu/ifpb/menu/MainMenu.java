@@ -47,6 +47,7 @@ public class MainMenu {
                     break;
                 case EXIT_OPTION:
                     processamento = false;
+                    guestController.handleFinish();
                     System.out.println("Sistema encerrado.");
                     break;
                 default:

@@ -9,7 +9,7 @@ import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;;
 
-public class GuestRepository implements GuestRepositoryInterface {
+public class GuestRepository implements GuestRepositoryInterface, Serializable {
     private static GuestRepository instance;
     private List<Guest> guests = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class GuestRepository implements GuestRepositoryInterface {
     }
 
     // Serialização de Guests
-    private void saveGuestsToFile() {
+    public void saveGuestsToFile() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Guests.bin"))) {
             out.writeObject(this.guests);
             System.out.printf("Serialized data is saved in Guests.bin\n");
@@ -38,15 +38,18 @@ public class GuestRepository implements GuestRepositoryInterface {
     }
 
     // Deserialização de Guests
-    private void loadGuestsFromFile() {
+    public List<Guest> loadGuestsFromFile() {
+        List<Guest> loadedGuests = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Guests.bin"))) {
-            this.guests = (List<Guest>) ois.readObject();
+            loadedGuests = (List<Guest>) ois.readObject();
             System.out.printf("Guests loaded from Guests.bin\n");
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, não faz nada
+            // Arquivo não encontrado, retorna uma lista vazia
+            loadedGuests = new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return loadedGuests;
     }
 
     public void saveGuests(Guest guest) {
@@ -55,11 +58,6 @@ public class GuestRepository implements GuestRepositoryInterface {
 
     public void addGuest(Guest guest) {
         guests.add(guest);
-    }
-
-
-    public List<Guest> getGuests() {
-        return guests;
     }
 
     public Guest findGuestById(Id id) {

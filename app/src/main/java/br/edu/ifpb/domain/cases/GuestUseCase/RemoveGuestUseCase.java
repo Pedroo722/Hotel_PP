@@ -21,7 +21,7 @@ public class RemoveGuestUseCase implements RemoveGuestUseCaseIF {
             return;
         }
 
-        repository.getGuests().remove(guest);
+        repository.loadGuestsFromFile().remove(guest);
         // System.out.println("Guest removido com sucesso!");
     }
 }

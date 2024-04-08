@@ -37,12 +37,13 @@ public class GuestMenu {
                     String name = scanner.next();
                     Name newName = new Name(name);
                 
-                    System.out.print("CPF do hóspede: ");
+                    System.out.print("CPF do hóspede (EXEMPLO: 11122233340):\n");
                     String cpf = scanner.next();
                     CPF newCpf = new CPF(cpf);
                 
-                    System.out.print("Status do hóspede (ATIVO ou INATIVO): ");
-                    String statusStr = scanner.next();
+                    // System.out.print("Status do hóspede (ATIVO ou INATIVO): ");
+                    // String statusStr = scanner.next();
+                    String statusStr = "NOT_HOSTED"; 
                     GuestStatus status = GuestStatus.valueOf(statusStr);
 
                     guestController.addGuest(newName, newCpf, status);

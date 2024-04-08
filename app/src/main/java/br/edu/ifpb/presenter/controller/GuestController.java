@@ -21,7 +21,7 @@ public class GuestController {
     }
 
     public void listGuests() {
-        List<Guest> guests = repository.getGuests();
+        List<Guest> guests = repository.loadGuestsFromFile();
         if (guests.isEmpty()) {
             System.out.println("\nA lista de convidados está vazia!\n");
             return;
@@ -46,4 +46,8 @@ public class GuestController {
         RemoveGuestUseCase removeGuestUseCase = new RemoveGuestUseCase();
         removeGuestUseCase.removeGuest(id);
     }    
+
+    public void handleFinish() {
+        repository.saveGuestsToFile();
+    }
 }

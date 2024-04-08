@@ -1,5 +1,6 @@
 package br.edu.ifpb.domain.wrappers;
 
+
 public enum GuestStatus {
     HOSTED(true),
     NOT_HOSTED(false);

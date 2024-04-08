@@ -1,6 +1,8 @@
 package br.edu.ifpb.domain.wrappers;
 
-public class CPF {
+import java.io.Serializable;
+
+public class CPF implements Serializable {
     private final String cpf;
 
     public CPF(String cpf) {
