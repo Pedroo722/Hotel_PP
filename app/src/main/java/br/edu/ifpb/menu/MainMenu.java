@@ -36,18 +36,22 @@ public class MainMenu {
             
             switch (MainMenuOption.values()[option - 1]) {
                 case RESERVE_OPTION:
-                    // reserveController.handleReserveOption();
+                    ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController);
+                    reserveMenu.handleReserveOptions();
                     break;
                 case GUEST_OPTION:
                     GuestMenu guestMenu = new GuestMenu(scanner, guestController);
                     guestMenu.handleGuestOptions();
                     break;
                 case ROOM_OPTION:
-                    // roomController.handleRoomOption();
+                    RoomMenu roomMenu = new RoomMenu(scanner, roomController);
+                    roomMenu.handleRoomOptions();
                     break;
                 case EXIT_OPTION:
                     processamento = false;
                     guestController.handleFinish();
+                    roomController.handleFinish();
+                    reserveController.handleFinish();
                     System.out.println("Sistema encerrado.");
                     break;
                 default:

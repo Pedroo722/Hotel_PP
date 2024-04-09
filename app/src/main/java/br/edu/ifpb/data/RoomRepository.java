@@ -10,7 +10,7 @@ import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;;
 
 public class RoomRepository implements RoomRepositoryInterface {
-    private List<Room> Rooms = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
     private static RoomRepository instance;
 
     public static void main(String [] args) throws FileNotFoundException {
@@ -27,34 +27,34 @@ public class RoomRepository implements RoomRepositoryInterface {
         return instance;
     }
 
-    // Serialização de Rooms
-    private void saveRoomsToFile() {
+    public void saveRoomsToFile() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Rooms.bin"))) {
-            out.writeObject(this.Rooms);
+            out.writeObject(this.rooms);
             System.out.printf("Serialized data is saved in Rooms.bin\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Deserialização de Rooms
-    private void loadRoomsFromFile() {
+    public List<Room> loadRoomsFromFile() {
+        List<Room> loadedRooms = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Rooms.bin"))) {
-            this.Rooms = (List<Room>) ois.readObject();
+            loadedRooms = (List<Room>) ois.readObject();
             System.out.printf("Rooms loaded from Rooms.bin\n");
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, não faz nada
+            loadedRooms = new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return loadedRooms;
     }
 
-    public void saveRooms(Room Room) {
-        //
+    public void addRoom(Room room) {
+        rooms.add(room);
     }
 
     public Room findRoomById(Id id) {
-        for (Room Room : this.Rooms) {
+        for (Room Room : this.rooms) {
             if (CheckRoomIdentityUseCase.isSameRoom(Room, id)) {
                 return Room;
             }

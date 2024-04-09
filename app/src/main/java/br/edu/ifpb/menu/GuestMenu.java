@@ -41,8 +41,6 @@ public class GuestMenu {
                     String cpf = scanner.next();
                     CPF newCpf = new CPF(cpf);
                 
-                    // System.out.print("Status do hóspede (ATIVO ou INATIVO): ");
-                    // String statusStr = scanner.next();
                     String statusStr = "NOT_HOSTED"; 
                     GuestStatus status = GuestStatus.valueOf(statusStr);
 

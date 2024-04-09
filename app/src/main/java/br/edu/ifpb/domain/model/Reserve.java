@@ -34,4 +34,15 @@ public class Reserve {
     public void setCheckIn(LocalDate checkIn) { this.checkIn = checkIn; }
     public void setCheckOut(LocalDate checkOut) { this.checkOut = checkOut; }
     public void setStatus(ReserveStatus status) { this.status = status; } 
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("* ID: ").append(reserveId).append("\n");
+        stringBuilder.append("* Nome do Hóspede: ").append(userId).append("\n");
+        stringBuilder.append("* Número de Quarto: ").append(number).append("\n");
+        stringBuilder.append("* Check-in: ").append(checkIn).append("\n");
+        stringBuilder.append("* Check-out: ").append(checkOut);
+        return stringBuilder.toString();
+    }
 }   

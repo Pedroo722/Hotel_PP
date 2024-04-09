@@ -1,6 +1,7 @@
 package br.edu.ifpb.domain.cases.ReserveUseCase;
 
 import br.edu.ifpb.data.ReserveRepository;
+import br.edu.ifpb.domain.model.Guest;
 import br.edu.ifpb.domain.model.Reserve;
 import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;
@@ -17,10 +18,10 @@ public class RemoveReserveUseCase implements RemoveReserveUseCaseIF {
         Reserve reserve = repository.findReserveById(reserveId);
 
         if(reserve == null) {
-            System.out.println("Reserva não encontrada!");
+            // System.out.println("Guest não encontrado!");
             return;
         }
 
-        reserve = null;
+        repository.loadReservesFromFile().remove(reserve);
     }
 }

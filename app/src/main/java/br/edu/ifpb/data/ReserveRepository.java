@@ -10,7 +10,7 @@ import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;;
 
 public class ReserveRepository implements ReserveRepositoryInterface {
-    private List<Reserve> Reserves = new ArrayList<>();
+    private List<Reserve> reserves = new ArrayList<>();
     private static ReserveRepository instance;
 
     public static void main(String [] args) throws FileNotFoundException {
@@ -27,34 +27,34 @@ public class ReserveRepository implements ReserveRepositoryInterface {
         return instance;
     }
 
-    // Serialização de Reserves
-    private void saveReservesToFile() {
+    public void saveReservesToFile() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Reserves.bin"))) {
-            out.writeObject(this.Reserves);
+            out.writeObject(this.reserves);
             System.out.printf("Serialized data is saved in Reserves.bin\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Deserialização de Reserves
-    private void loadReservesFromFile() {
+    public List<Reserve> loadReservesFromFile() {
+        List<Reserve> loadedReserves = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Reserves.bin"))) {
-            this.Reserves = (List<Reserve>) ois.readObject();
+            loadedReserves = (List<Reserve>) ois.readObject();
             System.out.printf("Reserves loaded from Reserves.bin\n");
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, não faz nada
+            loadedReserves = new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return loadedReserves;
     }
 
-    public void saveReserves(Reserve Reserve) {
-        //
+    public void addReserve(Reserve reserve) {
+        reserves.add(reserve);
     }
 
     public Reserve findReserveById(Id id) {
-        for (Reserve Reserve : this.Reserves) {
+        for (Reserve Reserve : this.reserves) {
             if (CheckReserveIdentityUseCase.isSameReserve(Reserve, id)) {
                 return Reserve;
             }

@@ -27,7 +27,6 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
         return instance;
     }
 
-    // Serialização de Guests
     public void saveGuestsToFile() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Guests.bin"))) {
             out.writeObject(this.guests);
@@ -37,23 +36,17 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
         }
     }
 
-    // Deserialização de Guests
     public List<Guest> loadGuestsFromFile() {
         List<Guest> loadedGuests = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Guests.bin"))) {
             loadedGuests = (List<Guest>) ois.readObject();
             System.out.printf("Guests loaded from Guests.bin\n");
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, retorna uma lista vazia
             loadedGuests = new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return loadedGuests;
-    }
-
-    public void saveGuests(Guest guest) {
-        //
     }
 
     public void addGuest(Guest guest) {
