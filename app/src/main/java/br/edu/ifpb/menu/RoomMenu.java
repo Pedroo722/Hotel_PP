@@ -1,5 +1,6 @@
 package br.edu.ifpb.menu;
 
+import br.edu.ifpb.domain.model.RoomType;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.presenter.controller.RoomController;
 
@@ -30,18 +31,18 @@ public class RoomMenu {
 
             switch (optionroom) {
                 case 1:
-                    System.out.print("Número do Quarto: ");
-                    int roomNumberInt = scanner.nextInt();
-                    RoomNumber roomNumber = new RoomNumber(roomNumberInt);
+                    // System.out.print("Número do Quarto: ");
+                    // int roomNumberInt = scanner.nextInt();
+                    // RoomNumber roomNumber = new RoomNumber(roomNumberInt);
                 
-                    System.out.print("Id do Tipo de Quarto: ");
-                    int roomTypeInt = scanner.nextInt();
-                    Id roomTypeId = new Id(roomTypeInt);
+                    // System.out.print("Escolha o tipo de Quarto: \n1.Quarto pequeno \n2.Quarto médio \n3.Quarto grande \n4.Quarto de Luxo");
+                    // int roomTypeInt = scanner.nextInt();
+                    // RoomType roomType = new RoomType(roomTypeInt);
 
-                    String statusStr = "AVAILABLE"; 
-                    RoomStatus status = RoomStatus.valueOf(statusStr);
+                    // String statusStr = "AVAILABLE"; 
+                    // RoomStatus status = RoomStatus.valueOf(statusStr);
                 
-                    roomController.addRoom(roomNumber, roomTypeId, status);
+                    // roomController.addRoom(roomNumber, roomType, status);
                     break;
                 case 2:
                     roomController.listRooms();
@@ -50,16 +51,12 @@ public class RoomMenu {
                     System.out.print("ID do Quarto a ser editada: ");
                     int roomInt = scanner.nextInt();
                     Id editId = new Id(roomInt);
-
-                    System.out.print("ID do novo hóospede: ");
-                    int newGuestInt = scanner.nextInt();
-                    Id newGuestId = new Id(newGuestInt);
                     
-                    System.out.print("Número do Quarto: ");
+                    System.out.print("Novo Número do Quarto: ");
                     int newRoomInt = scanner.nextInt();
                     RoomNumber newRoomNumber = new RoomNumber(newRoomInt);
 
-                    System.out.print("Número do Tipo de Quarto: ");
+                    System.out.print("Novo Tipo de Quarto: \n1.Quarto Pequeno \n2.Quarto Médio \n3.Quarto Grande \n4.Quarto de Luxo \n\nOpção: ");
                     int newRoomTypeInt = scanner.nextInt();
                     Id newRoomNumberId = new Id(newRoomTypeInt);
 

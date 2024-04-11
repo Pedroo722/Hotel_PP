@@ -15,8 +15,8 @@ public class RoomController {
         this.repository = RoomRepository.getInstance();
     }
 
-    public void addRoom(RoomNumber newNumber, Id roomTypeId, RoomStatus status) {
-        Room newRoom = new Room(newNumber, roomTypeId, status);
+    public void addRoom(RoomNumber newNumber, RoomType roomType, RoomStatus status) {
+        Room newRoom = new Room(newNumber, roomType, status);
         repository.addRoom(newRoom);
     }
 
@@ -37,7 +37,7 @@ public class RoomController {
         }
     }
 
-    public void editRoom(Id id,  RoomNumber newNumber, Id newRoomTypeId, RoomStatus newStatus) {
+    public void editRoom(Id id, RoomNumber newNumber, Id newRoomTypeId, RoomStatus newStatus) {
         UpdateRoomUseCase updateRoomUseCase = new UpdateRoomUseCase();
         updateRoomUseCase.updateRoom(id, newNumber, newRoomTypeId, newStatus);
     }

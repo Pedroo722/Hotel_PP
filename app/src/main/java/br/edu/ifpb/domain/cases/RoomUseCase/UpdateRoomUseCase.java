@@ -22,7 +22,7 @@ public class UpdateRoomUseCase implements UpdateRoomUseCaseIF {
         }
 
         room.setNumber(newNumber);
-        room.setRoomTypeId(newRoomTypeId);
+        // room.setRoomTypeId(newRoomTypeId);
         room.setStatus(newStatus);
     }
 }

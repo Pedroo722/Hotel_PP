@@ -11,6 +11,7 @@ import br.edu.ifpb.domain.wrappers.Id;;
 
 public class RoomRepository implements RoomRepositoryInterface {
     private List<Room> rooms = new ArrayList<>();
+    
     private static RoomRepository instance;
 
     public static void main(String [] args) throws FileNotFoundException {
