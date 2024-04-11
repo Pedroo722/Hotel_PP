@@ -15,11 +15,6 @@ public class RoomController {
         this.repository = RoomRepository.getInstance();
     }
 
-    public void addRoom(RoomNumber newNumber, RoomType roomType, RoomStatus status) {
-        Room newRoom = new Room(newNumber, roomType, status);
-        repository.addRoom(newRoom);
-    }
-
     public void listRooms() {
         List<Room> rooms = repository.loadRoomsFromFile();
         if (rooms.isEmpty()) {
@@ -32,7 +27,6 @@ public class RoomController {
         for (Room room : rooms) {
             System.out.println("Quarto: #" + count);
             System.out.println(room.toString());
-            System.out.println();
             count++;
         }
     }
@@ -41,11 +35,6 @@ public class RoomController {
         UpdateRoomUseCase updateRoomUseCase = new UpdateRoomUseCase();
         updateRoomUseCase.updateRoom(id, newNumber, newRoomTypeId, newStatus);
     }
-
-    public void removeRoom(Id id) {    
-        RemoveRoomUseCase removeRoomUseCase = new RemoveRoomUseCase();
-        removeRoomUseCase.removeRoom(id);
-    }    
 
     public void handleFinish() {
         repository.saveRoomsToFile();

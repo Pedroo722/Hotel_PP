@@ -2,12 +2,14 @@ package br.edu.ifpb.menu;
 
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.presenter.controller.ReserveController;
+import br.edu.ifpb.presenter.controller.RoomController;
 
 import java.util.Scanner;
 
 public class ReserveMenu {
     private Scanner scanner;
     private ReserveController reserveController;
+    private RoomController roomController;
 
     public ReserveMenu(Scanner scanner, ReserveController reserveController) {
         this.scanner = scanner;
@@ -20,7 +22,7 @@ public class ReserveMenu {
         while (reserveProcessing) {
             System.out.println("\n== Operações de Reserva ==");
             System.out.println("* 1 - Cadastrar uma Reserva");
-            System.out.println("* 2 - Listar as Reservas atuais");
+            System.out.println("* 2 - Listar Quartos e Reservas");
             System.out.println("* 3 - Editar uma Reserva");
             System.out.println("* 4 - Remover uma Reserva");
             System.out.println("* 5 - Voltar ao Menu");
@@ -30,17 +32,23 @@ public class ReserveMenu {
 
             switch (optionReserve) {
                 case 1:
+
+                    // TODO: Checar se bater com existente, se n sugerir criar novo Guest
                     System.out.print("ID do Hóspede: ");
                     int guestInt = scanner.nextInt();
                     Id guestId = new Id(guestInt);
                 
+                    // TODO: Checar se está AVAILABLE
                     System.out.print("Número do Quarto: ");
                     int roomNumberInt = scanner.nextInt();
                     RoomNumber roomNumber = new RoomNumber(roomNumberInt);
                 
+                    // TODO: Alterar os Status de Guest e Room
                     reserveController.addReserve(guestId, roomNumber);
                     break;
                 case 2:
+                    // TODO: Metodo para retornar os Quartos Disponiveis
+                    // roomController.listAvailableRooms();
                     reserveController.listReserves();
                     break;
                 case 3:

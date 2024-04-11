@@ -26,7 +26,7 @@ public class RoomType implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("* RoomTypeId: ").append(typeId).append("\n");
+        // sb.append("* RoomTypeId: ").append(typeId).append("\n");
         sb.append("* Description: ").append(description.getDescription()).append("\n");
         sb.append("* Capacity: ").append(capacity).append("\n");
         sb.append("* Size: ").append(description.getSize()).append("\n");
