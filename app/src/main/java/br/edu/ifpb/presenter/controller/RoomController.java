@@ -1,6 +1,5 @@
 package br.edu.ifpb.presenter.controller;
 
-import br.edu.ifpb.domain.wrappers.*;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class RoomController {
     }
 
     public void listRooms() {
-        List<Room> rooms = repository.loadRoomsFromFile();
+        List<Room> rooms = repository.getRooms();
         if (rooms.isEmpty()) {
             System.out.println("\nA lista de quartos está vazia!\n");
             return;
@@ -31,12 +30,25 @@ public class RoomController {
         }
     }
 
-    public void editRoom(Id id, RoomNumber newNumber, Id newRoomTypeId, RoomStatus newStatus) {
-        UpdateRoomUseCase updateRoomUseCase = new UpdateRoomUseCase();
-        updateRoomUseCase.updateRoom(id, newNumber, newRoomTypeId, newStatus);
+    public void listAvailableRooms() {
+        List<Room> rooms = repository.getRooms();
+        if (rooms.isEmpty()) {
+            System.out.println("\nNão há quartos disponíveis!\n");
+            return;
+        }
+
+        System.out.println("\n== Quartos Disponíveis ==");
+        int count = 1;
+        for (Room room : rooms) {
+            if (CheckRoomStatusUseCase.isRoomAvailable(room)) {
+                System.out.println("Quarto: #" + count);
+                System.out.println(room.toString());
+                count++;
+            }
+        }
     }
 
     public void handleFinish() {
-        repository.saveRoomsToFile();
+        // repository.saveRoomsToFile();
     }
 }

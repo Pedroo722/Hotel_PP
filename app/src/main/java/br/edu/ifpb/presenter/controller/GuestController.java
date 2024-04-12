@@ -15,15 +15,16 @@ public class GuestController {
         this.repository = GuestRepository.getInstance();
     }
 
-    public void addGuest(Name newName, CPF newCpf, GuestStatus status) {
-        Guest newGuest = new Guest(newName, newCpf, status, null);
+    public void addGuest(Name newName, CPF newCpf) {
+        Guest newGuest = new Guest(newName, newCpf);
         repository.addGuest(newGuest);
     }
 
     public void listGuests() {
-        List<Guest> guests = repository.loadGuestsFromFile();
+        List<Guest> guests = repository.getGuests();
+
         if (guests.isEmpty()) {
-            System.out.println("\nA lista de convidados está vazia!\n");
+            System.out.print("\nA lista de convidados está vazia!\n");
             return;
         }
 
@@ -37,9 +38,9 @@ public class GuestController {
         }
     }
 
-    public void editGuest(Id id, Name newName, CPF newCPF, GuestStatus newStatus, Id reserveId) {
+    public void editGuest(Id id, Name newName, CPF newCPF) {
         UpdateGuestUseCase updateGuestUseCase = new UpdateGuestUseCase();
-        updateGuestUseCase.updateGuest(id, newName, newCPF, newStatus, reserveId);
+        updateGuestUseCase.updateGuest(id, newName, newCPF);
     }
 
     public void removeGuest(Id id) {    
@@ -48,6 +49,6 @@ public class GuestController {
     }    
 
     public void handleFinish() {
-        repository.saveGuestsToFile();
+        // repository.saveGuestsToFile();
     }
 }

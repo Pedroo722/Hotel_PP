@@ -2,6 +2,8 @@ package br.edu.ifpb.domain.wrappers;
 
 import java.io.Serializable;
 
+import br.edu.ifpb.exceptions.*;
+
 public class Id implements Serializable {
     private static int idCounter = 0;
     private final int id;
@@ -12,7 +14,7 @@ public class Id implements Serializable {
 
     public Id(Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
+            throw new InvalidIdException();
         }
         this.id = id;
     }
@@ -21,9 +23,10 @@ public class Id implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        Id userId = (Id) obj;
-        return id == userId.id;
+        Id otherId = (Id) obj;
+        return id == otherId.id;
     }
+
 
     @Override
     public String toString() {

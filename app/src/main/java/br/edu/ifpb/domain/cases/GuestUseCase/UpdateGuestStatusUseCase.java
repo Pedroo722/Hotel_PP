@@ -2,25 +2,28 @@ package br.edu.ifpb.domain.cases.GuestUseCase;
 
 import br.edu.ifpb.data.GuestRepository;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.interfaces.controller.UpdateGuestStatusUseCaseIF;
 
-public class UpdateGuestStatusUseCase implements UpdateGuestStatusUseCaseIF {
-    private GuestRepositoryInterface repository;
+public class UpdateGuestStatusUseCase {
+    private GuestRepository repository;
 
     public UpdateGuestStatusUseCase() {
-            this.repository = GuestRepository.getInstance();
-        }
+        this.repository = GuestRepository.getInstance();
+    }
 
-    public void updateStatus(Id userId, GuestStatus newStatus) {
+    public void updateStatus(Id userId) {
         Guest guest = repository.findGuestById(userId);
-
-        if(guest == null) {
-            System.out.println("Guest não encontrado!");
+        GuestStatus currentStatus = guest.getStatus();
+        
+        if (currentStatus == GuestStatus.HOSTED) {
+            String statusStr = "NOT_HOSTED";
+            GuestStatus canceledStatus = GuestStatus.valueOf(statusStr);
+            guest.setStatus(canceledStatus);
             return;
         }
 
-        guest.setStatus(newStatus);
+        String statusStr = "HOSTED";
+        GuestStatus activeStatus = GuestStatus.valueOf(statusStr);
+        guest.setStatus(activeStatus);
     }
 }

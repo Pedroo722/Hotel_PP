@@ -2,12 +2,14 @@ package br.edu.ifpb.domain.wrappers;
 
 import java.io.Serializable;
 
+import br.edu.ifpb.exceptions.*;
+
 public class CPF implements Serializable {
     private final String cpf;
 
     public CPF(String cpf) {
         if (cpf == null || cpf.isEmpty() || cpf.length() < 11) {
-            throw new IllegalArgumentException("Invalid CPF format");
+            throw new InvalidCPFException();
         }
         this.cpf = cpf;
     }

@@ -12,7 +12,6 @@ public class Reserve implements Serializable {
     private LocalDate checkIn;
     private LocalDate checkOut;
     private ReserveStatus status;
-    // trocar classe wrapper de status para enum
 
     public Reserve(Id userId, RoomNumber number) {
         this.reserveId = new Id();
@@ -20,6 +19,7 @@ public class Reserve implements Serializable {
         this.number = number;
         this.checkIn = null;
         this.checkOut = null;
+        this.status = ReserveStatus.ACTIVE;
     }
 
     public Id getReserveId() { return reserveId; }
@@ -40,7 +40,7 @@ public class Reserve implements Serializable {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("* ID: ").append(reserveId).append("\n");
-        stringBuilder.append("* Nome do Hóspede: ").append(userId).append("\n");
+        stringBuilder.append("* ID do Hóspede: ").append(userId).append("\n");
         stringBuilder.append("* Número de Quarto: ").append(number).append("\n");
         stringBuilder.append("* Check-in: ").append(checkIn).append("\n");
         stringBuilder.append("* Check-out: ").append(checkOut);

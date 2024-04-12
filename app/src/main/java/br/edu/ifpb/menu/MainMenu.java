@@ -25,9 +25,9 @@ public class MainMenu {
         while (processamento) {
             System.out.println("\n=== Menu ===");
             System.out.println("Selecione uma opção: ");
-            System.out.println("1 - Operações nos Reservas");
-            System.out.println("2 - Operações nas Hóspedes");
-            System.out.println("3 - Operações nos Quartos");
+            System.out.println("1 - Operações nas Reservas");
+            System.out.println("2 - Operações nos Hóspedes");
+            System.out.println("3 - Inicializar Quartos"); //\ TEMPORÁRIO /\\
             System.out.println("4 - Sair e Salvar\n");
 
             System.out.print("Opção: ");
@@ -36,23 +36,22 @@ public class MainMenu {
             
             switch (MainMenuOption.values()[option - 1]) {
                 case RESERVE_OPTION:
-                    ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController);
+                    ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController, roomController);
                     reserveMenu.handleReserveOptions();
                     break;
                 case GUEST_OPTION:
                     GuestMenu guestMenu = new GuestMenu(scanner, guestController);
                     guestMenu.handleGuestOptions();
                     break;
-                case ROOM_OPTION:
-                    RoomMenu roomMenu = new RoomMenu(scanner, roomController);
-                    roomMenu.handleRoomOptions();
-                    break;
                 case EXIT_OPTION:
                     processamento = false;
-                    guestController.handleFinish();
-                    roomController.handleFinish();
-                    reserveController.handleFinish();
+                    // guestController.handleFinish();
+                    // roomController.handleFinish();
+                    // reserveController.handleFinish();
                     System.out.println("Sistema encerrado.");
+                    break;
+                case CREATE_ROOMS:
+                    CreateRoom.main(new String[]{});
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");

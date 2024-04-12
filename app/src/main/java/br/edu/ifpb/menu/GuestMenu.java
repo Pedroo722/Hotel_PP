@@ -1,10 +1,7 @@
 package br.edu.ifpb.menu;
 
-import br.edu.ifpb.domain.wrappers.CPF;
-import br.edu.ifpb.domain.wrappers.GuestStatus;
-import br.edu.ifpb.domain.wrappers.Id;
-import br.edu.ifpb.domain.wrappers.Name;
-import br.edu.ifpb.presenter.controller.GuestController;
+import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.presenter.controller.*;
 
 import java.util.Scanner;
 
@@ -33,6 +30,9 @@ public class GuestMenu {
 
             switch (optionGuest) {
                 case 1:
+                    // TODO: Checar se é Id e número de quarto válidos
+                    //        guestRepository.findGuestById(guestId);
+                    //        roomRepository.findRoomByNumber(roomNumber);
                     System.out.print("\nNome do hóspede: ");
                     String name = scanner.next();
                     Name newName = new Name(name);
@@ -40,11 +40,8 @@ public class GuestMenu {
                     System.out.print("CPF do hóspede (EXEMPLO: 11122233340):\n");
                     String cpf = scanner.next();
                     CPF newCpf = new CPF(cpf);
-                
-                    String statusStr = "NOT_HOSTED"; 
-                    GuestStatus status = GuestStatus.valueOf(statusStr);
 
-                    guestController.addGuest(newName, newCpf, status);
+                    guestController.addGuest(newName, newCpf);
                     break;
                 case 2:
                     guestController.listGuests();
@@ -62,15 +59,7 @@ public class GuestMenu {
                     String cpfStr = scanner.next();
                     CPF editedCpf = new CPF(cpfStr);
                 
-                    System.out.print("Novo status do hóspede (HOSTED ou NOT_HOSTED): ");
-                    String newStatusStr = scanner.next();
-                    GuestStatus editedStatus = GuestStatus.valueOf(newStatusStr);
-
-                    // System.out.print("ID da reserva a ser editado: ");
-                    // int reserveInt = scanner.nextInt();
-                    // Id reserveId = new Id(reserveInt);
-                
-                    guestController.editGuest(id, editedName, editedCpf, editedStatus, null);
+                    guestController.editGuest(id, editedName, editedCpf);
                     break;
                 case 4:
                     System.out.print("ID do hóspede a ser removido: ");

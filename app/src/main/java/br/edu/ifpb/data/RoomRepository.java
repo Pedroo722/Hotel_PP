@@ -1,65 +1,80 @@
 package br.edu.ifpb.data;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import br.edu.ifpb.domain.cases.RoomUseCase.CheckRoomIdentityUseCase;
+import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
-import br.edu.ifpb.domain.wrappers.Id;;
+import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.exceptions.*;
 
-public class RoomRepository implements RoomRepositoryInterface {
+public class RoomRepository {
     private List<Room> rooms = new ArrayList<>();
-    
     private static RoomRepository instance;
 
-    public static void main(String [] args) throws FileNotFoundException {
-        RoomRepository RoomRepository = new RoomRepository();
-
-        RoomRepository.saveRoomsToFile();
-        RoomRepository.loadRoomsFromFile();
+    private RoomRepository() {
+        this.rooms = new ArrayList<>();
     }
 
+
     public static RoomRepository getInstance() {
-        if (instance == null) {
-        instance = new RoomRepository();
-        }
+        if (instance == null) { instance = new RoomRepository(); }
         return instance;
     }
 
-    public void saveRoomsToFile() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Rooms.bin"))) {
-            out.writeObject(this.rooms);
-            System.out.printf("Serialized data is saved in Rooms.bin\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void saveRoomsToFile() {
+    //     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Rooms.bin"))) {
+    //         out.writeObject(this.rooms);
+    //         System.out.printf("Serialized data is saved in Rooms.bin\n");
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
-    public List<Room> loadRoomsFromFile() {
-        List<Room> loadedRooms = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Rooms.bin"))) {
-            loadedRooms = (List<Room>) ois.readObject();
-            System.out.printf("Rooms loaded from Rooms.bin\n");
-        } catch (FileNotFoundException e) {
-            loadedRooms = new ArrayList<>();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return loadedRooms;
-    }
+    // public List<Room> loadRoomsFromFile() {
+    //     List<Room> loadedRooms = null;
+    //     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Rooms.bin"))) {
+    //         loadedRooms = (List<Room>) ois.readObject();
+    //         System.out.printf("Rooms loaded from Rooms.bin\n");
+    //     } catch (FileNotFoundException e) {
+    //         loadedRooms = new ArrayList<>();
+    //     } catch (IOException | ClassNotFoundException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return loadedRooms;
+    // }
 
     public void addRoom(Room room) {
         rooms.add(room);
+        // saveRoomsToFile();
     }
 
-    public Room findRoomById(Id id) {
-        for (Room Room : this.rooms) {
-            if (CheckRoomIdentityUseCase.isSameRoom(Room, id)) {
-                return Room;
+    public void updateRoom(Room updateRoom) {
+        for (int i = 0; i < rooms.size(); i++) {
+            Room room = rooms.get(i);
+            if (room.getRoomId().equals(updateRoom.getRoomId())) {
+                rooms.set(i, updateRoom);
+                // saveRoomsToFile();
+                return;
             }
         }
-        return null;
+        throw new ReserveNotFoundException();
+    }
+
+    public void removeRoom(RoomNumber roomNumber) {
+        rooms.removeIf(room -> room.getNumber().equals(roomNumber));
+        // saveReservesToFile();
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public Room findRoomByNumber(RoomNumber roomNumber) {
+        for (Room room : rooms) {
+            if (CheckRoomIdentityUseCase.isSameRoom(room, roomNumber)) {
+                return room;
+            }
+        }
+        throw new RoomNotFoundException();
     }
 }

@@ -1,56 +1,71 @@
 package br.edu.ifpb.data;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import br.edu.ifpb.domain.cases.GuestUseCase.CheckGuestIdentityUseCase;
-import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
-import br.edu.ifpb.domain.wrappers.Id;;
+import br.edu.ifpb.domain.model.Guest;
+import br.edu.ifpb.domain.wrappers.Id;
+import br.edu.ifpb.exceptions.GuestNotFoundException;
 
-public class GuestRepository implements GuestRepositoryInterface, Serializable {
+public class GuestRepository implements Serializable {
     private static GuestRepository instance;
-    private List<Guest> guests = new ArrayList<>();
+    private List<Guest> guests;
 
-    public static void main(String [] args) throws FileNotFoundException {
-        GuestRepository guestRepository = new GuestRepository();
-
-        guestRepository.saveGuestsToFile();
-        guestRepository.loadGuestsFromFile();
+    private GuestRepository() {
+        this.guests = new ArrayList<>();
     }
 
     public static GuestRepository getInstance() {
-        if (instance == null) {
-        instance = new GuestRepository();
-        }
+        if (instance == null) { instance = new GuestRepository(); }
         return instance;
     }
 
-    public void saveGuestsToFile() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Guests.bin"))) {
-            out.writeObject(this.guests);
-            System.out.printf("Serialized data is saved in Guests.bin\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // public void saveGuestsToFile() {
+    //     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Guests.bin", true))) {
+    //         out.writeObject(this.guests);
+    //         System.out.println("Serialized data is saved in Guests.bin");
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
-    public List<Guest> loadGuestsFromFile() {
-        List<Guest> loadedGuests = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Guests.bin"))) {
-            loadedGuests = (List<Guest>) ois.readObject();
-            System.out.printf("Guests loaded from Guests.bin\n");
-        } catch (FileNotFoundException e) {
-            loadedGuests = new ArrayList<>();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return loadedGuests;
-    }
+    // public void loadGuestsFromFile() {
+    //     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Guests.bin"))) {
+    //         this.guests = (List<Guest>) ois.readObject();
+    //         System.out.println("Guests loaded from Guests.bin");
+    //     } catch (FileNotFoundException e) {
+    //         System.out.println("Guests file not found. Creating new guest list.");
+    //         this.guests = new ArrayList<>();
+    //     } catch (IOException | ClassNotFoundException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public void addGuest(Guest guest) {
         guests.add(guest);
+        // saveGuestsToFile();
+    }
+
+    public void updateGuest(Guest updatedGuest) {
+        for (int i = 0; i < guests.size(); i++) {
+            Guest guest = guests.get(i);
+            if (guest.getUserId().equals(updatedGuest.getUserId())) {
+                guests.set(i, updatedGuest);
+                // saveGuestsToFile();
+                return;
+            }
+        }
+        throw new GuestNotFoundException();
+    }
+
+    public void removeGuest(Id id) {
+        guests.removeIf(guest -> guest.getUserId().equals(id));
+        // saveGuestsToFile();
+    }
+
+    public List<Guest> getGuests() {
+        return guests;
     }
 
     public Guest findGuestById(Id id) {
@@ -59,6 +74,6 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
                 return guest;
             }
         }
-        return null;
+        throw new GuestNotFoundException();
     }
 }

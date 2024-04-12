@@ -3,13 +3,18 @@ package br.edu.ifpb.presenter.controller;
 import java.util.List;
 
 import br.edu.ifpb.data.*;
+import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.cases.ReserveUseCase.*;
+import br.edu.ifpb.domain.cases.GuestUseCase.*;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
 
 
+
 public class ReserveController {
     private ReserveRepository repository;
+    private GuestRepository guestRepository;
+    private RoomRepository roomRepository;
 
     public ReserveController() {
         this.repository = ReserveRepository.getInstance();
@@ -18,10 +23,16 @@ public class ReserveController {
     public void addReserve(Id guestId, RoomNumber roomNumber) {
         Reserve newReserve = new Reserve(guestId, roomNumber);
         repository.addReserve(newReserve);
+
+        UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
+        updateGuestStatusUseCase.updateStatus(guestId);
+
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
+        updateRoomStatusUseCase.updateRoomStatus(roomNumber);
     }
 
     public void listReserves() {
-        List<Reserve> reserves = repository.loadReservesFromFile();
+        List<Reserve> reserves = repository.getReserves();
         if (reserves.isEmpty()) {
             System.out.println("\nA lista de convidados está vazia!\n");
             return;
@@ -37,9 +48,9 @@ public class ReserveController {
         }
     }
 
-    public void editReserve(Id reserveId, Id newGuest, RoomNumber roomNumber, ReserveStatus newStatus) {
+    public void editReserve(Id reserveId, Id newGuest, RoomNumber roomNumber) {
         UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase();
-        updateReserveUseCase.updateReserve(reserveId, newGuest, roomNumber, newStatus);
+        updateReserveUseCase.updateReserve(reserveId, newGuest, roomNumber);
     }
 
     public void removeReserve(Id id) {    
@@ -48,6 +59,6 @@ public class ReserveController {
     }    
 
     public void handleFinish() {
-        repository.saveReservesToFile();
+        // repository.saveReservesToFile();
     }
 }

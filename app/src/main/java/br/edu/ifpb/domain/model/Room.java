@@ -14,7 +14,7 @@ public class Room implements Serializable {
         this.roomId = new Id();
         this.number = number;
         this.roomType = roomType;
-        this.status = status;
+        this.status = RoomStatus.AVAILABLE;
     }
 
     public Id getRoomId() { return roomId; }

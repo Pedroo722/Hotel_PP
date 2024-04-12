@@ -37,7 +37,7 @@ public class RoomTypeRepository {
 
     public List<RoomType> loadRoomTypesFromFile() {
         List<RoomType> loadedRooms = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("RoomTypes.bin"))) { // Corrigido para "RoomTypes.bin"
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("RoomTypes.bin"))) {
             loadedRooms = (List<RoomType>) ois.readObject();
             System.out.printf("Room types loaded from RoomTypes.bin\n");
         } catch (FileNotFoundException e) {
