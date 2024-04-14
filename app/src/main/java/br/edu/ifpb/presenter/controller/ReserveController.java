@@ -23,9 +23,8 @@ public class ReserveController {
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(guestId);
 
-        // TODO: Entender porque esse metodo não funciona, enquanto que o de cima funciona
-        // UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
-        // updateRoomStatusUseCase.updateRoomStatus(roomNumber);
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
+        updateRoomStatusUseCase.updateRoomStatus(roomNumber);
     }
 
     public void listReserves() {

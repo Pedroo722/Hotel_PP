@@ -27,7 +27,6 @@ public class Id implements Serializable {
         return id == otherId.id;
     }
 
-
     @Override
     public String toString() {
         return String.valueOf(id);

@@ -18,4 +18,12 @@ public class RoomNumber implements Serializable {
     public String toString() {
         return String.valueOf(number);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        RoomNumber otherRoomNumber = (RoomNumber) obj;
+        return number.equals(otherRoomNumber.number);
+    }
 }
