@@ -5,10 +5,11 @@ import java.util.*;
 
 import br.edu.ifpb.domain.cases.GuestUseCase.CheckGuestIdentityUseCase;
 import br.edu.ifpb.domain.model.Guest;
+import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;
 import br.edu.ifpb.exceptions.GuestNotFoundException;
 
-public class GuestRepository implements Serializable {
+public class GuestRepository implements GuestRepositoryInterface, Serializable {
     private static GuestRepository instance;
     private List<Guest> guests;
 

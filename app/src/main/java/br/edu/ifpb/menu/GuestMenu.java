@@ -3,6 +3,7 @@ package br.edu.ifpb.menu;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.presenter.controller.*;
 
+import br.edu.ifpb.enums.*;
 import java.util.Scanner;
 
 public class GuestMenu {
@@ -28,8 +29,8 @@ public class GuestMenu {
             System.out.print("\nOpção: ");
             int optionGuest = scanner.nextInt();
 
-            switch (optionGuest) {
-                case 1:
+            switch (GuestMenuOption.values()[optionGuest - 1]) {
+                case ADD_GUEST_OPTION:
                     // TODO: Checar se é Id e número de quarto válidos
                     //        guestRepository.findGuestById(guestId);
                     //        roomRepository.findRoomByNumber(roomNumber);
@@ -43,10 +44,10 @@ public class GuestMenu {
 
                     guestController.addGuest(newName, newCpf);
                     break;
-                case 2:
+                case LIST_GUESTS_OPTION:
                     guestController.listGuests();
                     break;
-                case 3:
+                case EDIT_GUEST_OPTION:
                     System.out.print("ID do hóspede a ser editado: ");
                     Integer userId = scanner.nextInt();
                     Id id = new Id(userId);
@@ -61,13 +62,13 @@ public class GuestMenu {
                 
                     guestController.editGuest(id, editedName, editedCpf);
                     break;
-                case 4:
+                case REMOVE_GUEST_OPTION:
                     System.out.print("ID do hóspede a ser removido: ");
                     int guestId = scanner.nextInt();
                     Id removeId = new Id(guestId);
                     guestController.removeGuest(removeId);
                     break;
-                case 5:
+                case RETURN_OPTION:
                     guestProcessing = false;
                     break;
                 default:

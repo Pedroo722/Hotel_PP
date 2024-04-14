@@ -7,5 +7,9 @@ import br.edu.ifpb.domain.wrappers.Id;
 
 public interface ReserveRepositoryInterface {
     public Reserve findReserveById(Id id);
-    public List<Reserve> loadReservesFromFile();
+    public void addReserve(Reserve reserve);
+    public void updateReserve(Reserve updatedReserve);
+    public void removeReserve(Id id);
+    public List<Reserve> getReserves();
+    // public List<Reserve> loadReservesFromFile();
 }

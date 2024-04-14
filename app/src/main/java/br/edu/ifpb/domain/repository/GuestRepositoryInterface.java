@@ -7,5 +7,9 @@ import br.edu.ifpb.domain.wrappers.*;
 
 public interface GuestRepositoryInterface {
     public Guest findGuestById(Id id);
-    public List<Guest> loadGuestsFromFile();
+    public void addGuest(Guest guest);
+    public void updateGuest(Guest updatedGuest);
+    public void removeGuest(Id id);
+    public List<Guest> getGuests();
+    // public List<Guest> loadGuestsFromFile();
 }

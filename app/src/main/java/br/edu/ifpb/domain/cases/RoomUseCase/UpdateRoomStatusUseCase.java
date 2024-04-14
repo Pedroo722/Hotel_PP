@@ -2,10 +2,11 @@ package br.edu.ifpb.domain.cases.RoomUseCase;
 
 import br.edu.ifpb.data.RoomRepository;
 import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
 
 public class UpdateRoomStatusUseCase {
-    private RoomRepository repository;
+    private RoomRepositoryInterface repository;
 
     public UpdateRoomStatusUseCase() {
         this.repository = RoomRepository.getInstance();
@@ -20,6 +21,7 @@ public class UpdateRoomStatusUseCase {
             String statusStr = "OCCUPIED";
             RoomStatus occupiedStatus = RoomStatus.valueOf(statusStr);
             room.setStatus(occupiedStatus);
+            repository.updateRoom(room);
             return;
         }
 
@@ -27,5 +29,6 @@ public class UpdateRoomStatusUseCase {
         String statusStr = "AVAILABLE";
         RoomStatus availableStatus = RoomStatus.valueOf(statusStr);
         room.setStatus(availableStatus);
+        repository.updateRoom(room);
     }
 }

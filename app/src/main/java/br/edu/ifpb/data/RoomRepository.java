@@ -1,15 +1,17 @@
 package br.edu.ifpb.data;
 
+import java.io.Serializable;
 import java.util.*;
 
 import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.*;
 
-public class RoomRepository {
-    private List<Room> rooms = new ArrayList<>();
+public class RoomRepository implements RoomRepositoryInterface, Serializable {
     private static RoomRepository instance;
+    private List<Room> rooms = new ArrayList<>();
 
     private RoomRepository() {
         this.rooms = new ArrayList<>();

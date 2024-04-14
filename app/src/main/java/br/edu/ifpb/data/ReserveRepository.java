@@ -1,13 +1,15 @@
 package br.edu.ifpb.data;
 
+import java.io.Serializable;
 import java.util.*;
 
 import br.edu.ifpb.domain.cases.ReserveUseCase.*;
 import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.*;
 
-public class ReserveRepository {
+public class ReserveRepository implements ReserveRepositoryInterface, Serializable {
     private List<Reserve> reserves = new ArrayList<>();
     private static ReserveRepository instance;
 

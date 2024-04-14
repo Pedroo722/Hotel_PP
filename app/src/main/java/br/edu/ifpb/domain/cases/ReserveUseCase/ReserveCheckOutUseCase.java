@@ -8,10 +8,10 @@ import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;
 
 public class ReserveCheckOutUseCase {
-    private ReserveRepository repository;
+    private ReserveRepositoryInterface repository;
 
     public ReserveCheckOutUseCase() {
-        // this.repository = ReserveRepository.getInstance();
+        this.repository = ReserveRepository.getInstance();
     }
 
     public void checkOut(Id reserveId, LocalDate checkOutDate) {
@@ -22,5 +22,6 @@ public class ReserveCheckOutUseCase {
         }  
               
         reserve.setCheckOut(checkOutDate);
+        repository.updateReserve(reserve);
     }    
 }

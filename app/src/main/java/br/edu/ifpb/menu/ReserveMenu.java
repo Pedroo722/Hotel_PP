@@ -4,6 +4,7 @@ import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.presenter.controller.ReserveController;
 import br.edu.ifpb.presenter.controller.RoomController;
 
+import br.edu.ifpb.enums.ReserveMenuOption;
 import java.util.Scanner;
 
 public class ReserveMenu {
@@ -33,8 +34,9 @@ public class ReserveMenu {
             System.out.print("\nOpção: ");
             int optionReserve = scanner.nextInt();
 
-            switch (optionReserve) {
-                case 1:
+
+            switch (ReserveMenuOption.values()[optionReserve - 1]) {
+                case ADD_RESERVE_OPTION:
                     // TODO: Checar se bater com existente, se n sugerir criar novo Guest
                     System.out.print("ID do Hóspede: ");
                     int guestInt = scanner.nextInt();
@@ -47,10 +49,10 @@ public class ReserveMenu {
                 
                     reserveController.addReserve(guestId, roomNumber);
                     break;
-                case 2:
+                case LIST_RESERVES_OPTION:
                     reserveController.listReserves();
                     break;
-                case 3:
+                case EDIT_RESERVE_OPTION:
                     System.out.print("ID da reserva a ser editada: ");
                     int reserveInt = scanner.nextInt();
                     Id editId = new Id(reserveInt);
@@ -65,19 +67,19 @@ public class ReserveMenu {
 
                     reserveController.editReserve(editId, newGuestId, newRoomNumber);
                     break;
-                case 4:
+                case REMOVE_RESERVE_OPTION:
                     System.out.print("ID da Reserva a ser removida: ");
                     int reserveId = scanner.nextInt();
                     Id removeId = new Id(reserveId);
                     reserveController.removeReserve(removeId);
                     break;
-                case 5:
+                case LIST_ROOMS_OPTION:
                     roomController.listRooms();
                     break;
-                case 6:
+                case LIST_AVAILABLE_ROOMS_OPTION:
                     roomController.listAvailableRooms();
                     break;
-                case 7:
+                case RETURN_OPTION:
                     reserveProcessing = false;
                     break;
                 default:

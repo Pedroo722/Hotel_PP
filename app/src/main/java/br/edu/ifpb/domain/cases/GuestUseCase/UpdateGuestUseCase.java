@@ -2,10 +2,11 @@ package br.edu.ifpb.domain.cases.GuestUseCase;
 
 import br.edu.ifpb.data.GuestRepository;
 import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
 
 public class UpdateGuestUseCase {
-    private GuestRepository repository;
+    private GuestRepositoryInterface repository;
 
     public UpdateGuestUseCase() {
         this.repository = GuestRepository.getInstance();

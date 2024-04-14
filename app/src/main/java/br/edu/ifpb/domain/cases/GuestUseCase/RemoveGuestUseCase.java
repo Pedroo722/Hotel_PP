@@ -1,11 +1,12 @@
 package br.edu.ifpb.domain.cases.GuestUseCase;
 
-import br.edu.ifpb.data.GuestRepository;
-import br.edu.ifpb.domain.wrappers.Id;
+import br.edu.ifpb.domain.repository.*;
+import br.edu.ifpb.data.*;
+import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.interfaces.controller.RemoveGuestUseCaseIF;
 
 public class RemoveGuestUseCase implements RemoveGuestUseCaseIF {
-    private GuestRepository repository;
+    private GuestRepositoryInterface repository;
 
     public RemoveGuestUseCase() {
         this.repository = GuestRepository.getInstance();

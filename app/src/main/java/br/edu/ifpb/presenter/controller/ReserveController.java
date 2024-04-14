@@ -9,12 +9,8 @@ import br.edu.ifpb.domain.cases.GuestUseCase.*;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
 
-
-
 public class ReserveController {
     private ReserveRepository repository;
-    private GuestRepository guestRepository;
-    private RoomRepository roomRepository;
 
     public ReserveController() {
         this.repository = ReserveRepository.getInstance();
@@ -25,10 +21,11 @@ public class ReserveController {
         repository.addReserve(newReserve);
 
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
-        updateGuestStatusUseCase.updateStatus(guestId);
+        updateGuestStatusUseCase.updateGuestStatus(guestId);
 
-        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
-        updateRoomStatusUseCase.updateRoomStatus(roomNumber);
+        // TODO: Entender porque esse metodo não funciona, enquanto que o de cima funciona
+        // UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
+        // updateRoomStatusUseCase.updateRoomStatus(roomNumber);
     }
 
     public void listReserves() {

@@ -8,9 +8,8 @@ import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 
 public class ReserveCheckInUseCase {
-    private ReserveRepository repository;
+    private ReserveRepositoryInterface repository;
     
-
     public ReserveCheckInUseCase() {
         this.repository = ReserveRepository.getInstance();
     }
@@ -24,5 +23,6 @@ public class ReserveCheckInUseCase {
 
         reserve.setCheckIn(checkInDate);
         reserve.setStatus(ReserveStatus.ACTIVE);
+        repository.updateReserve(reserve);
     }
 }

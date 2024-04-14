@@ -7,7 +7,7 @@ import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.interfaces.controller.UpdateReserveUseCaseIf;
 
 public class UpdateReserveUseCase implements UpdateReserveUseCaseIf {
-    private ReserveRepository repository;
+    private ReserveRepositoryInterface repository;
 
     public UpdateReserveUseCase() {
         this.repository = ReserveRepository.getInstance();
@@ -18,5 +18,6 @@ public class UpdateReserveUseCase implements UpdateReserveUseCaseIf {
 
         reserve.setUserId(newGuest);
         reserve.setNumber(newNumber);
+        repository.updateReserve(reserve);
     }
 }

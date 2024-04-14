@@ -6,7 +6,7 @@ import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.domain.wrappers.*;
 
 public class UpdateReserveStatusUseCase {
-    private ReserveRepository repository;
+    private ReserveRepositoryInterface repository;
 
     public UpdateReserveStatusUseCase() {
         this.repository = ReserveRepository.getInstance();
@@ -20,11 +20,13 @@ public class UpdateReserveStatusUseCase {
             String statusStr = "CANCELED";
             ReserveStatus canceledStatus = ReserveStatus.valueOf(statusStr);
             reserve.setStatus(canceledStatus);
+            repository.updateReserve(reserve);
             return;
         }
 
         String statusStr = "CANCELED";
         ReserveStatus activeStatus = ReserveStatus.valueOf(statusStr);
         reserve.setStatus(activeStatus);
+        repository.updateReserve(reserve);
     }   
 }
