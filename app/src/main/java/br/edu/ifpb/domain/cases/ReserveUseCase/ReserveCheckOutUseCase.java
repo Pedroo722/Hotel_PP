@@ -20,7 +20,10 @@ public class ReserveCheckOutUseCase {
         if (checkOutDate == null || checkOutDate.isBefore(reserve.getCheckIn())) {
             return;
         }  
-              
+
+        // fazer o metodogetTime() para receber horario atual
+        // então salvar a data
+
         reserve.setCheckOut(checkOutDate);
         repository.updateReserve(reserve);
     }    

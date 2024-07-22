@@ -22,6 +22,7 @@ public class ReserveRepository implements ReserveRepositoryInterface, Serializab
         return instance;
     }
 
+    // Metodo para salvar Reserves no Banco de Dados
     // public void saveReservesToFile() {
     //     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Reserves.bin"))) {
     //         out.writeObject(this.reserves);
@@ -31,6 +32,7 @@ public class ReserveRepository implements ReserveRepositoryInterface, Serializab
     //     }
     // }
 
+    // Metodo para retirar Reserves do Banco de Dados
     // public List<Reserve> loadReservesFromFile() {
     //     List<Reserve> loadedReserves = null;
     //     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Reserves.bin"))) {

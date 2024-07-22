@@ -23,6 +23,7 @@ public class RoomRepository implements RoomRepositoryInterface, Serializable {
         return instance;
     }
 
+    // Metodo para salvar Rooms no Banco de Dados
     // public void saveRoomsToFile() {
     //     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Rooms.bin"))) {
     //         out.writeObject(this.rooms);
@@ -32,6 +33,7 @@ public class RoomRepository implements RoomRepositoryInterface, Serializable {
     //     }
     // }
 
+    // Metodo para retirar Rooms do Banco de Dados
     // public List<Room> loadRoomsFromFile() {
     //     List<Room> loadedRooms = null;
     //     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Rooms.bin"))) {

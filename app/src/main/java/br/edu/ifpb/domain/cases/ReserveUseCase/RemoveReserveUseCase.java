@@ -23,6 +23,7 @@ public class RemoveReserveUseCase implements RemoveReserveUseCaseIF {
 
         repository.removeReserve(reserveId);
 
+        // chamar o metodo checkOut(id_cliente, numero_quarto)
 
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(guestId);

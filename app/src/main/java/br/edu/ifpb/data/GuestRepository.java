@@ -22,6 +22,7 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
         return instance;
     }
 
+    // Metodo para salvar Guests no Banco de Dados
     // public void saveGuestsToFile() {
     //     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Guests.bin", true))) {
     //         out.writeObject(this.guests);
@@ -31,6 +32,7 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
     //     }
     // }
 
+    // Metodo para retirar os Guests do Banco de Dados
     // public void loadGuestsFromFile() {
     //     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Guests.bin"))) {
     //         this.guests = (List<Guest>) ois.readObject();
