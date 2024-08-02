@@ -45,7 +45,7 @@ public class ReserveController {
     }
 
     public void editReserve(Id reserveId, Id newGuest, RoomNumber roomNumber) {
-        UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase();
+        UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase(repository);
         updateReserveUseCase.updateReserve(reserveId, newGuest, roomNumber);
     }
 
