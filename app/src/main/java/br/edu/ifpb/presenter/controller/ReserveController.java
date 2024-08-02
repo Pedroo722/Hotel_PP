@@ -23,7 +23,7 @@ public class ReserveController {
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(guestId);
 
-        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase(null);
         updateRoomStatusUseCase.updateRoomStatus(roomNumber);
     }
 
