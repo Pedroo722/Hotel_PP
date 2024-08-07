@@ -13,14 +13,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.edu.ifpb.domain.cases.ReserveUseCase.CheckReserveIdentityUseCase;
-import br.edu.ifpb.domain.cases.ReserveUseCase.UpdateReserveStatusUseCase;
-import br.edu.ifpb.domain.cases.ReserveUseCase.UpdateReserveUseCase;
-import br.edu.ifpb.domain.model.Reserve;
+import br.edu.ifpb.domain.cases.ReserveUseCase.*;
+import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
-import br.edu.ifpb.domain.wrappers.Id;
-import br.edu.ifpb.domain.wrappers.ReserveStatus;
-import br.edu.ifpb.domain.wrappers.RoomNumber;
+import br.edu.ifpb.domain.wrappers.*;
 
 public class ReserveUseCaseTest {
     private ReserveRepositoryInterface repositoryMock;
@@ -59,12 +55,11 @@ public class ReserveUseCaseTest {
 
         Id userId = new Id();
         RoomNumber roomNumber = new RoomNumber(101);
-        ReserveStatus status = ReserveStatus.ACTIVE;
         reserve = new Reserve(userId, roomNumber);
 
         repositoryMock.addReserve(reserve);
     }
-
+    
     @Test
     public void testCheckReserveIdentity() {
         Id testReserveId = reserve.getReserveId();
@@ -80,28 +75,28 @@ public class ReserveUseCaseTest {
         assertNull(repositoryMock.findReserveById(reserveId));
     }
 
-    // @Test
-    // public void testUpdateReserveStatusToCanceled() {
-    //     reserve.setStatus(ReserveStatus.ACTIVE);
-    //     repositoryMock.updateReserve(reserve);
+    @Test
+    public void testUpdateReserveStatusToCanceled() {
+        reserve.setStatus(ReserveStatus.ACTIVE);
+        repositoryMock.updateReserve(reserve);
 
-    //     UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase(repositoryMock);
-    //     updateReserveStatusUseCase.updateReserveStatus(reserve.getReserveId());
+        UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase(repositoryMock);
+        updateReserveStatusUseCase.updateReserveStatus(reserve.getReserveId());
 
-    //     assertEquals(ReserveStatus.CANCELED, repositoryMock.findReserveById(reserve.getReserveId()).getStatus());
-    // }
+        assertEquals(ReserveStatus.CANCELED, repositoryMock.findReserveById(reserve.getReserveId()).getStatus());
+    }
 
-//     @Test
-//     public void testUpdateReserve() {
-//         Id newGuest = new Id();
-//         RoomNumber newRoomNumber = new RoomNumber(102);
+    @Test
+    public void testUpdateReserve() {
+        Id newGuest = new Id();
+        RoomNumber newRoomNumber = new RoomNumber(102);
 
-//         UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase(repositoryMock);
-//         updateReserveUseCase.updateReserve(reserve.getReserveId(), newGuest, newRoomNumber);
+        UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase(repositoryMock);
+        updateReserveUseCase.updateReserve(reserve.getReserveId(), newGuest, newRoomNumber);
 
-//         Reserve updatedReserve = repositoryMock.findReserveById(reserve.getReserveId());
-//         assertNotNull(updatedReserve);
-//         assertEquals(newGuest, updatedReserve.getUserId());
-//         assertEquals(newRoomNumber, updatedReserve.getNumber());
-//     }
- }
+        Reserve updatedReserve = repositoryMock.findReserveById(reserve.getReserveId());
+        assertNotNull(updatedReserve);
+        assertEquals(newGuest, updatedReserve.getUserId());
+        assertEquals(newRoomNumber, updatedReserve.getNumber());
+    }
+}

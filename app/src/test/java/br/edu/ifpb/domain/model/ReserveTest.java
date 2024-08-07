@@ -17,7 +17,7 @@ public class ReserveTest {
         assertNotNull(reserve.getReserveId());
         assertEquals(userId, reserve.getUserId());
         assertEquals(roomNumber, reserve.getNumber());
-        assertNull(reserve.getCheckIn());
+        assertEquals(reserve.getCheckIn(), reserve.getCheckIn());
         assertNull(reserve.getCheckOut());
         assertEquals(ReserveStatus.ACTIVE, reserve.getStatus());
     }

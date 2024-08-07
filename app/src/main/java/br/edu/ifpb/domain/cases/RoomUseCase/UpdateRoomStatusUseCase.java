@@ -13,6 +13,10 @@ public class UpdateRoomStatusUseCase {
         this.repository = RoomRepository.getInstance();
     }
 
+    public UpdateRoomStatusUseCase(RoomRepositoryInterface repository) {
+        this.repository = repository;
+    }
+
     public void updateRoomStatus(RoomNumber roomNumber) {
         Room room = repository.findRoomByNumber(roomNumber);
         if (room == null) {

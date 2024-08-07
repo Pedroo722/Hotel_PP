@@ -19,12 +19,15 @@ public class ReserveController {
     public void addReserve(Id guestId, RoomNumber roomNumber) {
         Reserve newReserve = new Reserve(guestId, roomNumber);
         repository.addReserve(newReserve);
-
+        
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(guestId);
 
         UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
         updateRoomStatusUseCase.updateRoomStatus(roomNumber);
+
+        GuestSetReserveUseCase guestSetReserveUseCase = new GuestSetReserveUseCase();
+        guestSetReserveUseCase.setReserve(guestId, newReserve.getReserveId());
     }
 
     public void listReserves() {

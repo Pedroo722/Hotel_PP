@@ -12,6 +12,10 @@ public class UpdateReserveStatusUseCase {
         this.repository = ReserveRepository.getInstance();
     }
 
+    public UpdateReserveStatusUseCase(ReserveRepositoryInterface repository) {
+        this.repository = repository;
+    }
+
     public void updateReserveStatus(Id reserveId) {
         Reserve reserve = repository.findReserveById(reserveId);
         ReserveStatus currentStatus = reserve.getStatus();

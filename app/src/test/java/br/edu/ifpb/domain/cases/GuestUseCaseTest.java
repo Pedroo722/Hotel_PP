@@ -64,13 +64,12 @@ public class GuestUseCaseTest {
 
     @Test
     public void testRemoveGuest() {
-        Id guestId = guest.getUserId(); 
+        Id guestId = guest.getUserId();
         repositoryMock.removeGuest(guestId);
 
         assertNull(repositoryMock.findGuestById(guestId));
     }
 
-    
     @Test
     public void testUpdateGuestStatusToHosted() {
         guest.setStatus(GuestStatus.NOT_HOSTED);
@@ -105,5 +104,16 @@ public class GuestUseCaseTest {
         assertNotNull(updatedGuest);
         assertEquals(newName, updatedGuest.getName());
         assertEquals(newCpf, updatedGuest.getCpf());
+    }
+
+    @Test
+    public void testSetGuestReserve() {
+        Id reserveId = new Id();
+        GuestSetReserveUseCase guestSetReserveUseCase = new GuestSetReserveUseCase(repositoryMock);
+        guestSetReserveUseCase.setReserve(guest.getUserId(), reserveId);
+
+        Guest updatedGuest = repositoryMock.findGuestById(guest.getUserId());
+        assertNotNull(updatedGuest);
+        assertEquals(reserveId, updatedGuest.getReserveId());
     }
 }

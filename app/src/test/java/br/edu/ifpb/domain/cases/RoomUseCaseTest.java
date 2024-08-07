@@ -47,13 +47,12 @@ public class RoomUseCaseTest {
             public List<Room> getRooms() {
                 return List.copyOf(roomRepo.values());
             }
-
         };
-       
-        RoomNumber roomNumber = new RoomNumber(101);
-        room = new Room(roomNumber, null, null);
 
-        repositoryMock.addRoom(room);  
+        RoomNumber roomNumber = new RoomNumber(101);
+        room = new Room(roomNumber, null, RoomStatus.AVAILABLE);
+
+        repositoryMock.addRoom(room);
     }
 
     @Test
@@ -72,17 +71,19 @@ public class RoomUseCaseTest {
         assertFalse(CheckRoomStatusUseCase.isRoomAvailable(room));
     }
 
-    // @Test
-    // public void testUpdateRoomStatus() {
-    //     room.setStatus(RoomStatus.AVAILABLE);
-    //     repositoryMock.updateRoom(room);
-    
-    //     UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase(repositoryMock);
-    
-    //     updateRoomStatusUseCase.updateRoomStatus(room.getNumber());
-    //     assertEquals(RoomStatus.OCCUPIED, repositoryMock.findRoomByNumber(room.getNumber()).getStatus());
+    @Test
+    public void testUpdateRoomStatus() {
+        room.setStatus(RoomStatus.AVAILABLE);
+        repositoryMock.updateRoom(room);
 
-    //     updateRoomStatusUseCase.updateRoomStatus(room.getNumber());
-    //     assertEquals(RoomStatus.AVAILABLE, repositoryMock.findRoomByNumber(room.getNumber()).getStatus());
-    // }
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase(repositoryMock);
+
+        // Disponível -> Ocupado
+        updateRoomStatusUseCase.updateRoomStatus(room.getNumber());
+        assertEquals(RoomStatus.OCCUPIED, repositoryMock.findRoomByNumber(room.getNumber()).getStatus());
+
+        // Ocupado -> Disponível
+        updateRoomStatusUseCase.updateRoomStatus(room.getNumber());
+        assertEquals(RoomStatus.AVAILABLE, repositoryMock.findRoomByNumber(room.getNumber()).getStatus());
+    }
 }
