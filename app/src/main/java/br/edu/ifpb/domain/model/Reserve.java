@@ -17,7 +17,7 @@ public class Reserve implements Serializable {
         this.reserveId = new Id();
         this.userId = userId;
         this.number = number;
-        this.checkIn = null;
+        this.checkIn = LocalDate.now();
         this.checkOut = null;
         this.status = ReserveStatus.ACTIVE;
     }
