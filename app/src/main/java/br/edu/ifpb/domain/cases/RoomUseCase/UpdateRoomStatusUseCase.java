@@ -1,5 +1,6 @@
 package br.edu.ifpb.domain.cases.RoomUseCase;
 
+import br.edu.ifpb.data.RoomRepository;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
@@ -8,8 +9,8 @@ import br.edu.ifpb.exceptions.RoomNotFoundException;
 public class UpdateRoomStatusUseCase {
     private RoomRepositoryInterface repository;
 
-    public UpdateRoomStatusUseCase(RoomRepositoryInterface repository) {
-        this.repository = repository;
+    public UpdateRoomStatusUseCase() {
+        this.repository = RoomRepository.getInstance();
     }
 
     public void updateRoomStatus(RoomNumber roomNumber) {

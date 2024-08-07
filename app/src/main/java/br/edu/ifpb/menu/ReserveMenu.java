@@ -26,10 +26,11 @@ public class ReserveMenu {
             System.out.println("* 1 - Cadastrar uma Reserva");
             System.out.println("* 2 - Listar Reservas");
             System.out.println("* 3 - Editar uma Reserva");
-            System.out.println("* 4 - Remover uma Reserva");
-            System.out.println("* 5 - Listar todos os Quartos");
-            System.out.println("* 6 - Listar Quartos Disponíveis");
-            System.out.println("* 7 - Voltar ao Menu");
+            System.out.println("* 4 - Fazer Check-out em uma Reserva");
+            System.out.println("* 5 - Remover uma Reserva");
+            System.out.println("* 6 - Listar todos os Quartos");
+            System.out.println("* 7 - Listar Quartos Disponíveis");
+            System.out.println("* 8 - Voltar ao Menu");
 
             System.out.print("\nOpção: ");
             int optionReserve = scanner.nextInt();
@@ -66,6 +67,13 @@ public class ReserveMenu {
                     RoomNumber newRoomNumber = new RoomNumber(newRoomInt);
 
                     reserveController.editReserve(editId, newGuestId, newRoomNumber);
+                    break;
+                case CHECK_OUT_RESERVE_OPTION:
+                    System.out.print("ID da reserva: ");
+                    int reserveCheckOutInt = scanner.nextInt();
+                    Id checkOutId = new Id(reserveCheckOutInt);
+
+                    reserveController.checkOut(checkOutId);
                     break;
                 case REMOVE_RESERVE_OPTION:
                     System.out.print("ID da Reserva a ser removida: ");

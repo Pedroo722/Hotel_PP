@@ -28,7 +28,7 @@ public class RemoveReserveUseCase implements RemoveReserveUseCaseIF {
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(guestId);
 
-        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase(null);
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
         updateRoomStatusUseCase.updateRoomStatus(roomNumber);
     }
 }

@@ -14,15 +14,9 @@ public class ReserveCheckOutUseCase {
         this.repository = ReserveRepository.getInstance();
     }
 
-    public void checkOut(Id reserveId, LocalDate checkOutDate) {
+    public void checkOut(Id reserveId) {
         Reserve reserve = repository.findReserveById(reserveId);
-
-        if (checkOutDate == null || checkOutDate.isBefore(reserve.getCheckIn())) {
-            return;
-        }  
-
-        // fazer o metodogetTime() para receber horario atual
-        // então salvar a data
+        LocalDate checkOutDate = LocalDate.now();
 
         reserve.setCheckOut(checkOutDate);
         repository.updateReserve(reserve);

@@ -23,7 +23,7 @@ public class ReserveController {
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(guestId);
 
-        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase(null);
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
         updateRoomStatusUseCase.updateRoomStatus(roomNumber);
     }
 
@@ -45,8 +45,13 @@ public class ReserveController {
     }
 
     public void editReserve(Id reserveId, Id newGuest, RoomNumber roomNumber) {
-        UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase(repository);
+        UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase();
         updateReserveUseCase.updateReserve(reserveId, newGuest, roomNumber);
+    }
+
+    public void checkOut(Id reserveId) {
+        ReserveCheckOutUseCase reserveCheckOutUseCase = new ReserveCheckOutUseCase();
+        reserveCheckOutUseCase.checkOut(reserveId);
     }
 
     public void removeReserve(Id id) {    

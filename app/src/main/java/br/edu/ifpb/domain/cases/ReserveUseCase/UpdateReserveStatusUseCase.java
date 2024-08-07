@@ -8,8 +8,8 @@ import br.edu.ifpb.domain.wrappers.*;
 public class UpdateReserveStatusUseCase {
     private ReserveRepositoryInterface repository;
 
-    public UpdateReserveStatusUseCase(ReserveRepositoryInterface repository) {
-        this.repository = repository;
+    public UpdateReserveStatusUseCase() {
+        this.repository = ReserveRepository.getInstance();
     }
 
     public void updateReserveStatus(Id reserveId) {

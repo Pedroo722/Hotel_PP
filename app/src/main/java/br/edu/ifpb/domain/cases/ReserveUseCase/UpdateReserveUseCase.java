@@ -9,8 +9,8 @@ import br.edu.ifpb.interfaces.controller.UpdateReserveUseCaseIf;
 public class UpdateReserveUseCase implements UpdateReserveUseCaseIf {
     private ReserveRepositoryInterface repository;
 
-    public UpdateReserveUseCase(ReserveRepositoryInterface repository) {
-        this.repository = repository;
+    public UpdateReserveUseCase() {
+        this.repository = ReserveRepository.getInstance();
     }
 
     public void updateReserve(Id reserveId, Id newGuest, RoomNumber newNumber) {

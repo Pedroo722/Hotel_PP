@@ -27,7 +27,7 @@ public class MainMenu {
             System.out.println("Selecione uma opção: ");
             System.out.println("1 - Operações nas Reservas");
             System.out.println("2 - Operações nos Hóspedes");
-            System.out.println("3 - Inicializar Quartos"); //\ TEMPORÁRIO /\\
+            System.out.println("3 - Inicializar Quartos"); //\ TEMPORARIO /\\
             System.out.println("4 - Sair e Salvar\n");
 
             System.out.print("Opção: ");
