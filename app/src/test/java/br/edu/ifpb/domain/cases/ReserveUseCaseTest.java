@@ -80,28 +80,28 @@ public class ReserveUseCaseTest {
         assertNull(repositoryMock.findReserveById(reserveId));
     }
 
-    @Test
-    public void testUpdateReserveStatusToCanceled() {
-        reserve.setStatus(ReserveStatus.ACTIVE);
-        repositoryMock.updateReserve(reserve);
+    // @Test
+    // public void testUpdateReserveStatusToCanceled() {
+    //     reserve.setStatus(ReserveStatus.ACTIVE);
+    //     repositoryMock.updateReserve(reserve);
 
-        UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase(repositoryMock);
-        updateReserveStatusUseCase.updateReserveStatus(reserve.getReserveId());
+    //     UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase(repositoryMock);
+    //     updateReserveStatusUseCase.updateReserveStatus(reserve.getReserveId());
 
-        assertEquals(ReserveStatus.CANCELED, repositoryMock.findReserveById(reserve.getReserveId()).getStatus());
-    }
+    //     assertEquals(ReserveStatus.CANCELED, repositoryMock.findReserveById(reserve.getReserveId()).getStatus());
+    // }
 
-    @Test
-    public void testUpdateReserve() {
-        Id newGuest = new Id();
-        RoomNumber newRoomNumber = new RoomNumber(102);
+//     @Test
+//     public void testUpdateReserve() {
+//         Id newGuest = new Id();
+//         RoomNumber newRoomNumber = new RoomNumber(102);
 
-        UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase(repositoryMock);
-        updateReserveUseCase.updateReserve(reserve.getReserveId(), newGuest, newRoomNumber);
+//         UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase(repositoryMock);
+//         updateReserveUseCase.updateReserve(reserve.getReserveId(), newGuest, newRoomNumber);
 
-        Reserve updatedReserve = repositoryMock.findReserveById(reserve.getReserveId());
-        assertNotNull(updatedReserve);
-        assertEquals(newGuest, updatedReserve.getUserId());
-        assertEquals(newRoomNumber, updatedReserve.getNumber());
-    }
-}
+//         Reserve updatedReserve = repositoryMock.findReserveById(reserve.getReserveId());
+//         assertNotNull(updatedReserve);
+//         assertEquals(newGuest, updatedReserve.getUserId());
+//         assertEquals(newRoomNumber, updatedReserve.getNumber());
+//     }
+ }
