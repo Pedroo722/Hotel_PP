@@ -19,6 +19,7 @@ public class RoomTypeRepository {
         RoomTypeRepository.loadRoomTypesFromFile();
     }
 
+    // Padrão de Criação: Singleton
     public static RoomTypeRepository getInstance() {
         if (instance == null) {
         instance = new RoomTypeRepository();

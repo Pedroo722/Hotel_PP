@@ -17,6 +17,7 @@ public class ReserveRepository implements ReserveRepositoryInterface, Serializab
         this.reserves = new ArrayList<>();
     }
 
+    // Padrão de Criação: Singleton
     public static ReserveRepository getInstance() {
         if (instance == null) { instance = new ReserveRepository(); }
         return instance;

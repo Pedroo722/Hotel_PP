@@ -24,12 +24,10 @@ public class UpdateRoomStatusUseCase {
         }
         RoomStatus currentStatus = room.getStatus();
         
-        // Disponível -> Ocupado
-        if (currentStatus == RoomStatus.AVAILABLE) {
-            room.setStatus(RoomStatus.OCCUPIED);
-        } else if (currentStatus == RoomStatus.OCCUPIED) {
-            room.setStatus(RoomStatus.AVAILABLE);
-        }
+        // Disponível -> Ocupado ou Ocupado -> Disponível
+        RoomStatus newStatus = currentStatus == RoomStatus.AVAILABLE ? RoomStatus.OCCUPIED : RoomStatus.AVAILABLE;
+
+        room.setStatus(newStatus);
 
         repository.updateRoom(room);
     }

@@ -15,7 +15,10 @@ import br.edu.ifpb.domain.cases.RoomUseCase.CheckRoomIdentityUseCase;
 import br.edu.ifpb.domain.cases.RoomUseCase.CheckRoomStatusUseCase;
 import br.edu.ifpb.domain.cases.RoomUseCase.UpdateRoomStatusUseCase;
 import br.edu.ifpb.domain.model.Room;
+import br.edu.ifpb.domain.model.RoomType;
 import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
+import br.edu.ifpb.domain.wrappers.RoomCapacity;
+import br.edu.ifpb.domain.wrappers.RoomDescription;
 import br.edu.ifpb.domain.wrappers.RoomNumber;
 import br.edu.ifpb.domain.wrappers.RoomStatus;
 
@@ -50,10 +53,19 @@ public class RoomUseCaseTest {
         };
 
         RoomNumber roomNumber = new RoomNumber(101);
-        room = new Room(roomNumber, null, RoomStatus.AVAILABLE);
+        RoomDescription description = RoomDescription.SMALL; // Fornecendo um RoomType válido
+        RoomCapacity capacity = new RoomCapacity(1);
+        RoomType roomType = new RoomType(description, capacity);
+
+        room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType) // Usando um RoomType válido
+            .withStatus(RoomStatus.AVAILABLE)
+            .build();
 
         repositoryMock.addRoom(room);
     }
+
 
     @Test
     public void testCheckRoomIdentity() {

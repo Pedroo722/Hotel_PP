@@ -17,7 +17,7 @@ public class RoomRepository implements RoomRepositoryInterface, Serializable {
         this.rooms = new ArrayList<>();
     }
 
-
+    // Padrão de Criação: Singleton
     public static RoomRepository getInstance() {
         if (instance == null) { instance = new RoomRepository(); }
         return instance;
@@ -61,7 +61,7 @@ public class RoomRepository implements RoomRepositoryInterface, Serializable {
                 return;
             }
         }
-        throw new ReserveNotFoundException();
+        throw new RoomNotFoundException();
     }
 
     public void removeRoom(RoomNumber roomNumber) {

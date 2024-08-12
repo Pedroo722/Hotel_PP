@@ -37,7 +37,11 @@ public class CreateRoom {
             }
 
             for (int i = 0; i < numRoomsToAdd; i++) {
-                Room room = new Room(new RoomNumber(roomNumber), roomType, RoomStatus.AVAILABLE);
+                Room room = new Room.RoomBuilder()
+                        .withNumber(new RoomNumber(roomNumber))
+                        .withRoomType(roomType)
+                        .withStatus(RoomStatus.AVAILABLE)
+                        .build();
                 System.out.println(room.toString());
                 rooms.add(room);
                 roomNumber++;

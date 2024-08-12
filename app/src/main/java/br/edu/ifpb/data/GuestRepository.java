@@ -17,6 +17,7 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
         this.guests = new ArrayList<>();
     }
 
+    // Padrão de Criação: Singleton
     public static GuestRepository getInstance() {
         if (instance == null) { instance = new GuestRepository(); }
         return instance;

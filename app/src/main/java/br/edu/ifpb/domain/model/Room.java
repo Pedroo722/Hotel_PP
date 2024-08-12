@@ -3,6 +3,7 @@ package br.edu.ifpb.domain.model;
 import java.io.Serializable;
 
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.exceptions.*;
 
 public class Room implements Serializable {
     private Id roomId;
@@ -10,11 +11,11 @@ public class Room implements Serializable {
     private RoomType roomType;
     private RoomStatus status;
 
-    public Room(RoomNumber number, RoomType roomType, RoomStatus status) {
-        this.roomId = new Id();
-        this.number = number;
-        this.roomType = roomType;
-        this.status = RoomStatus.AVAILABLE;
+    private Room(RoomBuilder builder) {
+        this.roomId = builder.roomId;
+        this.number = builder.number;
+        this.roomType = builder.roomType;
+        this.status = builder.status;
     }
 
     public Id getRoomId() { return roomId; }
@@ -35,5 +36,39 @@ public class Room implements Serializable {
         sb.append(roomType.toString());
         sb.append("* RoomStatus: ").append(status).append("\n");
         return sb.toString();
+    }
+
+    public static class RoomBuilder {
+        private Id roomId;
+        private RoomNumber number;
+        private RoomType roomType;
+        private RoomStatus status;
+
+        public RoomBuilder() {
+            this.roomId = new Id();
+            this.status = RoomStatus.AVAILABLE; 
+        }
+
+        public RoomBuilder withNumber(RoomNumber number) {
+            this.number = number;
+            return this;
+        }
+
+        public RoomBuilder withRoomType(RoomType roomType) {
+            this.roomType = roomType;
+            return this;
+        }
+
+        public RoomBuilder withStatus(RoomStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public Room build() {
+            if (this.number == null || this.roomType == null) {
+                throw new IllegalRoomException();
+            }
+            return new Room(this);
+        }
     }
 }

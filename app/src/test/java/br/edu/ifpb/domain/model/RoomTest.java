@@ -15,7 +15,12 @@ public class RoomTest {
         
         RoomNumber roomNumber = new RoomNumber(20);
         RoomStatus status = RoomStatus.AVAILABLE; 
-        Room room = new Room(roomNumber, roomType, status);
+        Room room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType)
+            .withStatus(status)
+            .build();
+            
 
         assertNotNull(room.getRoomId());
         assertEquals(roomNumber, room.getNumber());
@@ -30,7 +35,12 @@ public class RoomTest {
         RoomCapacity capacity = new RoomCapacity(1);
         RoomType roomType = new RoomType(description, capacity);
         RoomStatus status = RoomStatus.AVAILABLE;
-        Room room = new Room(roomNumber, roomType, status);
+        Room room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType)
+            .withStatus(status)
+            .build();
+
 
         Id newRoomId = new Id(); 
         room.setRoomId(newRoomId);
@@ -45,7 +55,12 @@ public class RoomTest {
         RoomCapacity capacity = new RoomCapacity(1);
         RoomType roomType = new RoomType(description, capacity);
         RoomStatus status = RoomStatus.AVAILABLE;
-        Room room = new Room(roomNumber, roomType, status);
+        Room room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType)
+            .withStatus(status)
+            .build();
+
 
         RoomNumber newRoomNumber = new RoomNumber(102);
         room.setNumber(newRoomNumber);
@@ -60,7 +75,12 @@ public class RoomTest {
         RoomCapacity capacity = new RoomCapacity(1);
         RoomType roomType = new RoomType(description, capacity);
         RoomStatus status = RoomStatus.AVAILABLE;
-        Room room = new Room(roomNumber, roomType, status);
+        Room room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType)
+            .withStatus(status)
+            .build();
+
 
         RoomDescription newDescription = RoomDescription.LUXURY; 
         RoomCapacity newCapacity = new RoomCapacity(2); 
@@ -77,7 +97,12 @@ public class RoomTest {
         RoomCapacity capacity = new RoomCapacity(1);
         RoomType roomType = new RoomType(description, capacity);
         RoomStatus status = RoomStatus.AVAILABLE;
-        Room room = new Room(roomNumber, roomType, status);
+        Room room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType)
+            .withStatus(status)
+            .build();
+
 
         RoomStatus newStatus = RoomStatus.OCCUPIED; 
         room.setStatus(newStatus);
@@ -92,7 +117,12 @@ public class RoomTest {
         RoomCapacity capacity = new RoomCapacity(1);
         RoomType roomType = new RoomType(description, capacity);
         RoomStatus status = RoomStatus.AVAILABLE;
-        Room room = new Room(roomNumber, roomType, status);
+        Room room = new Room.RoomBuilder()
+            .withNumber(roomNumber)
+            .withRoomType(roomType)
+            .withStatus(status)
+            .build();
+
 
         String expected = "* ID: " + room.getRoomId() + "\n" +
                           "* Number: " + roomNumber + "\n" +
