@@ -14,7 +14,7 @@ Membros
 O projeto foi estruturado de tal maneira que cada pasta contenha apenas as classes com suas designadas responsabilidades.
 
 
-Diagrama monstrand os relacionamentos entre as classes
+Diagrama mostrando os relacionamentos entre as classes
 
 ![Diagrama mostrando as responsabilidades das classes](Responsabilidade_Classes.png)
 
