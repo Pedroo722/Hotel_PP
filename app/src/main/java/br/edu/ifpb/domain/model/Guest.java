@@ -20,7 +20,7 @@ public class Guest implements Serializable {
 
     public Id getUserId() { return userId; }
     public Name getName() { return name; }
-    public CPF getCpf() { return cpf; }
+    public String getCpf() { return cpf; }
     public Id getReserveId() { return reserveId; }
     public GuestStatus getStatus() { return status; }
 

@@ -9,6 +9,14 @@ import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;
 import br.edu.ifpb.exceptions.GuestNotFoundException;
 
+import br.edu.ifpb.domain.model.Guest;
+import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
 public class GuestRepository implements GuestRepositoryInterface, Serializable {
     private static GuestRepository instance;
     private List<Guest> guests;
@@ -46,10 +54,54 @@ public class GuestRepository implements GuestRepositoryInterface, Serializable {
     //     }
     // }
 
-    public void addGuest(Guest guest) {
-        guests.add(guest);
-        // saveGuestsToFile();
+    //Coneção com o banco
+    private Connection connect() {
+        String url = "jdbc:sqlite:meu_banco_de_dados.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
     }
+
+    @Override
+    public void addGuest(Guest guest) {
+        String sql = "INSERT INTO guests(name, cpf) VALUES(?,?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, guest.toString());
+            pstmt.setString(2, guest.getCpf());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Queria rodar essa criação de tabela em algum lugar, mas não sei onde
+    public void createTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS guests (\n"
+                + " id integer PRIMARY KEY,\n"
+                + " name text NOT NULL,\n"
+                + " cpf integer\n"
+                + ");";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    //RAMONNNNNNNNN
+
+
+//    public void addGuest(Guest guest) {
+//        guests.add(guest);
+//        // saveGuestsToFile();
+//    }
 
     public void updateGuest(Guest updatedGuest) {
         for (int i = 0; i < guests.size(); i++) {

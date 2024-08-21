@@ -15,6 +15,7 @@ public class GuestController {
         this.repository = GuestRepository.getInstance();
     }
 
+
     public void addGuest(Name newName, CPF newCpf) {
         Guest newGuest = new Guest(newName, newCpf);
         repository.addGuest(newGuest);
