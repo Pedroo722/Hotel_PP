@@ -13,7 +13,9 @@ public class GuestController {
 
     public GuestController() {
         this.repository = GuestRepository.getInstance();
+        repository.loadGuestsFromDB();
     }
+
 
     public void addGuest(Name newName, CPF newCpf) {
         Guest newGuest = new Guest(newName, newCpf);
@@ -49,6 +51,6 @@ public class GuestController {
     }    
 
     public void handleFinish() {
-        // repository.saveGuestsToFile();
+        repository.saveGuestsToDB();
     }
 }

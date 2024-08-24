@@ -18,6 +18,14 @@ public class Guest implements Serializable {
         this.reserveId = null;
     }
 
+    public Guest(Id id, Name name, CPF cpf) {
+        this.userId = id;
+        this.name = name;
+        this.cpf = cpf;
+        this.status = GuestStatus.NOT_HOSTED;
+        this.reserveId = null;
+    }    
+
     public Id getUserId() { return userId; }
     public Name getName() { return name; }
     public CPF getCpf() { return cpf; }
