@@ -13,7 +13,6 @@ public class GuestController {
 
     public GuestController() {
         this.repository = GuestRepository.getInstance();
-        repository.loadGuestsFromDB();
     }
 
 

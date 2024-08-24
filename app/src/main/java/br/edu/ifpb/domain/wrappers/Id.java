@@ -19,6 +19,10 @@ public class Id implements Serializable {
         this.id = id;
     }
 
+    public int getValue() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
