@@ -5,7 +5,7 @@ import java.io.Serializable;
 import br.edu.ifpb.exceptions.*;
 
 public class Id implements Serializable {
-    private static int idCounter = 0;
+    private static int idCounter = 1;
     private final int id;
 
     public Id() {

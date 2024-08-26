@@ -13,7 +13,6 @@ public class CreateRoom {
 
         List<Room> rooms = new ArrayList<>();
 
-        // Create room types and store their IDs
         Id smallRoomTypeId = RoomTypeFactory.createRoomType("Single").getRoomTypeId();
         Id mediumRoomTypeId = RoomTypeFactory.createRoomType("Double").getRoomTypeId();
         Id largeRoomTypeId = RoomTypeFactory.createRoomType("Large").getRoomTypeId();
@@ -25,8 +24,8 @@ public class CreateRoom {
         for (int i = 0; i < 6; i++) {
             rooms.add(new Room.RoomBuilder()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(smallRoomTypeId) // Use RoomTypeId
-                    .withStatus(RoomStatus.AVAILABLE)
+                    .withRoomTypeId(smallRoomTypeId) 
+                    .withStatus()
                     .build());
         }
 
@@ -34,8 +33,8 @@ public class CreateRoom {
         for (int i = 0; i < 8; i++) {
             rooms.add(new Room.RoomBuilder()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(mediumRoomTypeId) // Use RoomTypeId
-                    .withStatus(RoomStatus.AVAILABLE)
+                    .withRoomTypeId(mediumRoomTypeId) 
+                    .withStatus()
                     .build());
         }
 
@@ -43,8 +42,8 @@ public class CreateRoom {
         for (int i = 0; i < 4; i++) {
             rooms.add(new Room.RoomBuilder()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(largeRoomTypeId) // Use RoomTypeId
-                    .withStatus(RoomStatus.AVAILABLE)
+                    .withRoomTypeId(largeRoomTypeId) 
+                    .withStatus()
                     .build());
         }
 
@@ -52,8 +51,8 @@ public class CreateRoom {
         for (int i = 0; i < 2; i++) {
             rooms.add(new Room.RoomBuilder()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(deluxeRoomTypeId) // Use RoomTypeId
-                    .withStatus(RoomStatus.AVAILABLE)
+                    .withRoomTypeId(deluxeRoomTypeId) 
+                    .withStatus()
                     .build());
         }
 

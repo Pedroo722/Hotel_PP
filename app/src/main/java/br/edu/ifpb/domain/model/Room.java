@@ -43,10 +43,11 @@ public class Room {
         return sb.toString();
     }
 
+    // Padrão de Criação: Builder
     public static class RoomBuilder {
         private Id roomId;
         private RoomNumber number;
-        private Id roomTypeId; // Store only the RoomType ID
+        private Id roomTypeId; 
         private RoomStatus status;
 
         public RoomBuilder() {
@@ -61,6 +62,11 @@ public class Room {
 
         public RoomBuilder withRoomTypeId(Id roomTypeId) { 
             this.roomTypeId = roomTypeId;
+            return this;
+        }
+
+        public RoomBuilder withStatus() {
+            this.status = RoomStatus.AVAILABLE;
             return this;
         }
 

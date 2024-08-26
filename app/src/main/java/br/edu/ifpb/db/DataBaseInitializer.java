@@ -20,7 +20,7 @@ public class DataBaseInitializer {
                 + " room_number TEXT NOT NULL,\n"
                 + " check_in DATE NOT NULL,\n"
                 + " check_out DATE,\n"
-                + " status TEXT NOT NULL,\n"
+                + " reserve_status TEXT NOT NULL,\n"
                 + " FOREIGN KEY(user_id) REFERENCES guests(id)\n"
                 + ");";
         
@@ -28,7 +28,7 @@ public class DataBaseInitializer {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " number TEXT NOT NULL UNIQUE,\n"
                 + " room_type_id INTEGER NOT NULL,\n"
-                + " status TEXT NOT NULL,\n"
+                + " room_status INTEGER,\n"
                 + " FOREIGN KEY(room_type_id) REFERENCES roomtypes(id)\n"
                 + ");";
         
@@ -40,7 +40,7 @@ public class DataBaseInitializer {
                 + ");";
 
         try (Connection conn = DataBaseManager.connect();
-             Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement()) {
             stmt.execute(sqlGuests);
             stmt.execute(sqlReserves);
             stmt.execute(sqlRooms);
@@ -63,7 +63,6 @@ public class DataBaseInitializer {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 while (rs.next()) {
-                    // Adjust this according to your table structure
                     StringBuilder row = new StringBuilder();
                     for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
                         row.append(rs.getString(i)).append(" ");

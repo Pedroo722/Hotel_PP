@@ -2,7 +2,7 @@ package br.edu.ifpb.menu;
 
 import br.edu.ifpb.enums.MainMenuOption;
 import br.edu.ifpb.presenter.controller.*;
-import br.edu.ifpb.db.DataBaseInitializer; // Import the DataBaseInitializer
+import br.edu.ifpb.db.DataBaseInitializer;
 
 import java.util.Scanner;
 
@@ -29,7 +29,7 @@ public class MainMenu {
             System.out.println("1 - Operações nas Reservas");
             System.out.println("2 - Operações nos Hóspedes");
             System.out.println("3 - Inicializar Quartos"); //\ TEMPORARIO /\\
-            System.out.println("4 - Imprimir Conteúdos das Tabelas"); // New option
+            System.out.println("4 - Imprimir Conteúdos das Tabelas");
             System.out.println("5 - Sair e Salvar\n");
     
             System.out.print("Opção: ");

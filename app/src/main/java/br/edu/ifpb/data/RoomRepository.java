@@ -44,14 +44,15 @@ public class RoomRepository implements RoomRepositoryInterface {
 
     // Salva as salas no banco de dados
     public void saveRoomsToDB() {
-        String sql = "INSERT INTO rooms(id, number, room_type_id) VALUES(?, ?, ?)"; 
+        String sql = "INSERT INTO rooms(id, number, room_type_id, room_status) VALUES(?, ?, ?, ?)"; 
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Room room : rooms) {
                 pstmt.setInt(1, room.getRoomId().getValue());
                 pstmt.setString(2, room.getNumber().toString());
-                pstmt.setInt(3, room.getRoomTypeId().getValue()); 
+                pstmt.setInt(3, room.getRoomTypeId().getValue());
+                pstmt.setInt(4, room.getStatus().getStatus());  
                 pstmt.executeUpdate();
             }
             System.out.println("All rooms have been saved to the database.");
@@ -62,7 +63,7 @@ public class RoomRepository implements RoomRepositoryInterface {
 
     // Carrega as salas do banco de dados
     public void loadRoomsFromDB() {
-        String sql = "SELECT id, number, room_type_id FROM rooms"; 
+        String sql = "SELECT id, number, room_type_id, room_status FROM rooms"; 
     
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -75,9 +76,26 @@ public class RoomRepository implements RoomRepositoryInterface {
                 RoomNumber number = new RoomNumber(rs.getInt("number"));
                 RoomType type = RoomType.getRoomTypeFromId(rs.getInt("room_type_id")); 
     
+                int statusValue = rs.getInt("room_status");
+                RoomStatus status;
+    
+                switch (statusValue) {
+                    case 1:
+                        status = RoomStatus.AVAILABLE;
+                        break;
+                    case 2:
+                        status = RoomStatus.OCCUPIED;
+                        break;
+                    default:
+                        System.err.println("Unexpected status value: " + statusValue);
+                        status = RoomStatus.AVAILABLE; 
+                        break;
+                }
+    
                 Room room = new Room.RoomBuilder()
                     .withRoomTypeId(type.getRoomTypeId())
                     .withNumber(number)
+                    .withStatus(status)
                     .build();
     
                 room.setRoomId(roomId);
