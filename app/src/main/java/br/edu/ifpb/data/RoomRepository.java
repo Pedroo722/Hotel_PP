@@ -47,12 +47,12 @@ public class RoomRepository implements RoomRepositoryInterface {
         String sql = "INSERT INTO rooms(id, number, room_type_id, room_status) VALUES(?, ?, ?, ?)"; 
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Room room : rooms) {
                 pstmt.setInt(1, room.getRoomId().getValue());
                 pstmt.setString(2, room.getNumber().toString());
                 pstmt.setInt(3, room.getRoomTypeId().getValue());
-                pstmt.setInt(4, room.getStatus().getStatus());  
+                pstmt.setInt(4, room.getStatus().getValue());  
                 pstmt.executeUpdate();
             }
             System.out.println("All rooms have been saved to the database.");
@@ -113,7 +113,7 @@ public class RoomRepository implements RoomRepositoryInterface {
     @Override
     public void addRoom(Room room) {
         String checkSql = "SELECT COUNT(*) FROM rooms WHERE number = ?";
-        String insertSql = "INSERT INTO rooms(id, number, room_type_id) VALUES(?, ?, ?)";
+        String insertSql = "INSERT INTO rooms(id, number, room_type_id, room_status) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
              PreparedStatement checkStmt = conn.prepareStatement(checkSql);
@@ -130,6 +130,8 @@ public class RoomRepository implements RoomRepositoryInterface {
                 insertStmt.setInt(1, room.getRoomId().getValue());
                 insertStmt.setString(2, room.getNumber().toString());
                 insertStmt.setInt(3, room.getRoomTypeId().getValue()); 
+                insertStmt.setInt(4, room.getStatus().getValue()); 
+                
                 insertStmt.executeUpdate();
                 rooms.add(room); // Adiciona à lista interna
                 System.out.println("Room added successfully.");

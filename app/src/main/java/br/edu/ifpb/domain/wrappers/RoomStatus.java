@@ -10,7 +10,7 @@ public enum RoomStatus {
         this.status = status;
     }
 
-    public int getStatus() {
+    public int getValue() {
         return status;
     }
 }

@@ -45,15 +45,12 @@ public class RoomTypeRepository {
         String sql = "SELECT id, description, capacity, type_name FROM room_types";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
 
             roomTypes.clear(); 
 
             while (rs.next()) {
-                Id typeId = new Id(rs.getInt("id"));
-                RoomDescription description = RoomDescription.valueOf(rs.getString("description").toUpperCase());
-                RoomCapacity capacity = new RoomCapacity(rs.getInt("capacity"));
                 String typeName = rs.getString("type_name");
 
                 RoomType roomType = RoomTypeFactory.createRoomType(typeName);

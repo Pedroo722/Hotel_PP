@@ -2,7 +2,6 @@ package br.edu.ifpb.menu;
 
 import br.edu.ifpb.enums.MainMenuOption;
 import br.edu.ifpb.presenter.controller.*;
-import br.edu.ifpb.db.DataBaseInitializer;
 
 import java.util.Scanner;
 
@@ -20,17 +19,16 @@ public class MainMenu {
     }
 
     public void start() {
-        boolean processamento = true;
+        boolean processing = true;
         System.out.println("Bem-vindo ao Hotel!");
     
-        while (processamento) {
+        while (processing) {
             System.out.println("\n=== Menu ===");
             System.out.println("Selecione uma opção: ");
             System.out.println("1 - Operações nas Reservas");
             System.out.println("2 - Operações nos Hóspedes");
-            System.out.println("3 - Inicializar Quartos"); //\ TEMPORARIO /\\
-            System.out.println("4 - Imprimir Conteúdos das Tabelas");
-            System.out.println("5 - Sair e Salvar\n");
+            System.out.println("3 - Operações Temporárias"); //\ TEMPORARIO /\\
+            System.out.println("4 - Sair e Salvar\n");
     
             System.out.print("Opção: ");
             int option = scanner.nextInt();
@@ -45,17 +43,15 @@ public class MainMenu {
                     GuestMenu guestMenu = new GuestMenu(scanner, guestController);
                     guestMenu.handleGuestOptions();
                     break;
+                case TEMPORARY_OPTIONS:
+                    TemporaryOptions temporaryOptions = new TemporaryOptions(scanner);
+                    temporaryOptions.handleTemporaryOptions();
+                    break;
                 case EXIT_OPTION:
-                    processamento = false;
+                    processing = false;
                     guestController.handleFinish();
                     roomController.handleFinish();
                     System.out.println("Sistema encerrado.");
-                    break;
-                case CREATE_ROOMS:
-                    CreateRoom.main(new String[]{});
-                    break;
-                case PRINT_TABLE_CONTENTS:
-                    DataBaseInitializer.printTableContents();
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
