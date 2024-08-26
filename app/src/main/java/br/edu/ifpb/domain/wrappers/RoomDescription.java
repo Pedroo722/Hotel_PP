@@ -2,9 +2,9 @@ package br.edu.ifpb.domain.wrappers;
 
 
 public enum RoomDescription {
-    SMALL("Small room for few people", "Small"),
-    MEDIUM("Medium room for average family", "Medium"),
-    LARGE("Large room for large gathering of people", "Large"),
+    SMALL("Small room for a single person", "Small"),
+    MEDIUM("Twin room for 2 people", "Medium"),
+    LARGE("Large room for a entire family", "Large"),
     LUXURY("Deluxe room for premium services", "Luxury");
 
     private final String description;

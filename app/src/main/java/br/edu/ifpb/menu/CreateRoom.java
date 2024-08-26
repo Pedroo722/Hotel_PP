@@ -4,57 +4,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifpb.data.RoomRepository;
-import br.edu.ifpb.data.RoomTypeRepository;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
 
 public class CreateRoom {
     public static void main(String[] args) {
-        RoomTypeRepository roomTypeRepository = RoomTypeRepository.getInstance();
         RoomRepository roomRepository = RoomRepository.getInstance();
-        List<RoomType> roomTypeList = roomTypeRepository.loadRoomTypesFromFile();
-
-        // int count = 1;
-        // for (RoomType roomType : roomTypeList) {
-        //     System.out.println("Tipo " + count + ':');
-        //     System.out.println(roomType.toString());
-        //     count++;
-        // }
 
         List<Room> rooms = new ArrayList<>();
 
-        int roomNumber = 1;
-        for (RoomType roomType : roomTypeList) {
-            int numRoomsToAdd;
-            if (roomType.getDescription() == RoomDescription.SMALL) {
-                numRoomsToAdd = 6;
-            } else if (roomType.getDescription() == RoomDescription.MEDIUM) {
-                numRoomsToAdd = 8;
-            } else if (roomType.getDescription() == RoomDescription.LARGE) {
-                numRoomsToAdd = 4;
-            } else { // RoomDescription.LUXURY
-                numRoomsToAdd = 2;
-            }
+        // Create room types and store their IDs
+        Id smallRoomTypeId = RoomTypeFactory.createRoomType("Single").getRoomTypeId();
+        Id mediumRoomTypeId = RoomTypeFactory.createRoomType("Double").getRoomTypeId();
+        Id largeRoomTypeId = RoomTypeFactory.createRoomType("Large").getRoomTypeId();
+        Id deluxeRoomTypeId = RoomTypeFactory.createRoomType("Deluxe").getRoomTypeId();
 
-            for (int i = 0; i < numRoomsToAdd; i++) {
-                Room room = new Room.RoomBuilder()
-                        .withNumber(new RoomNumber(roomNumber))
-                        .withRoomType(roomType)
-                        .withStatus(RoomStatus.AVAILABLE)
-                        .build();
-                System.out.println(room.toString());
-                rooms.add(room);
-                roomNumber++;
-            }
+        int roomNumber = 1;
+
+        // 6 small rooms
+        for (int i = 0; i < 6; i++) {
+            rooms.add(new Room.RoomBuilder()
+                    .withNumber(new RoomNumber(roomNumber++))
+                    .withRoomTypeId(smallRoomTypeId) // Use RoomTypeId
+                    .withStatus(RoomStatus.AVAILABLE)
+                    .build());
         }
 
-        // Salva os quartos no arquivo
+        // 8 medium rooms
+        for (int i = 0; i < 8; i++) {
+            rooms.add(new Room.RoomBuilder()
+                    .withNumber(new RoomNumber(roomNumber++))
+                    .withRoomTypeId(mediumRoomTypeId) // Use RoomTypeId
+                    .withStatus(RoomStatus.AVAILABLE)
+                    .build());
+        }
+
+        // 4 large rooms
+        for (int i = 0; i < 4; i++) {
+            rooms.add(new Room.RoomBuilder()
+                    .withNumber(new RoomNumber(roomNumber++))
+                    .withRoomTypeId(largeRoomTypeId) // Use RoomTypeId
+                    .withStatus(RoomStatus.AVAILABLE)
+                    .build());
+        }
+
+        // 2 deluxe rooms
+        for (int i = 0; i < 2; i++) {
+            rooms.add(new Room.RoomBuilder()
+                    .withNumber(new RoomNumber(roomNumber++))
+                    .withRoomTypeId(deluxeRoomTypeId) // Use RoomTypeId
+                    .withStatus(RoomStatus.AVAILABLE)
+                    .build());
+        }
+
+        // Save in RoomRepository
         for (Room room : rooms) {
             roomRepository.addRoom(room);
+            System.out.println(room.toString());
         }
 
-        // roomRepository.saveRoomsToFile();
-
-        System.out.println("Quartos criados com sucesso!");       
+        System.out.println("Rooms created successfully!");
     }
 }

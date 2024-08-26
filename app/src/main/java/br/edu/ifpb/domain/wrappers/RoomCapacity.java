@@ -12,6 +12,10 @@ public class RoomCapacity implements Serializable {
         this.number = number;
     }
 
+    public Integer getValue() {
+        return number;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(number);

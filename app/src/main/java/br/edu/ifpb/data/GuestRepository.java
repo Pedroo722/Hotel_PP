@@ -1,6 +1,5 @@
 package br.edu.ifpb.data;
 
-import java.io.*;
 import java.util.*;
 
 import br.edu.ifpb.db.*;
@@ -16,7 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet; 
 import java.sql.SQLException;
 
-public class GuestRepository implements GuestRepositoryInterface, Serializable {
+public class GuestRepository implements GuestRepositoryInterface {
     private static GuestRepository instance;
     private List<Guest> guests;
 

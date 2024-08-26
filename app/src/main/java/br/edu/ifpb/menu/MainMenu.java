@@ -2,6 +2,7 @@ package br.edu.ifpb.menu;
 
 import br.edu.ifpb.enums.MainMenuOption;
 import br.edu.ifpb.presenter.controller.*;
+import br.edu.ifpb.db.DataBaseInitializer; // Import the DataBaseInitializer
 
 import java.util.Scanner;
 
@@ -21,15 +22,16 @@ public class MainMenu {
     public void start() {
         boolean processamento = true;
         System.out.println("Bem-vindo ao Hotel!");
-
+    
         while (processamento) {
             System.out.println("\n=== Menu ===");
             System.out.println("Selecione uma opção: ");
             System.out.println("1 - Operações nas Reservas");
             System.out.println("2 - Operações nos Hóspedes");
             System.out.println("3 - Inicializar Quartos"); //\ TEMPORARIO /\\
-            System.out.println("4 - Sair e Salvar\n");
-
+            System.out.println("4 - Imprimir Conteúdos das Tabelas"); // New option
+            System.out.println("5 - Sair e Salvar\n");
+    
             System.out.print("Opção: ");
             int option = scanner.nextInt();
             scanner.nextLine();
@@ -46,18 +48,21 @@ public class MainMenu {
                 case EXIT_OPTION:
                     processamento = false;
                     guestController.handleFinish();
-                    // roomController.handleFinish();
-                    // reserveController.handleFinish();
+                    roomController.handleFinish();
                     System.out.println("Sistema encerrado.");
                     break;
                 case CREATE_ROOMS:
                     CreateRoom.main(new String[]{});
+                    break;
+                case PRINT_TABLE_CONTENTS:
+                    DataBaseInitializer.printTableContents();
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
         }
     }
+    
 
     public static void main(String[] args) {
         MainMenu main = new MainMenu();

@@ -11,16 +11,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.edu.ifpb.domain.cases.RoomUseCase.CheckRoomIdentityUseCase;
-import br.edu.ifpb.domain.cases.RoomUseCase.CheckRoomStatusUseCase;
-import br.edu.ifpb.domain.cases.RoomUseCase.UpdateRoomStatusUseCase;
-import br.edu.ifpb.domain.model.Room;
-import br.edu.ifpb.domain.model.RoomType;
+import br.edu.ifpb.domain.cases.RoomUseCase.*;
+import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
-import br.edu.ifpb.domain.wrappers.RoomCapacity;
-import br.edu.ifpb.domain.wrappers.RoomDescription;
-import br.edu.ifpb.domain.wrappers.RoomNumber;
-import br.edu.ifpb.domain.wrappers.RoomStatus;
+import br.edu.ifpb.domain.wrappers.*;
 
 public class RoomUseCaseTest {
     private RoomRepositoryInterface repositoryMock;
@@ -53,19 +47,16 @@ public class RoomUseCaseTest {
         };
 
         RoomNumber roomNumber = new RoomNumber(101);
-        RoomDescription description = RoomDescription.SMALL; // Fornecendo um RoomType válido
-        RoomCapacity capacity = new RoomCapacity(1);
-        RoomType roomType = new RoomType(description, capacity);
+        RoomType smallRoomType = RoomTypeFactory.createRoomType("Single");
 
         room = new Room.RoomBuilder()
             .withNumber(roomNumber)
-            .withRoomType(roomType) // Usando um RoomType válido
+            .withRoomTypeId(smallRoomType.getRoomTypeId())
             .withStatus(RoomStatus.AVAILABLE)
             .build();
 
         repositoryMock.addRoom(room);
     }
-
 
     @Test
     public void testCheckRoomIdentity() {
@@ -90,11 +81,11 @@ public class RoomUseCaseTest {
 
         UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase(repositoryMock);
 
-        // Disponível -> Ocupado
+        // Available -> Occupied
         updateRoomStatusUseCase.updateRoomStatus(room.getNumber());
         assertEquals(RoomStatus.OCCUPIED, repositoryMock.findRoomByNumber(room.getNumber()).getStatus());
 
-        // Ocupado -> Disponível
+        // Occupied -> Available
         updateRoomStatusUseCase.updateRoomStatus(room.getNumber());
         assertEquals(RoomStatus.AVAILABLE, repositoryMock.findRoomByNumber(room.getNumber()).getStatus());
     }

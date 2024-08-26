@@ -49,6 +49,6 @@ public class RoomController {
     }
 
     public void handleFinish() {
-        // repository.saveRoomsToFile();
+        repository.saveRoomsToDB();
     }
 }
