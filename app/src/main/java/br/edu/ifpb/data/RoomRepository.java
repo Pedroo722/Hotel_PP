@@ -52,7 +52,7 @@ public class RoomRepository implements RoomRepositoryInterface {
                 pstmt.setInt(1, room.getRoomId().getValue());
                 pstmt.setString(2, room.getNumber().toString());
                 pstmt.setInt(3, room.getRoomTypeId().getValue());
-                pstmt.setInt(4, room.getStatus().getValue());  
+                pstmt.setString(4, room.getStatus().toString());
                 pstmt.executeUpdate();
             }
             System.out.println("All rooms have been saved to the database.");
@@ -130,7 +130,7 @@ public class RoomRepository implements RoomRepositoryInterface {
                 insertStmt.setInt(1, room.getRoomId().getValue());
                 insertStmt.setString(2, room.getNumber().toString());
                 insertStmt.setInt(3, room.getRoomTypeId().getValue()); 
-                insertStmt.setInt(4, room.getStatus().getValue()); 
+                insertStmt.setString(4, room.getStatus().toString()); 
                 
                 insertStmt.executeUpdate();
                 rooms.add(room); // Adiciona à lista interna

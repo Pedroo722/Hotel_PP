@@ -1,85 +1,200 @@
 package br.edu.ifpb.data;
 
-import java.io.Serializable;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
-import br.edu.ifpb.domain.cases.ReserveUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.exceptions.*;
+import br.edu.ifpb.db.*;
 
-public class ReserveRepository implements ReserveRepositoryInterface, Serializable {
-    private List<Reserve> reserves = new ArrayList<>();
+public class ReserveRepository implements ReserveRepositoryInterface {
     private static ReserveRepository instance;
+    private List<Reserve> reserves;
 
     private ReserveRepository() {
         this.reserves = new ArrayList<>();
+        DataBaseInitializer.initialize();
+        loadReservesFromDB();
     }
 
     // Padrão de Criação: Singleton
     public static ReserveRepository getInstance() {
-        if (instance == null) { instance = new ReserveRepository(); }
+        if (instance == null) {
+            instance = new ReserveRepository();
+        }
         return instance;
     }
 
-    // Metodo para salvar Reserves no Banco de Dados
-    // public void saveReservesToFile() {
-    //     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Reserves.bin"))) {
-    //         out.writeObject(this.reserves);
-    //         System.out.printf("Serialized data is saved in Reserves.bin\n");
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-
-    // Metodo para retirar Reserves do Banco de Dados
-    // public List<Reserve> loadReservesFromFile() {
-    //     List<Reserve> loadedReserves = null;
-    //     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Reserves.bin"))) {
-    //         loadedReserves = (List<Reserve>) ois.readObject();
-    //         System.out.printf("Reserves loaded from Reserves.bin\n");
-    //     } catch (FileNotFoundException e) {
-    //         loadedReserves = new ArrayList<>();
-    //     } catch (IOException | ClassNotFoundException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return loadedReserves;
-    // }
-
-    public void addReserve(Reserve reserve) {
-        reserves.add(reserve);
-        // saveReservesToFile();
-    }
-
-    public void updateReserve(Reserve updateReserve) {
-        for (int i = 0; i < reserves.size(); i++) {
-            Reserve reserve = reserves.get(i);
-            if (reserve.getUserId().equals(updateReserve.getUserId())) {
-                reserves.set(i, updateReserve);
-                // saveReservesToFile();
-                return;
-            }
+    private Connection connect() {
+        String url = "jdbc:sqlite:meu_banco_de_dados.db";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-        throw new ReserveNotFoundException();
+        return conn;
     }
 
+    public void createTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS reserves (\n"
+                + " id integer PRIMARY KEY,\n"
+                + " user_id integer NOT NULL,\n"
+                + " room_number text NOT NULL,\n"
+                + " check_in date NOT NULL,\n"
+                + " check_out date,\n"
+                + " reserve_status\n"
+                + ");";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void saveReservesToDB() {
+        String sql = "INSERT INTO reserves(user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (Reserve reserve : reserves) {
+                pstmt.setInt(1, reserve.getUserId().getValue());
+                pstmt.setString(2, reserve.getNumber().toString());
+                pstmt.setString(3, reserve.getCheckIn().toString());
+                pstmt.setString(4, reserve.getCheckOut().toString());
+                pstmt.setString(5, reserve.getStatus().toString());
+                pstmt.executeUpdate();
+            }
+            System.out.println("All reserves have been saved to the database.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void loadReservesFromDB() {
+        String sql = "SELECT id, user_id, room_number, check_in, check_out, reserve_status FROM reserves";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            reserves.clear(); 
+
+            while (rs.next()) {
+                Id reserveId = new Id(rs.getInt("id"));
+                Id userId = new Id(rs.getInt("user_id"));
+
+                String roomNumberStr = rs.getString("room_number");
+                Integer roomNumberInt = Integer.parseInt(roomNumberStr);
+                RoomNumber number = new RoomNumber(roomNumberInt);
+
+                LocalDate checkIn = rs.getDate("check_in").toLocalDate();
+                LocalDate checkOut = rs.getDate("check_out") != null ? rs.getDate("check_out").toLocalDate() : null;
+                ReserveStatus status = ReserveStatus.valueOf(rs.getString("reserve_status"));
+
+                Reserve reserve = new Reserve(userId, number);
+                reserve.setReserveId(reserveId);
+                reserve.setCheckIn(checkIn);
+                reserve.setCheckOut(checkOut);
+                reserve.setStatus(status);
+                reserves.add(reserve);
+            }
+
+            System.out.println("Reserves loaded from the database.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void addReserve(Reserve reserve) {
+        String sql = "INSERT INTO reserves(user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, reserve.getUserId().getValue());
+            pstmt.setString(2, reserve.getNumber().toString());
+            pstmt.setString(3, reserve.getCheckIn().toString());
+
+            if (reserve.getCheckOut() != null) {
+                pstmt.setString(4, reserve.getCheckOut().toString());
+            } else {
+                pstmt.setString(4, "Nulo");
+            }
+            pstmt.setString(5, reserve.getStatus().toString());
+            pstmt.executeUpdate();
+            reserves.add(reserve);
+            System.out.println("Reserve added successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateReserve(Reserve updatedReserve) {
+        String sql = "UPDATE reserves SET user_id = ?, room_number = ?, check_in = ?, check_out = ?, reserve_status = ? WHERE id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, updatedReserve.getUserId().getValue());
+            pstmt.setString(2, updatedReserve.getNumber().toString());
+            pstmt.setString(3, updatedReserve.getCheckIn().toString());
+            pstmt.setString(4, updatedReserve.getCheckOut().toString());
+            pstmt.setString(5, updatedReserve.getStatus().toString());
+            pstmt.setInt(6, updatedReserve.getReserveId().getValue());
+            pstmt.executeUpdate();
+
+            // Atualiza a lista interna
+            for (int i = 0; i < reserves.size(); i++) {
+                if (reserves.get(i).getReserveId().equals(updatedReserve.getReserveId())) {
+                    reserves.set(i, updatedReserve);
+                    System.out.println("Reserve updated successfully.");
+                    return;
+                }
+            }
+            throw new ReserveNotFoundException();
+        } catch (SQLException e) {
+            System.out.println("Error updating reserve: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void removeReserve(Id id) {
-        reserves.removeIf(reserve -> reserve.getReserveId().equals(id));
-        // saveReservesToFile();
+        String sql = "DELETE FROM reserves WHERE id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id.getValue());
+            int affectedRows = pstmt.executeUpdate();
+            
+            if (affectedRows > 0) {
+                reserves.removeIf(reserve -> reserve.getReserveId().equals(id));
+                System.out.println("Reserve removed successfully.");
+            } else {
+                System.out.println("No reserve found with the provided ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error removing reserve: " + e.getMessage());
+        }
     }
 
+    @Override
     public List<Reserve> getReserves() {
         return reserves;
     }
 
-
+    @Override
     public Reserve findReserveById(Id id) {
         for (Reserve reserve : reserves) {
-            if (CheckReserveIdentityUseCase.isSameReserve(reserve, id)) {
+            if (reserve.getReserveId().equals(id)) {
                 return reserve;
             }
         }
-        throw new GuestNotFoundException();
+        throw new ReserveNotFoundException();
     }
 }

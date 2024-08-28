@@ -1,6 +1,7 @@
 package br.edu.ifpb.menu;
 
 import br.edu.ifpb.db.DataBaseInitializer;
+import br.edu.ifpb.db.DataBaseManager;
 
 import java.util.Scanner;
 
@@ -30,7 +31,10 @@ public class TemporaryOptions {
                     CreateRoom.main(new String[]{});
                     break;
                 case 2:
-                    DataBaseInitializer.printTableContents();
+                    DataBaseManager.printGuestsTableContents();
+                    DataBaseManager.printReservesTableContents();
+                    DataBaseManager.printRoomsTableContents();
+                    DataBaseManager.printRoomTypesTableContents();
                     break;
                 case 3:
                     temporaryProcessing = false;
