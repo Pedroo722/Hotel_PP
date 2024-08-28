@@ -25,14 +25,15 @@ public class RoomTypeRepository {
     }
 
     public void saveRoomTypesToDB() {
-        String sql = "INSERT INTO room_types(description, capacity, type_name) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO room_types(id, description, capacity, type_name) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (RoomType roomType : roomTypes) {
-                pstmt.setString(1, roomType.getDescription().getDescription());
-                pstmt.setInt(2, roomType.getCapacity().getValue());
-                pstmt.setString(3, roomType.getTypeName());
+                pstmt.setInt(1, roomType.getRoomTypeId().getValue());
+                pstmt.setString(2, roomType.getDescription().getDescription());
+                pstmt.setInt(3, roomType.getCapacity().getValue());
+                pstmt.setString(4, roomType.getTypeName());
                 pstmt.executeUpdate();
             }
             System.out.println("All room types have been saved to the database.");
@@ -51,8 +52,11 @@ public class RoomTypeRepository {
             roomTypes.clear(); 
 
             while (rs.next()) {
+                Id roomTypeId = new Id(rs.getInt("id"));
                 String typeName = rs.getString("type_name");
-
+                String roomDescription = rs.getString("description");
+    
+                System.out.println("Tipo de Quarto: " + typeName);
                 RoomType roomType = RoomTypeFactory.createRoomType(typeName);
                 roomTypes.add(roomType);
             }
@@ -78,8 +82,7 @@ public class RoomTypeRepository {
         String insertSql = "INSERT INTO room_types(description, capacity, type_name) VALUES(?, ?, ?)";
 
         try (Connection conn = this.connect();
-             PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
-            
+            PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
             insertStmt.setString(1, roomType.getDescription().getDescription());
             insertStmt.setInt(2, roomType.getCapacity().getValue());
             insertStmt.setString(3, roomType.getTypeName());
@@ -87,7 +90,7 @@ public class RoomTypeRepository {
             roomTypes.add(roomType);
             System.out.println("Room type added successfully.");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERRRRRROAAAAR" + e.getMessage());
         }
     }
 

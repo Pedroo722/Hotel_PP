@@ -63,6 +63,6 @@ public class ReserveController {
     }    
 
     public void handleFinish() {
-        // repository.saveReservesToFile();
+        repository.saveReservesToDB();
     }
 }

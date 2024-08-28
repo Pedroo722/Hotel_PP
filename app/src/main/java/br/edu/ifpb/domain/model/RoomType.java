@@ -12,6 +12,12 @@ public abstract class RoomType {
         this.description = description;
         this.capacity = capacity;
     }
+    
+    protected RoomType(Id roomTypeId, RoomDescription description, RoomCapacity capacity) {
+        this.typeId = new Id();
+        this.description = description;
+        this.capacity = capacity;
+    }
 
     public abstract String getTypeName();
 

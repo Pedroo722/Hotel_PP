@@ -1,6 +1,6 @@
 package br.edu.ifpb.menu;
 
-import br.edu.ifpb.db.DataBaseInitializer;
+import br.edu.ifpb.data.RoomTypeRepository;
 import br.edu.ifpb.db.DataBaseManager;
 
 import java.util.Scanner;

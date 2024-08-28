@@ -138,7 +138,7 @@ public class GuestRepository implements GuestRepositoryInterface {
                 // Atualiza banco de dados
                 String sql = "UPDATE guests SET name = ?, cpf = ? WHERE id = ?";
                 try (Connection conn = this.connect();
-                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, updatedGuest.getName().toString());
                     pstmt.setString(2, updatedGuest.getCpf().toString());
                     pstmt.setInt(3, updatedGuest.getUserId().getValue());

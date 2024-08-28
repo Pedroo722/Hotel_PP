@@ -2,16 +2,19 @@ package br.edu.ifpb.domain.wrappers;
 
 
 public enum GuestStatus {
-    HOSTED(true),
-    NOT_HOSTED(false);
+    HOSTED("HOSTED"),
+    NOT_HOSTED("NOT_HOSTED");
 
-    private final boolean status;
+    private final String status;
 
-    GuestStatus(boolean status) {
+    GuestStatus(String status) {
         this.status = status;
     }
 
     public boolean isHosted() {
-        return status;
+        if (status == "HOSTED") {
+            return true;
+        }
+        return false;
     }
 }

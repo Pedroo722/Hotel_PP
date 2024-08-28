@@ -43,7 +43,8 @@ public class Reserve implements Serializable {
         stringBuilder.append("* ID do Hóspede: ").append(userId).append("\n");
         stringBuilder.append("* Número de Quarto: ").append(number).append("\n");
         stringBuilder.append("* Check-in: ").append(checkIn).append("\n");
-        stringBuilder.append("* Check-out: ").append(checkOut);
+        stringBuilder.append("* Check-out: ").append(checkOut).append('\n');
+        stringBuilder.append("* Status: ").append(status);
         return stringBuilder.toString();
     }
 }   

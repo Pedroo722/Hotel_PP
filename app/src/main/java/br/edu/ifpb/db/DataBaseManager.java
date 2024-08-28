@@ -78,10 +78,10 @@ public class DataBaseManager {
     public static void printRoomTypesTableContents() {
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-            String sql = "SELECT * FROM roomtypes";
+            String sql = "SELECT * FROM room_types";
             ResultSet rs = stmt.executeQuery(sql);
 
-            System.out.println("\nContents of table: roomtypes");
+            System.out.println("\nContents of table: room_types");
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String description = rs.getString("description");

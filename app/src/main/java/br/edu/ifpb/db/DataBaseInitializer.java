@@ -20,7 +20,7 @@ public class DataBaseInitializer {
                 + " room_number TEXT NOT NULL,\n"
                 + " check_in DATE NOT NULL,\n"
                 + " check_out DATE,\n"
-                + " reserve_status TEXT NOT NULL,\n"
+                + " reserve_status TEXT,\n"
                 + " FOREIGN KEY(user_id) REFERENCES guests(id)\n"
                 + ");";
 
@@ -28,11 +28,11 @@ public class DataBaseInitializer {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " number TEXT NOT NULL UNIQUE,\n"
                 + " room_type_id INTEGER NOT NULL,\n"
-                + " room_status INTEGER,\n"
+                + " room_status TEXT,\n"
                 + " FOREIGN KEY(room_type_id) REFERENCES roomtypes(id)\n"
                 + ");";
         
-        String sqlRoomTypes = "CREATE TABLE IF NOT EXISTS roomtypes (\n"
+        String sqlRoomTypes = "CREATE TABLE IF NOT EXISTS room_types (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " description TEXT NOT NULL,\n"
                 + " capacity INTEGER NOT NULL,\n"

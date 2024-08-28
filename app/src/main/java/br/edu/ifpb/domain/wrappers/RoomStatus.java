@@ -1,16 +1,16 @@
 package br.edu.ifpb.domain.wrappers;
 
 public enum RoomStatus {
-    AVAILABLE(1),
-    OCCUPIED(0);
+    AVAILABLE("AVAILABLE"),
+    OCCUPIED("OCCUPIED");
 
-    private final int status;
+    private final String status;
 
-    RoomStatus(int status) {
+    RoomStatus(String status) {
         this.status = status;
     }
 
-    public int getValue() {
+    public String getValue() {
         return status;
     }
 }

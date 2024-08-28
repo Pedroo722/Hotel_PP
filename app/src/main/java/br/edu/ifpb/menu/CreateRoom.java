@@ -4,19 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifpb.data.RoomRepository;
+import br.edu.ifpb.data.RoomTypeRepository;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
 
 public class CreateRoom {
     public static void main(String[] args) {
+        RoomTypeRepository roomTypeRepository = RoomTypeRepository.getInstance();
         RoomRepository roomRepository = RoomRepository.getInstance();
 
         List<Room> rooms = new ArrayList<>();
 
-        Id smallRoomTypeId = RoomTypeFactory.createRoomType("Single").getRoomTypeId();
-        Id mediumRoomTypeId = RoomTypeFactory.createRoomType("Double").getRoomTypeId();
-        Id largeRoomTypeId = RoomTypeFactory.createRoomType("Large").getRoomTypeId();
-        Id deluxeRoomTypeId = RoomTypeFactory.createRoomType("Deluxe").getRoomTypeId();
+        RoomType smallRoomType = RoomTypeFactory.createRoomType("Single");
+        RoomType mediumRoomType = RoomTypeFactory.createRoomType("Double");
+        RoomType largeRoomType = RoomTypeFactory.createRoomType("Large");
+        RoomType deluxeRoomType = RoomTypeFactory.createRoomType("Deluxe");
+
+        roomTypeRepository.addRoomType(smallRoomType);
+        roomTypeRepository.addRoomType(mediumRoomType);
+        roomTypeRepository.addRoomType(largeRoomType);
+        roomTypeRepository.addRoomType(deluxeRoomType);
+
+        roomTypeRepository.saveRoomTypesToDB();
+
+        Id smallRoomTypeId = smallRoomType.getRoomTypeId();
+        Id mediumRoomTypeId = mediumRoomType.getRoomTypeId();
+        Id largeRoomTypeId = largeRoomType.getRoomTypeId();
+        Id deluxeRoomTypeId = deluxeRoomType.getRoomTypeId();
 
         int roomNumber = 1;
 

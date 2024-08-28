@@ -52,7 +52,7 @@ public class RoomRepository implements RoomRepositoryInterface {
                 pstmt.setInt(1, room.getRoomId().getValue());
                 pstmt.setString(2, room.getNumber().toString());
                 pstmt.setInt(3, room.getRoomTypeId().getValue());
-                pstmt.setString(4, room.getStatus().toString());
+                pstmt.setString(4, room.getStatus().getValue());
                 pstmt.executeUpdate();
             }
             System.out.println("All rooms have been saved to the database.");
@@ -66,8 +66,8 @@ public class RoomRepository implements RoomRepositoryInterface {
         String sql = "SELECT id, number, room_type_id, room_status FROM rooms"; 
     
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
     
             rooms.clear();
     
@@ -75,22 +75,7 @@ public class RoomRepository implements RoomRepositoryInterface {
                 Id roomId = new Id(rs.getInt("id"));
                 RoomNumber number = new RoomNumber(rs.getInt("number"));
                 RoomType type = RoomType.getRoomTypeFromId(rs.getInt("room_type_id")); 
-    
-                int statusValue = rs.getInt("room_status");
-                RoomStatus status;
-    
-                switch (statusValue) {
-                    case 1:
-                        status = RoomStatus.AVAILABLE;
-                        break;
-                    case 2:
-                        status = RoomStatus.OCCUPIED;
-                        break;
-                    default:
-                        System.err.println("Unexpected status value: " + statusValue);
-                        status = RoomStatus.AVAILABLE; 
-                        break;
-                }
+                RoomStatus status = RoomStatus.valueOf(rs.getString("room_status"));
     
                 Room room = new Room.RoomBuilder()
                     .withRoomTypeId(type.getRoomTypeId())
@@ -116,8 +101,8 @@ public class RoomRepository implements RoomRepositoryInterface {
         String insertSql = "INSERT INTO rooms(id, number, room_type_id, room_status) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
-             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
-             PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
 
             // Verifica se o número do quarto já existe no banco
             checkStmt.setString(1, room.getNumber().toString());
@@ -130,7 +115,7 @@ public class RoomRepository implements RoomRepositoryInterface {
                 insertStmt.setInt(1, room.getRoomId().getValue());
                 insertStmt.setString(2, room.getNumber().toString());
                 insertStmt.setInt(3, room.getRoomTypeId().getValue()); 
-                insertStmt.setString(4, room.getStatus().toString()); 
+                insertStmt.setString(4, room.getStatus().getValue()); 
                 
                 insertStmt.executeUpdate();
                 rooms.add(room); // Adiciona à lista interna
