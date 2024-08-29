@@ -1,6 +1,5 @@
 package br.edu.ifpb.domain.wrappers;
 
-
 public enum GuestStatus {
     HOSTED("HOSTED"),
     NOT_HOSTED("NOT_HOSTED");
@@ -9,6 +8,10 @@ public enum GuestStatus {
 
     GuestStatus(String status) {
         this.status = status;
+    }
+
+    public String getValue() {
+        return status;
     }
 
     public boolean isHosted() {

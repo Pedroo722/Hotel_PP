@@ -49,9 +49,6 @@ public class MainMenu {
                     break;
                 case EXIT_OPTION:
                     processing = false;
-                    guestController.handleFinish();
-                    roomController.handleFinish();
-                    reserveController.handleFinish();
                     System.out.println("Sistema encerrado.");
                     break;
                 default:

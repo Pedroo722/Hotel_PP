@@ -26,7 +26,8 @@ public class DataBaseManager {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String cpf = rs.getString("cpf");
-                System.out.println("ID: " + id + ", Name: " + name + ", CPF: " + cpf);
+                String status = rs.getString("guest_status");
+                System.out.println("ID: " + id + ", Name: " + name + ", CPF: " + cpf + ", Guest Status: " + status);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -66,7 +67,7 @@ public class DataBaseManager {
                 int id = rs.getInt("id");
                 String number = rs.getString("number");
                 int roomTypeId = rs.getInt("room_type_id");
-                int roomStatus = rs.getInt("room_status");
+                String roomStatus = rs.getString("room_status");
                 System.out.println("ID: " + id + ", Number: " + number + ", Room Type ID: " + roomTypeId 
                         + ", Room Status: " + roomStatus);
             }

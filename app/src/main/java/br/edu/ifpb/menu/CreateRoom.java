@@ -33,13 +33,14 @@ public class CreateRoom {
         Id deluxeRoomTypeId = deluxeRoomType.getRoomTypeId();
 
         int roomNumber = 1;
+        RoomStatus status = RoomStatus.AVAILABLE;
 
         // 6 small rooms
         for (int i = 0; i < 6; i++) {
             rooms.add(new Room.RoomBuilder()
                     .withNumber(new RoomNumber(roomNumber++))
                     .withRoomTypeId(smallRoomTypeId) 
-                    .withStatus()
+                    .withStatus(status)
                     .build());
         }
 

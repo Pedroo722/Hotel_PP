@@ -52,9 +52,7 @@ public class RoomTypeRepository {
             roomTypes.clear(); 
 
             while (rs.next()) {
-                Id roomTypeId = new Id(rs.getInt("id"));
                 String typeName = rs.getString("type_name");
-                String roomDescription = rs.getString("description");
     
                 System.out.println("Tipo de Quarto: " + typeName);
                 RoomType roomType = RoomTypeFactory.createRoomType(typeName);
@@ -106,9 +104,8 @@ public class RoomTypeRepository {
 
             if (affectedRows > 0) {
                 roomTypes.removeIf(roomType -> roomType.getRoomTypeId().equals(id));
-                System.out.println("Room type removed successfully.");
             } else {
-                System.out.println("No room type found with the provided ID.");
+                System.out.println("Tipo de Quarto não encontrado.");
             }
 
         } catch (SQLException e) {
@@ -127,21 +124,5 @@ public class RoomTypeRepository {
             }
         }
         throw new RuntimeException("Room type not found.");
-    }
-
-    public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS room_types (\n"
-                + " id integer PRIMARY KEY,\n"
-                + " description text NOT NULL,\n"
-                + " capacity integer NOT NULL,\n"
-                + " type_name text NOT NULL\n"
-                + ");";
-
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.execute();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
     }
 }

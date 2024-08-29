@@ -2,7 +2,6 @@ package br.edu.ifpb.data;
 
 import java.util.*;
 
-import br.edu.ifpb.db.*;
 import br.edu.ifpb.domain.cases.GuestUseCase.*;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
@@ -21,7 +20,6 @@ public class GuestRepository implements GuestRepositoryInterface {
 
     private GuestRepository() {
         this.guests = new ArrayList<>();
-        DataBaseInitializer.initialize();
         loadGuestsFromDB();
     }
 
@@ -34,13 +32,14 @@ public class GuestRepository implements GuestRepositoryInterface {
     }
 
     public void saveGuestsToDB() {
-        String sql = "INSERT INTO guests(name, cpf) VALUES(?, ?)";
+        String sql = "INSERT INTO guests(name, cpf, guest_status) VALUES(?, ?, ?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Guest guest : guests) {
                 pstmt.setString(1, guest.getName().toString());
                 pstmt.setString(2, guest.getCpf().toString());
+                pstmt.setString(3, guest.getStatus().getValue());
                 pstmt.executeUpdate();
             }
             System.out.println("All guests have been saved to the database.");
@@ -50,7 +49,7 @@ public class GuestRepository implements GuestRepositoryInterface {
     }
 
     public void loadGuestsFromDB() {
-        String sql = "SELECT id, name, cpf FROM guests";
+        String sql = "SELECT id, name, cpf, guest_status FROM guests";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -62,8 +61,11 @@ public class GuestRepository implements GuestRepositoryInterface {
                 Id userId = new Id(rs.getInt("id"));
                 Name name = new Name(rs.getString("name"));
                 CPF cpf = new CPF(rs.getString("cpf"));
+                GuestStatus status = GuestStatus.valueOf(rs.getString("guest_status"));
 
-                Guest guest = new Guest(userId, name, cpf);  
+                Guest guest = new Guest(name, cpf, status);
+                
+                guest.setUserId(userId);
                 guests.add(guest);
             }
 
@@ -88,7 +90,7 @@ public class GuestRepository implements GuestRepositoryInterface {
     @Override
     public void addGuest(Guest guest) {
         String checkSql = "SELECT COUNT(*) FROM guests WHERE cpf = ?";
-        String insertSql = "INSERT INTO guests(name, cpf) VALUES(?, ?)";
+        String insertSql = "INSERT INTO guests(id, name, cpf, guest_status) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
@@ -102,8 +104,10 @@ public class GuestRepository implements GuestRepositoryInterface {
                 System.out.println("Hóspede com este CPF já existe no banco de dados.");
             } else {
                 // Se não existir, tem que inserir novo hóspede
-                insertStmt.setString(1, guest.getName().toString());
-                insertStmt.setString(2, guest.getCpf().toString());
+                insertStmt.setInt(1, guest.getUserId().getValue());
+                insertStmt.setString(2, guest.getName().toString());
+                insertStmt.setString(3, guest.getCpf().toString());
+                insertStmt.setString(4, guest.getStatus().getValue());
                 insertStmt.executeUpdate();
                 guests.add(guest);  // Adiciona à lista interna
                 System.out.println("Hóspede adicionado com sucesso.");
@@ -113,22 +117,8 @@ public class GuestRepository implements GuestRepositoryInterface {
         }
     }
 
-    // Método para criar a tabela de hóspedes
-    public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS guests (\n"
-                + " id integer PRIMARY KEY,\n"
-                + " name text NOT NULL,\n"
-                + " cpf integer\n"
-                + ");";
-
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.execute();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
+    ///// TÁ ERRADO
+    @Override
     public void updateGuest(Guest updatedGuest) {
         for (int i = 0; i < guests.size(); i++) {
             Guest guest = guests.get(i);
@@ -136,12 +126,13 @@ public class GuestRepository implements GuestRepositoryInterface {
                 // Atualiza lista interna
                 guests.set(i, updatedGuest);
                 // Atualiza banco de dados
-                String sql = "UPDATE guests SET name = ?, cpf = ? WHERE id = ?";
+                String sql = "UPDATE guests SET name = ?, cpf = ?, guest_status = ? WHERE id = ?";
                 try (Connection conn = this.connect();
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, updatedGuest.getName().toString());
                     pstmt.setString(2, updatedGuest.getCpf().toString());
                     pstmt.setInt(3, updatedGuest.getUserId().getValue());
+                    pstmt.setString(4, updatedGuest.getStatus().getValue());
                     pstmt.executeUpdate();
                     System.out.println("Hóspede atualizado com sucesso.");
                 } catch (SQLException e) {
@@ -157,7 +148,7 @@ public class GuestRepository implements GuestRepositoryInterface {
         String deleteSql = "DELETE FROM guests WHERE id = ?";
     
         try (Connection conn = this.connect();
-             PreparedStatement deleteStmt = conn.prepareStatement(deleteSql)) {
+            PreparedStatement deleteStmt = conn.prepareStatement(deleteSql)) {
              
             // Configura o ID para o PreparedStatement
             deleteStmt.setInt(1, id.getValue());

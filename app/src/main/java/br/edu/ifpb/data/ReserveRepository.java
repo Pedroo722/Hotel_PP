@@ -17,7 +17,6 @@ public class ReserveRepository implements ReserveRepositoryInterface {
     private ReserveRepository() {
         this.reserves = new ArrayList<>();
         DataBaseInitializer.initialize();
-        loadReservesFromDB();
     }
 
     // Padrão de Criação: Singleton
@@ -37,24 +36,6 @@ public class ReserveRepository implements ReserveRepositoryInterface {
             System.out.println(e.getMessage());
         }
         return conn;
-    }
-
-    public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS reserves (\n"
-                + " id integer PRIMARY KEY,\n"
-                + " user_id integer NOT NULL,\n"
-                + " room_number text NOT NULL,\n"
-                + " check_in date NOT NULL,\n"
-                + " check_out date,\n"
-                + " reserve_status\n"
-                + ");";
-
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.execute();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     public void saveReservesToDB() {
@@ -107,7 +88,7 @@ public class ReserveRepository implements ReserveRepositoryInterface {
 
             System.out.println("Reserves loaded from the database.");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error ao obter as Reservas do Banco: " + e.getMessage());
         }
     }
 
@@ -183,7 +164,6 @@ public class ReserveRepository implements ReserveRepositoryInterface {
         }
     }
 
-    @Override
     public List<Reserve> getReserves() {
         return reserves;
     }

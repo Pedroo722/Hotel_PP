@@ -33,7 +33,7 @@ public class ReserveController {
     public void listReserves() {
         List<Reserve> reserves = repository.getReserves();
         if (reserves.isEmpty()) {
-            System.out.println("\nA lista de convidados está vazia!\n");
+            System.out.println("\nA lista de reservas está vazia!\n");
             return;
         }
 
