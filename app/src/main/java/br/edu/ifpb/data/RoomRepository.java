@@ -134,12 +134,13 @@ public class RoomRepository implements RoomRepositoryInterface {
                 // Atualiza lista interna
                 rooms.set(i, updateRoom);
                 // Atualiza banco de dados
-                String sql = "UPDATE rooms SET number = ?, room_type_id = ? WHERE id = ?";
+                String sql = "UPDATE rooms SET number = ?, room_type_id = ?, room_status = ? WHERE id = ?";
                 try (Connection conn = this.connect();
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, updateRoom.getNumber().toString());
                     pstmt.setInt(2, updateRoom.getRoomTypeId().getValue()); 
-                    pstmt.setInt(3, updateRoom.getRoomId().getValue());
+                    pstmt.setString(3, updateRoom.getStatus().getValue());
+                    pstmt.setInt(4, updateRoom.getRoomId().getValue());
                     pstmt.executeUpdate();
                     System.out.println("Room updated successfully.");
                 } catch (SQLException e) {
