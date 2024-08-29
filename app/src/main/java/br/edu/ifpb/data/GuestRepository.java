@@ -117,7 +117,6 @@ public class GuestRepository implements GuestRepositoryInterface {
         }
     }
 
-    ///// TÁ ERRADO
     @Override
     public void updateGuest(Guest updatedGuest) {
         for (int i = 0; i < guests.size(); i++) {
@@ -131,8 +130,8 @@ public class GuestRepository implements GuestRepositoryInterface {
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, updatedGuest.getName().toString());
                     pstmt.setString(2, updatedGuest.getCpf().toString());
-                    pstmt.setInt(3, updatedGuest.getUserId().getValue());
-                    pstmt.setString(4, updatedGuest.getStatus().getValue());
+                    pstmt.setString(3, updatedGuest.getStatus().getValue());
+                    pstmt.setInt(4, updatedGuest.getUserId().getValue());
                     pstmt.executeUpdate();
                     System.out.println("Hóspede atualizado com sucesso.");
                 } catch (SQLException e) {
