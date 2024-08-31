@@ -2,9 +2,9 @@ package br.edu.ifpb.domain.cases.GuestUseCase;
 
 import br.edu.ifpb.data.GuestRepository;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.GuestNotFoundException;
+import br.edu.ifpb.interfaces.repository.GuestRepositoryInterface;
 
 public class UpdateGuestUseCase {
     private GuestRepositoryInterface repository;

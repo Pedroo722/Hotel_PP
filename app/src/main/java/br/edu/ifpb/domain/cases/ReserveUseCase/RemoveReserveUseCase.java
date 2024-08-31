@@ -1,13 +1,13 @@
 package br.edu.ifpb.domain.cases.ReserveUseCase;
 
 
-import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.data.*;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.domain.cases.GuestUseCase.*;
 import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.interfaces.controller.*;
+import br.edu.ifpb.interfaces.repository.*;
 
 public class RemoveReserveUseCase implements RemoveReserveUseCaseIF {
     private ReserveRepositoryInterface repository;

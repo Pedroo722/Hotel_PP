@@ -36,7 +36,6 @@ public class RoomTypeRepository {
                 pstmt.setString(4, roomType.getTypeName());
                 pstmt.executeUpdate();
             }
-            System.out.println("All room types have been saved to the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -59,7 +58,6 @@ public class RoomTypeRepository {
                 roomTypes.add(roomType);
             }
 
-            System.out.println("Room types loaded from the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -86,9 +84,8 @@ public class RoomTypeRepository {
             insertStmt.setString(3, roomType.getTypeName());
             insertStmt.executeUpdate();
             roomTypes.add(roomType);
-            System.out.println("Room type added successfully.");
         } catch (SQLException e) {
-            System.out.println("ERRRRRROAAAAR" + e.getMessage());
+            System.out.println("Error ao adicionar um Tipo de Quarto: " + e.getMessage());
         }
     }
 

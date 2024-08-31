@@ -2,13 +2,14 @@ package br.edu.ifpb.data;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.exceptions.*;
-import br.edu.ifpb.db.*;
+import br.edu.ifpb.interfaces.repository.ReserveRepositoryInterface;
 
 public class ReserveRepository implements ReserveRepositoryInterface {
     private static ReserveRepository instance;
@@ -16,7 +17,7 @@ public class ReserveRepository implements ReserveRepositoryInterface {
 
     private ReserveRepository() {
         this.reserves = new ArrayList<>();
-        DataBaseInitializer.initialize();
+        loadReservesFromDB();
     }
 
     // Padrão de Criação: Singleton
@@ -39,19 +40,19 @@ public class ReserveRepository implements ReserveRepositoryInterface {
     }
 
     public void saveReservesToDB() {
-        String sql = "INSERT INTO reserves(user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserves(id, user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Reserve reserve : reserves) {
-                pstmt.setInt(1, reserve.getUserId().getValue());
-                pstmt.setString(2, reserve.getNumber().toString());
-                pstmt.setString(3, reserve.getCheckIn().toString());
-                pstmt.setString(4, reserve.getCheckOut().toString());
-                pstmt.setString(5, reserve.getStatus().toString());
+                pstmt.setInt(1, reserve.getReserveId().getValue());
+                pstmt.setInt(2, reserve.getUserId().getValue());
+                pstmt.setString(3, reserve.getNumber().toString());
+                pstmt.setString(4, reserve.getCheckIn().toString());
+                pstmt.setString(5, reserve.getCheckOut().toString());
+                pstmt.setString(6, reserve.getStatus().toString());
                 pstmt.executeUpdate();
             }
-            System.out.println("All reserves have been saved to the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -59,58 +60,66 @@ public class ReserveRepository implements ReserveRepositoryInterface {
 
     public void loadReservesFromDB() {
         String sql = "SELECT id, user_id, room_number, check_in, check_out, reserve_status FROM reserves";
-
+    
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
+    
             reserves.clear(); 
-
+    
             while (rs.next()) {
-                Id reserveId = new Id(rs.getInt("id"));
-                Id userId = new Id(rs.getInt("user_id"));
-
-                String roomNumberStr = rs.getString("room_number");
-                Integer roomNumberInt = Integer.parseInt(roomNumberStr);
-                RoomNumber number = new RoomNumber(roomNumberInt);
-
-                LocalDate checkIn = rs.getDate("check_in").toLocalDate();
-                LocalDate checkOut = rs.getDate("check_out") != null ? rs.getDate("check_out").toLocalDate() : null;
-                ReserveStatus status = ReserveStatus.valueOf(rs.getString("reserve_status"));
-
-                Reserve reserve = new Reserve(userId, number);
-                reserve.setReserveId(reserveId);
-                reserve.setCheckIn(checkIn);
-                reserve.setCheckOut(checkOut);
-                reserve.setStatus(status);
-                reserves.add(reserve);
+                try {
+                    Id reserveId = new Id(rs.getInt("id"));
+                    Id userId = new Id(rs.getInt("user_id"));
+    
+                    String roomNumberStr = rs.getString("room_number");
+                    Integer roomNumberInt = Integer.parseInt(roomNumberStr);
+                    RoomNumber number = new RoomNumber(roomNumberInt);
+    
+                    LocalDate checkIn = LocalDate.parse(rs.getString("check_in"), formatter);
+    
+                    // Verifica se check_out é "Nulo" ou null, e trata adequadamente
+                    String checkOutStr = rs.getString("check_out");
+                    LocalDate checkOut = (checkOutStr != null && !checkOutStr.equalsIgnoreCase("Nulo")) 
+                                          ? LocalDate.parse(checkOutStr, formatter) 
+                                          : null;
+    
+                    ReserveStatus status = ReserveStatus.valueOf(rs.getString("reserve_status"));
+    
+                    Reserve reserve = new Reserve(reserveId, userId, number, checkIn, checkOut, status);
+                    reserves.add(reserve);
+                } catch (DateTimeParseException e) {
+                    System.out.println("Erro ao converter data: " + e.getMessage());
+                }
             }
-
-            System.out.println("Reserves loaded from the database.");
+    
         } catch (SQLException e) {
             System.out.println("Error ao obter as Reservas do Banco: " + e.getMessage());
         }
-    }
+    }    
+
 
     @Override
     public void addReserve(Reserve reserve) {
-        String sql = "INSERT INTO reserves(user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserves(id, user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, reserve.getUserId().getValue());
-            pstmt.setString(2, reserve.getNumber().toString());
-            pstmt.setString(3, reserve.getCheckIn().toString());
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, reserve.getReserveId().getValue());
+            pstmt.setInt(2, reserve.getUserId().getValue());
+            pstmt.setString(3, reserve.getNumber().toString());
+            pstmt.setString(4, reserve.getCheckIn().toString());
 
             if (reserve.getCheckOut() != null) {
-                pstmt.setString(4, reserve.getCheckOut().toString());
+                pstmt.setString(5, reserve.getCheckOut().toString());
             } else {
-                pstmt.setString(4, "Nulo");
+                pstmt.setString(5, "Nulo");
             }
-            pstmt.setString(5, reserve.getStatus().toString());
+            pstmt.setString(6, reserve.getStatus().toString());
             pstmt.executeUpdate();
             reserves.add(reserve);
-            System.out.println("Reserve added successfully.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -134,7 +143,6 @@ public class ReserveRepository implements ReserveRepositoryInterface {
             for (int i = 0; i < reserves.size(); i++) {
                 if (reserves.get(i).getReserveId().equals(updatedReserve.getReserveId())) {
                     reserves.set(i, updatedReserve);
-                    System.out.println("Reserve updated successfully.");
                     return;
                 }
             }
@@ -155,9 +163,8 @@ public class ReserveRepository implements ReserveRepositoryInterface {
             
             if (affectedRows > 0) {
                 reserves.removeIf(reserve -> reserve.getReserveId().equals(id));
-                System.out.println("Reserve removed successfully.");
             } else {
-                System.out.println("No reserve found with the provided ID.");
+                System.out.println("Reserva com o ID informado não encontrada.");
             }
         } catch (SQLException e) {
             System.out.println("Error removing reserve: " + e.getMessage());

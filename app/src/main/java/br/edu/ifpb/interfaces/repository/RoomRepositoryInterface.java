@@ -1,4 +1,4 @@
-package br.edu.ifpb.domain.repository;
+package br.edu.ifpb.interfaces.repository;
 
 import java.util.List;
 

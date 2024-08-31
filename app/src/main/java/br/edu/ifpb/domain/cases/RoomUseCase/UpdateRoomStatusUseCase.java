@@ -2,9 +2,9 @@ package br.edu.ifpb.domain.cases.RoomUseCase;
 
 import br.edu.ifpb.data.RoomRepository;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.RoomNotFoundException;
+import br.edu.ifpb.interfaces.repository.RoomRepositoryInterface;
 
 public class UpdateRoomStatusUseCase {
     private RoomRepositoryInterface repository;

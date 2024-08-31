@@ -1,9 +1,10 @@
 package br.edu.ifpb.domain.cases;
 
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.cases.GuestUseCase.*;
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.interfaces.repository.GuestRepositoryInterface;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

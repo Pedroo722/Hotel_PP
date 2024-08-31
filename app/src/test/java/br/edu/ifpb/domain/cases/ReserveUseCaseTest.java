@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import br.edu.ifpb.domain.cases.ReserveUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.interfaces.repository.ReserveRepositoryInterface;
 
 public class ReserveUseCaseTest {
     private ReserveRepositoryInterface repositoryMock;

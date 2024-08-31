@@ -2,8 +2,8 @@ package br.edu.ifpb.domain.cases.ReserveUseCase;
 
 import br.edu.ifpb.data.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.interfaces.repository.*;
 
 public class UpdateReserveStatusUseCase {
     private ReserveRepositoryInterface repository;

@@ -1,5 +1,6 @@
 package br.edu.ifpb.menu;
 
+import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.enums.MainMenuOption;
 import br.edu.ifpb.presenter.controller.*;
 
@@ -13,6 +14,7 @@ public class MainMenu {
 
     public MainMenu() {
         scanner = new Scanner(System.in);
+        DataBaseManager.initialize();
         reserveController = new ReserveController();
         guestController = new GuestController();
         roomController = new RoomController();

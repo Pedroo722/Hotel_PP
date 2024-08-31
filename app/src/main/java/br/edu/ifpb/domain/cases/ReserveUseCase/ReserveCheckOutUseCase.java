@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 import br.edu.ifpb.data.ReserveRepository;
 import br.edu.ifpb.domain.model.Reserve;
-import br.edu.ifpb.domain.repository.ReserveRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.Id;
+import br.edu.ifpb.interfaces.repository.ReserveRepositoryInterface;
 
 public class ReserveCheckOutUseCase {
     private ReserveRepositoryInterface repository;

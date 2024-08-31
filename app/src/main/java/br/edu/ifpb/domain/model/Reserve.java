@@ -22,6 +22,15 @@ public class Reserve implements Serializable {
         this.status = ReserveStatus.ACTIVE;
     }
 
+    public Reserve(Id reserveId, Id userId, RoomNumber number, LocalDate checkIn, LocalDate checkOut, ReserveStatus status) {
+        this.reserveId = reserveId;
+        this.userId = userId;
+        this.number = number;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.status = status;
+    }
+
     public Id getReserveId() { return reserveId; }
     public Id getUserId() { return userId; }
     public RoomNumber getNumber() { return number; }

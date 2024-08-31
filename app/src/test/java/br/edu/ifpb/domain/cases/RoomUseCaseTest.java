@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.RoomRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.interfaces.repository.RoomRepositoryInterface;
 
 public class RoomUseCaseTest {
     private RoomRepositoryInterface repositoryMock;

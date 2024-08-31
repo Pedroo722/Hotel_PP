@@ -9,8 +9,8 @@ import java.util.*;
 
 import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.*;
 import br.edu.ifpb.exceptions.*;
+import br.edu.ifpb.interfaces.repository.*;
 import br.edu.ifpb.domain.wrappers.*;
 
 public class RoomRepository implements RoomRepositoryInterface {
@@ -55,7 +55,6 @@ public class RoomRepository implements RoomRepositoryInterface {
                 pstmt.setString(4, room.getStatus().getValue());
                 pstmt.executeUpdate();
             }
-            System.out.println("All rooms have been saved to the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -88,7 +87,6 @@ public class RoomRepository implements RoomRepositoryInterface {
                 rooms.add(room);
             }
     
-            System.out.println("Rooms loaded from the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -109,7 +107,7 @@ public class RoomRepository implements RoomRepositoryInterface {
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next() && rs.getInt(1) > 0) {
-                System.out.println("Room with this number already exists in the database.");
+                System.out.println("Quarto com esse número já existe no banco de dados.");
             } else {
                 // Se não existir, insere novo quarto
                 insertStmt.setInt(1, room.getRoomId().getValue());
@@ -119,7 +117,6 @@ public class RoomRepository implements RoomRepositoryInterface {
                 
                 insertStmt.executeUpdate();
                 rooms.add(room); // Adiciona à lista interna
-                System.out.println("Room added successfully.");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -142,7 +139,6 @@ public class RoomRepository implements RoomRepositoryInterface {
                     pstmt.setString(3, updateRoom.getStatus().getValue());
                     pstmt.setInt(4, updateRoom.getRoomId().getValue());
                     pstmt.executeUpdate();
-                    System.out.println("Room updated successfully.");
                 } catch (SQLException e) {
                     System.out.println("Error updating room: " + e.getMessage());
                 }
@@ -164,9 +160,8 @@ public class RoomRepository implements RoomRepositoryInterface {
 
             if (affectedRows > 0) {
                 rooms.removeIf(room -> room.getNumber().equals(roomNumber));
-                System.out.println("Room removed successfully.");
             } else {
-                System.out.println("No room found with the provided number.");
+                System.out.println("Nenhum quarto encontrado com o ID informado.");
             }
 
         } catch (SQLException e) {

@@ -4,9 +4,9 @@ import java.util.*;
 
 import br.edu.ifpb.domain.cases.GuestUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.repository.GuestRepositoryInterface;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.*;
+import br.edu.ifpb.interfaces.repository.GuestRepositoryInterface;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,7 +42,6 @@ public class GuestRepository implements GuestRepositoryInterface {
                 pstmt.setString(3, guest.getStatus().getValue());
                 pstmt.executeUpdate();
             }
-            System.out.println("All guests have been saved to the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -68,8 +67,6 @@ public class GuestRepository implements GuestRepositoryInterface {
                 guest.setUserId(userId);
                 guests.add(guest);
             }
-
-            System.out.println("Guests loaded from the database.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -110,7 +107,6 @@ public class GuestRepository implements GuestRepositoryInterface {
                 insertStmt.setString(4, guest.getStatus().getValue());
                 insertStmt.executeUpdate();
                 guests.add(guest);  // Adiciona à lista interna
-                System.out.println("Hóspede adicionado com sucesso.");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -133,7 +129,6 @@ public class GuestRepository implements GuestRepositoryInterface {
                     pstmt.setString(3, updatedGuest.getStatus().getValue());
                     pstmt.setInt(4, updatedGuest.getUserId().getValue());
                     pstmt.executeUpdate();
-                    System.out.println("Hóspede atualizado com sucesso.");
                 } catch (SQLException e) {
                     System.out.println("Erro ao atualizar hóspede: " + e.getMessage());
                 }
@@ -158,7 +153,6 @@ public class GuestRepository implements GuestRepositoryInterface {
             if (affectedRows > 0) {
                 // Remove da lista interna se a remoção no banco de dados foi bem-sucedida
                 guests.removeIf(guest -> guest.getUserId().equals(id));
-                System.out.println("Hóspede removido com sucesso.");
             } else {
                 System.out.println("Nenhum hóspede encontrado com o ID fornecido.");
             }
