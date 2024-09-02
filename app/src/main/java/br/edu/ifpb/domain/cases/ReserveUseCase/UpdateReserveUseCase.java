@@ -3,8 +3,8 @@ package br.edu.ifpb.domain.cases.ReserveUseCase;
 import br.edu.ifpb.data.ReserveRepository;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.interfaces.controller.UpdateReserveUseCaseIF;
 import br.edu.ifpb.interfaces.repository.ReserveRepositoryInterface;
+import br.edu.ifpb.interfaces.usecase.UpdateReserveUseCaseIF;
 
 public class UpdateReserveUseCase implements UpdateReserveUseCaseIF {
     private ReserveRepositoryInterface repository;
