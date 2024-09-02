@@ -1,4 +1,4 @@
-package br.edu.ifpb.presenter.interfaces;
+package br.edu.ifpb.interfaces.controller;
 
 public interface GuestControllerInterface {
     public void createGuest();

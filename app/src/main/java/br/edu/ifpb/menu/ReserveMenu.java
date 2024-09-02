@@ -3,6 +3,10 @@ package br.edu.ifpb.menu;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.presenter.controller.ReserveController;
 import br.edu.ifpb.presenter.controller.RoomController;
+import br.edu.ifpb.presenter.reserveCommand.*;
+
+import br.edu.ifpb.presenter.CommandInvoker;
+import br.edu.ifpb.interfaces.*;
 
 import br.edu.ifpb.enums.ReserveMenuOption;
 import java.util.Scanner;
@@ -11,11 +15,13 @@ public class ReserveMenu {
     private Scanner scanner;
     private ReserveController reserveController;
     private RoomController roomController;
+    private CommandInvoker commandInvoker;
 
     public ReserveMenu(Scanner scanner, ReserveController reserveController, RoomController roomController) {
         this.scanner = scanner;
         this.reserveController = reserveController;
         this.roomController = roomController;
+        this.commandInvoker = new CommandInvoker();
     }
 
     public void handleReserveOptions() {
@@ -34,24 +40,26 @@ public class ReserveMenu {
 
             System.out.print("\nOpção: ");
             int optionReserve = scanner.nextInt();
-
+            scanner.nextLine(); // Consumir nova linha
 
             switch (ReserveMenuOption.values()[optionReserve - 1]) {
                 case ADD_RESERVE_OPTION:
-                    // TODO: Checar se bater com existente, se n sugerir criar novo Guest
                     System.out.print("ID do Hóspede: ");
                     int guestInt = scanner.nextInt();
                     Id guestId = new Id(guestInt);
-                
-                    // TODO: Checar se está AVAILABLE
+
                     System.out.print("Número do Quarto: ");
                     int roomNumberInt = scanner.nextInt();
                     RoomNumber roomNumber = new RoomNumber(roomNumberInt);
-                
-                    reserveController.addReserve(guestId, roomNumber);
+
+                    Command addReserveCommand = new AddReserveCommand(reserveController, guestId, roomNumber);
+                    commandInvoker.setCommand(addReserveCommand);
+                    commandInvoker.executeCommand();
                     break;
                 case LIST_RESERVES_OPTION:
-                    reserveController.listReserves();
+                    Command listReservesCommand = new ListReservesCommand(reserveController);
+                    commandInvoker.setCommand(listReservesCommand);
+                    commandInvoker.executeCommand();
                     break;
                 case EDIT_RESERVE_OPTION:
                     System.out.print("ID da reserva a ser editada: ");
@@ -61,25 +69,32 @@ public class ReserveMenu {
                     System.out.print("ID do novo hóspede: ");
                     int newGuestInt = scanner.nextInt();
                     Id newGuestId = new Id(newGuestInt);
-                    
+
                     System.out.print("Novo Número do Quarto: ");
                     int newRoomInt = scanner.nextInt();
                     RoomNumber newRoomNumber = new RoomNumber(newRoomInt);
 
-                    reserveController.editReserve(editId, newGuestId, newRoomNumber);
+                    Command editReserveCommand = new EditReserveCommand(reserveController, editId, newGuestId, newRoomNumber);
+                    commandInvoker.setCommand(editReserveCommand);
+                    commandInvoker.executeCommand();
                     break;
                 case CHECK_OUT_RESERVE_OPTION:
                     System.out.print("ID da reserva: ");
                     int reserveCheckOutInt = scanner.nextInt();
                     Id checkOutId = new Id(reserveCheckOutInt);
 
-                    reserveController.checkOut(checkOutId);
+                    Command checkOutReserveCommand = new CheckOutReserveCommand(reserveController, checkOutId);
+                    commandInvoker.setCommand(checkOutReserveCommand);
+                    commandInvoker.executeCommand();
                     break;
                 case REMOVE_RESERVE_OPTION:
                     System.out.print("ID da Reserva a ser removida: ");
                     int reserveId = scanner.nextInt();
                     Id removeId = new Id(reserveId);
-                    reserveController.removeReserve(removeId);
+
+                    Command removeReserveCommand = new RemoveReserveCommand(reserveController, removeId);
+                    commandInvoker.setCommand(removeReserveCommand);
+                    commandInvoker.executeCommand();
                     break;
                 case LIST_ROOMS_OPTION:
                     roomController.listRooms();
