@@ -32,14 +32,15 @@ public class GuestRepository implements GuestRepositoryInterface {
     }
 
     public void saveGuestsToDB() {
-        String sql = "INSERT INTO guests(name, cpf, guest_status) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO guests(name, cpf, reserve_id, guest_status) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Guest guest : guests) {
                 pstmt.setString(1, guest.getName().toString());
                 pstmt.setString(2, guest.getCpf().toString());
-                pstmt.setString(3, guest.getStatus().getValue());
+                pstmt.setInt(3, guest.getReserveId().getValue());
+                pstmt.setString(4, guest.getStatus().getValue());
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -48,11 +49,11 @@ public class GuestRepository implements GuestRepositoryInterface {
     }
 
     public void loadGuestsFromDB() {
-        String sql = "SELECT id, name, cpf, guest_status FROM guests";
+        String sql = "SELECT id, name, cpf, reserve_id, guest_status FROM guests";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
 
             guests.clear(); 
 
@@ -60,9 +61,10 @@ public class GuestRepository implements GuestRepositoryInterface {
                 Id userId = new Id(rs.getInt("id"));
                 Name name = new Name(rs.getString("name"));
                 CPF cpf = new CPF(rs.getString("cpf"));
+                Id reserveId = new Id(rs.getInt("reserve_id"));
                 GuestStatus status = GuestStatus.valueOf(rs.getString("guest_status"));
 
-                Guest guest = new Guest(name, cpf, status);
+                Guest guest = new Guest(name, cpf, reserveId, status);
                 
                 guest.setUserId(userId);
                 guests.add(guest);
@@ -87,7 +89,7 @@ public class GuestRepository implements GuestRepositoryInterface {
     @Override
     public void addGuest(Guest guest) {
         String checkSql = "SELECT COUNT(*) FROM guests WHERE cpf = ?";
-        String insertSql = "INSERT INTO guests(id, name, cpf, guest_status) VALUES(?, ?, ?, ?)";
+        String insertSql = "INSERT INTO guests(id, name, cpf, reserve_id, guest_status) VALUES(?, ?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
@@ -104,7 +106,12 @@ public class GuestRepository implements GuestRepositoryInterface {
                 insertStmt.setInt(1, guest.getUserId().getValue());
                 insertStmt.setString(2, guest.getName().toString());
                 insertStmt.setString(3, guest.getCpf().toString());
-                insertStmt.setString(4, guest.getStatus().getValue());
+                if (guest.getReserveId() != null) {
+                    insertStmt.setInt(4, guest.getReserveId().getValue());
+                } else {
+                    insertStmt.setInt(4, -1);
+                }
+                insertStmt.setString(5, guest.getStatus().getValue());
                 insertStmt.executeUpdate();
                 guests.add(guest);  // Adiciona à lista interna
             }
@@ -121,13 +128,18 @@ public class GuestRepository implements GuestRepositoryInterface {
                 // Atualiza lista interna
                 guests.set(i, updatedGuest);
                 // Atualiza banco de dados
-                String sql = "UPDATE guests SET name = ?, cpf = ?, guest_status = ? WHERE id = ?";
+                String sql = "UPDATE guests SET name = ?, cpf = ?, reserve_id = ?, guest_status = ? WHERE id = ?";
                 try (Connection conn = this.connect();
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setString(1, updatedGuest.getName().toString());
                     pstmt.setString(2, updatedGuest.getCpf().toString());
-                    pstmt.setString(3, updatedGuest.getStatus().getValue());
-                    pstmt.setInt(4, updatedGuest.getUserId().getValue());
+                    if (guest.getReserveId() != null) {
+                        pstmt.setInt(3, updatedGuest.getReserveId().getValue());
+                    } else {
+                        pstmt.setInt(3, -1);
+                    }
+                    pstmt.setString(4, updatedGuest.getStatus().getValue());
+                    pstmt.setInt(5, updatedGuest.getUserId().getValue());
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
                     System.out.println("Erro ao atualizar hóspede: " + e.getMessage());

@@ -10,7 +10,9 @@ public class DataBaseManager {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " name TEXT NOT NULL,\n"
                 + " cpf TEXT NOT NULL UNIQUE,\n"
-                + " guest_status TEX,T\n"
+                + " reserve_id Integer,\n"
+                + " guest_status TEXT,\n"
+                + " FOREIGN KEY(reserve_id) REFERENCES reserves(id)\n"
                 + ");";
         
         String sqlReserves = "CREATE TABLE IF NOT EXISTS reserves (\n"
@@ -72,7 +74,8 @@ public class DataBaseManager {
                 String name = rs.getString("name");
                 String cpf = rs.getString("cpf");
                 String status = rs.getString("guest_status");
-                System.out.println("ID: " + id + ", Name: " + name + ", CPF: " + cpf + ", Guest Status: " + status);
+                int reserveId = rs.getInt("reserve_id");
+                System.out.println("ID: " + id + ", Name: " + name + ", CPF: " + cpf + ", Guest Status: " + status + ", Reserve ID: " + reserveId);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

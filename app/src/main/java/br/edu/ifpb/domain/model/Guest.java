@@ -18,9 +18,10 @@ public class Guest implements Serializable {
         this.reserveId = null;
     }
 
-    public Guest(Name name, CPF cpf, GuestStatus status) {
+    public Guest(Name name, CPF cpf, Id reserveId, GuestStatus status) {
         this.userId = new Id();
         this.name = name;
+        this.reserveId = reserveId;
         this.cpf = cpf;
         this.status = status;
         this.reserveId = null;
