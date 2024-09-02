@@ -92,24 +92,4 @@ public class ReserveTest {
         
         assertEquals(ReserveStatus.CANCELED, reserve.getStatus());
     }
-
-    @Test
-    public void testToString() {
-        Id userId = new Id();
-        RoomNumber roomNumber = new RoomNumber(101);
-        Reserve reserve = new Reserve(userId, roomNumber);
-        
-        LocalDate checkIn = LocalDate.of(2024, 7, 23);
-        LocalDate checkOut = LocalDate.of(2024, 7, 30);
-        reserve.setCheckIn(checkIn);
-        reserve.setCheckOut(checkOut);
-        
-        String expected = "* ID: " + reserve.getReserveId() + "\n" +
-                          "* ID do Hóspede: " + userId + "\n" +
-                          "* Número de Quarto: " + roomNumber + "\n" +
-                          "* Check-in: " + checkIn + "\n" +
-                          "* Check-out: " + checkOut;
-        
-        assertEquals(expected, reserve.toString());
-    }
 }

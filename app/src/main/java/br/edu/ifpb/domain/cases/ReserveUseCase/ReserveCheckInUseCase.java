@@ -14,6 +14,10 @@ public class ReserveCheckInUseCase {
         this.repository = ReserveRepository.getInstance();
     }
 
+    public ReserveCheckInUseCase(ReserveRepositoryInterface repository) {
+        this.repository = repository;
+    }
+
     public void checkIn(Id reserveId, LocalDate checkInDate) {
         Reserve reserve = repository.findReserveById(reserveId);
 

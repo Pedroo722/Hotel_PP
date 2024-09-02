@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,29 @@ public class ReserveUseCaseTest {
         repositoryMock.removeReserve(reserveId);
 
         assertNull(repositoryMock.findReserveById(reserveId));
+    }
+
+    @Test
+    public void testReserveCheckinUseCase(){
+        LocalDate checkInDate = LocalDate.now().plusDays(1);
+        ReserveCheckInUseCase reserveCheckInUseCase = new ReserveCheckInUseCase(repositoryMock);
+        reserveCheckInUseCase.checkIn(reserve.getReserveId(), checkInDate);
+
+        Reserve checkedInReserve = repositoryMock.findReserveById(reserve.getReserveId());
+        assertNotNull(checkedInReserve);
+        assertEquals(checkInDate, checkedInReserve.getCheckIn());
+        assertEquals(ReserveStatus.ACTIVE, checkedInReserve.getStatus());
+       
+    }
+
+    @Test
+    public void testReserveCheckoutUseCase(){
+        ReserveCheckOutUseCase reserveCheckOutUseCase = new ReserveCheckOutUseCase(repositoryMock);
+        reserveCheckOutUseCase.checkOut(reserve.getReserveId());
+
+        Reserve checkedOutReserve = repositoryMock.findReserveById(reserve.getReserveId());
+        assertNotNull(checkedOutReserve);
+        assertNotNull(checkedOutReserve.getCheckOut());
     }
 
     @Test
