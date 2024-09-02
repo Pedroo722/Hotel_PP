@@ -1,4 +1,4 @@
-package br.edu.ifpb.interfaces.controller;
+package br.edu.ifpb.interfaces.usecase;
 
 import br.edu.ifpb.domain.wrappers.*;;
 

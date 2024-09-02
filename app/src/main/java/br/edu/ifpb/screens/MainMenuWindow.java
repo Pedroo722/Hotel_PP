@@ -5,8 +5,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class MainWindow extends JFrame {
-    public MainWindow() {
+public class MainMenuWindow extends JFrame {
+    public MainMenuWindow() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
     private void initComponents() {
         JButton jButtonRoom = new JButton();
         JButton jButtonGuest = new JButton();
-        JButton jButtonReservations = new JButton(); // Novo botão para Reservas
+        JButton jButtonReservations = new JButton();
         JLabel jLabelMenu = new JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -87,21 +87,21 @@ public class MainWindow extends JFrame {
     }
 
     private void jButtonRoomActionPerformed(java.awt.event.ActionEvent evt) {
-        // screenManager.showRoomWindow();
+
     }
     
     private void jButtonGuestActionPerformed(java.awt.event.ActionEvent bvt) {
-        // screenManager.showGuestWindow();
+
     }
 
     private void jButtonReservationsActionPerformed(java.awt.event.ActionEvent bvt) {
-        // screenManager.showReservationsWindow();
+
     }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow().setVisible(true);
+                new MainMenuWindow().setVisible(true);
             }
         });
     }

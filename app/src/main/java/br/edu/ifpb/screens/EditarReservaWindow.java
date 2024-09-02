@@ -1,108 +1,170 @@
 package br.edu.ifpb.screens;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MainMenuWindow extends JFrame {
-    public MainMenuWindow() {
+public class EditarReservaWindow extends javax.swing.JFrame {
+    private javax.swing.JButton jButtonEditar;
+    private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JLabel jLabelEditarReserva;
+    private javax.swing.JLabel jLabelIdReserva;
+    private javax.swing.JLabel jLabelNovoNome;
+    private javax.swing.JLabel jLabelNovoNumero;
+    private javax.swing.JTextField jTextFieldIdReserva;
+    private javax.swing.JTextField jTextFieldNovoNome;
+    private javax.swing.JTextField jTextFieldNovoQuarto;
+    
+    public EditarReservaWindow() {
         initComponents();
         setLocationRelativeTo(null);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+
+            }
+        });
     }
 
     private void initComponents() {
-        JButton jButtonRoom = new JButton();
-        JButton jButtonGuest = new JButton();
-        JButton jButtonReservations = new JButton();
-        JLabel jLabelMenu = new JLabel();
+        jLabelEditarReserva = new JLabel();
+        jLabelNovoNome = new JLabel();
+        jButtonVoltar = new JButton();
+        jButtonEditar = new JButton();
+        jLabelNovoNumero = new JLabel();
+        jTextFieldNovoNome = new JTextField();
+        jTextFieldNovoQuarto = new JTextField();
+        jLabelIdReserva = new JLabel();
+        jTextFieldIdReserva = new JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new Dimension(869, 570));
+        setMinimumSize(new Dimension(869, 570));
+        setPreferredSize(new Dimension(869, 570));
         setResizable(false);
 
-        jButtonRoom.setBackground(new java.awt.Color(153, 153, 255));
-        jButtonRoom.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        jButtonRoom.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonRoom.setText("Quartos");
-        jButtonRoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRoomActionPerformed(evt);
+        jLabelEditarReserva.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        jLabelEditarReserva.setText("Editar Hospede");
+
+        jLabelNovoNome.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+        jLabelNovoNome.setText("ID do novo hóspede:");
+
+        jButtonVoltar.setBackground(new Color(204, 204, 255));
+        jButtonVoltar.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+        jButtonVoltar.setForeground(Color.BLACK);
+        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                JButtonVoltarActionPerformed(evt);
             }
         });
 
-        jButtonGuest.setBackground(new java.awt.Color(153, 153, 255));
-        jButtonGuest.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        jButtonGuest.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonGuest.setText("Hóspedes");
-        jButtonGuest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuestActionPerformed(evt);
+        jButtonEditar.setBackground(new Color(255, 153, 0));
+        jButtonEditar.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+        jButtonEditar.setForeground(Color.BLACK);
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
             }
         });
 
-        jButtonReservations.setBackground(new java.awt.Color(153, 153, 255));
-        jButtonReservations.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        jButtonReservations.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonReservations.setText("Reservas");
-        jButtonReservations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonReservationsActionPerformed(evt);
-            }
-        });
+        jLabelNovoNumero.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+        jLabelNovoNumero.setText("Numero do Novo Quarto:");
 
-        jLabelMenu.setFont(new java.awt.Font("Segoe UI", 1, 24));
-        jLabelMenu.setText("Menu");
+        jTextFieldNovoNome.setBackground(Color.WHITE);
+        jTextFieldNovoQuarto.setBackground(Color.WHITE);
+
+        jLabelIdReserva.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+        jLabelIdReserva.setText("ID da Reserva editada:");
+
+        jTextFieldIdReserva.setBackground(Color.WHITE);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(196, 196, 196)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonReservations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGuest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(200, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelMenu)
-                .addGap(239, 239, 239))
+                .addGap(73, 73, 73)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelNovoNumero)
+                    .addComponent(jLabelNovoNome)
+                    .addComponent(jLabelIdReserva))
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextFieldNovoQuarto)
+                    .addComponent(jTextFieldNovoNome)
+                    .addComponent(jTextFieldIdReserva, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(127, Short.MAX_VALUE))
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonVoltar)
+                        .addGap(216, 216, 216)
+                        .addComponent(jButtonEditar)
+                        .addGap(126, 126, 126))
+                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelEditarReserva)
+                        .addGap(218, 218, 218))))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabelMenu)
-                .addGap(39, 39, 39)
-                .addComponent(jButtonReservations, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonGuest, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(jLabelEditarReserva)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelIdReserva)
+                    .addComponent(jTextFieldIdReserva, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNovoNome)
+                    .addComponent(jTextFieldNovoNome, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelNovoNumero)
+                    .addComponent(jTextFieldNovoQuarto, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jButtonEditar))
+                .addGap(37, 37, 37))
         );
 
         pack();
     }
 
-    private void jButtonRoomActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }
-    
-    private void jButtonGuestActionPerformed(java.awt.event.ActionEvent bvt) {
+    private void jButtonEditarActionPerformed(ActionEvent evt) {
 
     }
 
-    private void jButtonReservationsActionPerformed(java.awt.event.ActionEvent bvt) {
+    private void JButtonVoltarActionPerformed(ActionEvent evt) {
 
     }
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainMenuWindow().setVisible(true);
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
-        });
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EditarReservaWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        java.awt.EventQueue.invokeLater(() -> new EditarReservaWindow().setVisible(true));
     }
 }
