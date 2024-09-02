@@ -40,7 +40,7 @@ public class ReserveMenu {
 
             System.out.print("\nOpção: ");
             int optionReserve = scanner.nextInt();
-            scanner.nextLine(); // Consumir nova linha
+            scanner.nextLine();
 
             switch (ReserveMenuOption.values()[optionReserve - 1]) {
                 case ADD_RESERVE_OPTION:

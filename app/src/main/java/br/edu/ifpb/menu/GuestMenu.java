@@ -1,18 +1,24 @@
 package br.edu.ifpb.menu;
 
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.presenter.controller.*;
-
 import br.edu.ifpb.enums.*;
+import br.edu.ifpb.presenter.CommandInvoker;
+import br.edu.ifpb.presenter.controller.GuestController;
+import br.edu.ifpb.presenter.guestCommand.*;
+
+import br.edu.ifpb.interfaces.Command;
+
 import java.util.Scanner;
 
 public class GuestMenu {
     private Scanner scanner;
     private GuestController guestController;
+    private CommandInvoker commandInvoker;
 
     public GuestMenu(Scanner scanner, GuestController guestController) {
         this.scanner = scanner;
         this.guestController = guestController;
+        this.commandInvoker = new CommandInvoker();
     }
 
     public void handleGuestOptions() {
@@ -28,51 +34,57 @@ public class GuestMenu {
 
             System.out.print("\nOpção: ");
             int optionGuest = scanner.nextInt();
+            scanner.nextLine(); // Consumir nova linha
+
+            Command command = null;
 
             switch (GuestMenuOption.values()[optionGuest - 1]) {
                 case ADD_GUEST_OPTION:
-                    // TODO: Checar se é Id e número de quarto válidos
-                    //        guestRepository.findGuestById(guestId);
-                    //        roomRepository.findRoomByNumber(roomNumber);
                     System.out.print("\nNome do hóspede: ");
-                    String name = scanner.next();
+                    String name = scanner.nextLine();
                     Name newName = new Name(name);
-                
+
                     System.out.print("CPF do hóspede (EXEMPLO: 11122233340):\n");
                     String cpf = scanner.next();
                     CPF newCpf = new CPF(cpf);
 
-                    guestController.addGuest(newName, newCpf);
+                    command = new AddGuestCommand(guestController, newName, newCpf);
                     break;
                 case LIST_GUESTS_OPTION:
-                    guestController.listGuests();
+                    command = new ListGuestsCommand(guestController);
                     break;
                 case EDIT_GUEST_OPTION:
                     System.out.print("ID do hóspede a ser editado: ");
                     Integer userId = scanner.nextInt();
+                    scanner.nextLine();
                     Id id = new Id(userId);
 
                     System.out.print("Novo nome do hóspede: ");
-                    String nameStr = scanner.next();
+                    String nameStr = scanner.nextLine();
                     Name editedName = new Name(nameStr);
-                
+
                     System.out.print("Novo CPF do hóspede: \n(EXEMPLO: 11122233340)\n");
                     String cpfStr = scanner.next();
                     CPF editedCpf = new CPF(cpfStr);
-                
-                    guestController.editGuest(id, editedName, editedCpf);
+
+                    command = new EditGuestCommand(guestController, id, editedName, editedCpf);
                     break;
                 case REMOVE_GUEST_OPTION:
                     System.out.print("ID do hóspede a ser removido: ");
                     int guestId = scanner.nextInt();
                     Id removeId = new Id(guestId);
-                    guestController.removeGuest(removeId);
+                    command = new RemoveGuestCommand(guestController, removeId);
                     break;
                 case RETURN_OPTION:
                     guestProcessing = false;
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
+            }
+
+            if (command != null) {
+                commandInvoker.setCommand(command);
+                commandInvoker.executeCommand();
             }
         }
     }
