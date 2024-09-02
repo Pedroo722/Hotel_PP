@@ -10,7 +10,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class GuestWindow extends JFrame {
+public class MenuGuestWindow extends JFrame {
 
     private JLabel jLabelMenuGuest;
     private JButton jButtonAddGuest;
@@ -21,7 +21,7 @@ public class GuestWindow extends JFrame {
     private JTable jTableGuest;
 
 
-    public GuestWindow() {
+    public MenuGuestWindow() {
         initComponents();
         setTableModel();
         setLocationRelativeTo(null);
@@ -257,18 +257,18 @@ public class GuestWindow extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuGuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuGuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuGuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuGuestWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuestWindow().setVisible(true);
+                new MenuGuestWindow().setVisible(true);
             }
         });
     }

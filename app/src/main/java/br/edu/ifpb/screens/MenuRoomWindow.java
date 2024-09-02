@@ -10,18 +10,18 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class ReserveWindow extends JFrame {
+public class MenuRoomWindow extends JFrame {
 
-    private JLabel jLabelMenuReserve;
-    private JButton jButtonAddReserve;
-    private JButton jButtonRemoveReserve;
+    private JLabel jLabelMenuRoom;
+    private JButton jButtonAddRoom;
+    private JButton jButtonRemoveRoom;
     private JButton jButtonReturn;
-    private JButton jButtonEditarReserve;
-    private JScrollPane jScrollPaneReserve;
-    private JTable jTableReserve;
+    private JButton jButtonEditarRoom;
+    private JScrollPane jScrollPaneRoom;
+    private JTable jTableRoom;
 
 
-    public ReserveWindow() {
+    public MenuRoomWindow() {
         initComponents();
         setTableModel();
         setLocationRelativeTo(null);
@@ -37,7 +37,7 @@ public class ReserveWindow extends JFrame {
             }
         });
 
-        jTableReserve.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        jTableRoom.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -56,13 +56,13 @@ public class ReserveWindow extends JFrame {
     }
 
     private void initComponents() {
-        jLabelMenuReserve = new JLabel();
-        jButtonAddReserve = new JButton();
-        jButtonRemoveReserve = new JButton();
+        jLabelMenuRoom = new JLabel();
+        jButtonAddRoom = new JButton();
+        jButtonRemoveRoom = new JButton();
         jButtonReturn = new JButton();
-        jButtonEditarReserve = new JButton();
-        jScrollPaneReserve = new JScrollPane();
-        jTableReserve = new JTable();
+        jButtonEditarRoom = new JButton();
+        jScrollPaneRoom = new JScrollPane();
+        jTableRoom = new JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(869, 570));
@@ -70,26 +70,26 @@ public class ReserveWindow extends JFrame {
         setPreferredSize(new java.awt.Dimension(869, 570));
         setResizable(false);
 
-        jLabelMenuReserve.setFont(new java.awt.Font("Segoe UI", 1, 36));
-        jLabelMenuReserve.setText("Menu de Reservas");
+        jLabelMenuRoom.setFont(new java.awt.Font("Segoe UI", 1, 36));
+        jLabelMenuRoom.setText("Menu de Quartos");
 
-        jButtonAddReserve.setBackground(new java.awt.Color(51, 153, 255));
-        jButtonAddReserve.setFont(new java.awt.Font("Segoe UI", 0, 24));
-        jButtonAddReserve.setForeground(new java.awt.Color(51, 51, 51));
-        jButtonAddReserve.setText("Cadastrar Reserva");
-        jButtonAddReserve.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAddRoom.setBackground(new java.awt.Color(51, 153, 255));
+        jButtonAddRoom.setFont(new java.awt.Font("Segoe UI", 0, 24));
+        jButtonAddRoom.setForeground(new java.awt.Color(51, 51, 51));
+        jButtonAddRoom.setText("Cadastrar Quarto");
+        jButtonAddRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddReserveActionPerformed(evt);
+                jButtonAddRoomActionPerformed(evt);
             }
         });
 
-        jButtonRemoveReserve.setBackground(new java.awt.Color(51, 153, 255));
-        jButtonRemoveReserve.setFont(new java.awt.Font("Segoe UI", 0, 24));
-        jButtonRemoveReserve.setForeground(new java.awt.Color(51, 51, 51));
-        jButtonRemoveReserve.setText("Remover Reserva");
-        jButtonRemoveReserve.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRemoveRoom.setBackground(new java.awt.Color(51, 153, 255));
+        jButtonRemoveRoom.setFont(new java.awt.Font("Segoe UI", 0, 24));
+        jButtonRemoveRoom.setForeground(new java.awt.Color(51, 51, 51));
+        jButtonRemoveRoom.setText("Remover Quarto");
+        jButtonRemoveRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoveReserveActionPerformed(evt);
+                jButtonRemoveRoomActionPerformed(evt);
             }
         });
 
@@ -104,22 +104,22 @@ public class ReserveWindow extends JFrame {
         });
         
 
-        jButtonEditarReserve.setBackground(new java.awt.Color(51, 153, 255));
-        jButtonEditarReserve.setFont(new java.awt.Font("Segoe UI", 0, 24));
-        jButtonEditarReserve.setForeground(new java.awt.Color(51, 51, 51));
-        jButtonEditarReserve.setText("Editar Reserva");
-        jButtonEditarReserve.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEditarRoom.setBackground(new java.awt.Color(51, 153, 255));
+        jButtonEditarRoom.setFont(new java.awt.Font("Segoe UI", 0, 24));
+        jButtonEditarRoom.setForeground(new java.awt.Color(51, 51, 51));
+        jButtonEditarRoom.setText("Editar Quarto");
+        jButtonEditarRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarReserveActionPerformed(evt);
+                jButtonEditarRoomActionPerformed(evt);
             }
         });
 
-        jTableReserve.setSelectionBackground(Color.CYAN);
-        jTableReserve.setSelectionForeground(Color.BLUE);
-        jTableReserve.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        jTableReserve.setModel(new javax.swing.table.DefaultTableModel(
+        jTableRoom.setSelectionBackground(Color.CYAN);
+        jTableRoom.setSelectionForeground(Color.BLUE);
+        jTableRoom.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        jTableRoom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Nenhuma", "reserva", "cadastrada.", null, null},
+                {"Nenhum", "quarto", "cadastrado.", null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -137,7 +137,7 @@ public class ReserveWindow extends JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Cliente", "Quarto", "loremipsu", "Status"
+                "ID", "Numero", "Tamanho", "Capacidade", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -148,8 +148,8 @@ public class ReserveWindow extends JFrame {
                 return types [columnIndex];
             }
         });
-        jTableReserve.setFillsViewportHeight(true);
-        jScrollPaneReserve.setViewportView(jTableReserve);
+        jTableRoom.setFillsViewportHeight(true);
+        jScrollPaneRoom.setViewportView(jTableRoom);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,56 +159,56 @@ public class ReserveWindow extends JFrame {
                 .addGap(158, 158, 158)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPaneReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPaneRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonRemoveReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonAddReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButtonRemoveRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAddRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(129, 129, 129)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonReturn)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButtonEditarReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonEditarRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(142, 142, 142))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup
 ()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelMenuReserve)
+                .addComponent(jLabelMenuRoom)
                 .addGap(240, 240, 240))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabelMenuReserve)
+                .addComponent(jLabelMenuRoom)
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonAddReserve)
-                    .addComponent(jButtonEditarReserve))
+                    .addComponent(jButtonAddRoom)
+                    .addComponent(jButtonEditarRoom))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonRemoveReserve)
+                    .addComponent(jButtonRemoveRoom)
                     .addComponent(jButtonReturn, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }
 
-    private void jButtonAddReserveActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButtonAddRoomActionPerformed(java.awt.event.ActionEvent evt) {
         //
     }
 
-    private void jButtonRemoveReserveActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButtonRemoveRoomActionPerformed(java.awt.event.ActionEvent evt) {
         //
     }
 
-    private void jButtonEditarReserveActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButtonEditarRoomActionPerformed(java.awt.event.ActionEvent evt) {
         //
     }
 
@@ -257,18 +257,18 @@ public class ReserveWindow extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReserveWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRoomWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReserveWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRoomWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReserveWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRoomWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReserveWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuRoomWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReserveWindow().setVisible(true);
+                new MenuRoomWindow().setVisible(true);
             }
         });
     }
