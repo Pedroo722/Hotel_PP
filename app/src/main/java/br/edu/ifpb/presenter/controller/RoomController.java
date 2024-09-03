@@ -36,17 +36,17 @@ public class RoomController {
             System.out.println("\nNão há quartos disponíveis!\n");
             return;
         }
-
-        System.out.println("\n== Quartos Disponíveis ==");
-        int count = 1;
+    
+        System.out.println("\n== Opções de Quartos Disponíveis ==");
         for (Room room : rooms) {
             if (CheckRoomStatusUseCase.isRoomAvailable(room)) {
-                System.out.println("Quarto: #" + count);
-                System.out.println(room.toString());
-                count++;
+                System.out.println("* Número: " + room.getNumber().toString() +
+                                   " | Tipo de Quarto: " + room.getRoomTypeId().toString() +
+                                   " | Status: " + room.getStatus());
             }
         }
-    }
+        System.out.println();
+    }    
 
     public void handleFinish() {
         repository.saveRoomsToDB();

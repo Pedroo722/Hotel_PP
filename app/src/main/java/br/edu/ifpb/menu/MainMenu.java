@@ -4,7 +4,7 @@ import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.enums.MainMenuOption;
 import br.edu.ifpb.presenter.controller.*;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class MainMenu {
     private Scanner scanner;
@@ -33,32 +33,40 @@ public class MainMenu {
             System.out.println("4 - Sair e Salvar\n");
     
             System.out.print("Opção: ");
-            int option = scanner.nextInt();
-            scanner.nextLine();
             
-            switch (MainMenuOption.values()[option - 1]) {
-                case RESERVE_OPTION:
-                    ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController, roomController);
-                    reserveMenu.handleReserveOptions();
-                    break;
-                case GUEST_OPTION:
-                    GuestMenu guestMenu = new GuestMenu(scanner, guestController);
-                    guestMenu.handleGuestOptions();
-                    break;
-                case TEMPORARY_OPTIONS:
-                    TemporaryOptions temporaryOptions = new TemporaryOptions(scanner);
-                    temporaryOptions.handleTemporaryOptions();
-                    break;
-                case EXIT_OPTION:
-                    processing = false;
-                    System.out.println("Sistema encerrado.");
-                    break;
-                default:
+            try {
+                int option = scanner.nextInt();
+                scanner.nextLine();
+    
+                if (option < 1 || option > MainMenuOption.values().length) {
                     System.out.println("Opção inválida. Tente novamente.");
+                    continue; 
+                }
+    
+                switch (MainMenuOption.values()[option - 1]) {
+                    case RESERVE_OPTION:
+                        ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController, roomController);
+                        reserveMenu.handleReserveOptions();
+                        break;
+                    case GUEST_OPTION:
+                        GuestMenu guestMenu = new GuestMenu(scanner, guestController);
+                        guestMenu.handleGuestOptions();
+                        break;
+                    case TEMPORARY_OPTIONS:
+                        TemporaryOptions temporaryOptions = new TemporaryOptions(scanner);
+                        temporaryOptions.handleTemporaryOptions();
+                        break;
+                    case EXIT_OPTION:
+                        processing = false;
+                        System.out.println("Sistema encerrado.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, insira um número inteiro.");
+                scanner.nextLine(); 
             }
         }
-    }
-    
+    }   
 
     public static void main(String[] args) {
         MainMenu main = new MainMenu();
