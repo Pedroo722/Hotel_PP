@@ -47,6 +47,10 @@ public class ReserveController {
         }
     }
 
+    public List<Reserve> getListReserves() {
+        return repository.getReserves();
+    }
+
     public void editReserve(Id reserveId, Id newGuest, RoomNumber roomNumber) {
         UpdateReserveUseCase updateReserveUseCase = new UpdateReserveUseCase();
         updateReserveUseCase.updateReserve(reserveId, newGuest, roomNumber);

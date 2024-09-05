@@ -14,6 +14,14 @@ public class RoomNumber implements Serializable {
         this.number = number;
     }
 
+    public RoomNumber(String roomNumber) {
+        this.number = Integer.parseInt(roomNumber);
+    }
+
+    public Integer getValue() {
+        return number;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(number);

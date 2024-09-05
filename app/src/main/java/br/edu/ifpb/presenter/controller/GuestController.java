@@ -49,6 +49,10 @@ public class GuestController {
         removeGuestUseCase.removeGuest(id);
     }    
 
+    public Guest getGuestById(Id guestId) {
+        return repository.findGuestById(guestId);
+    }
+
     public void handleFinish() {
         repository.saveGuestsToDB();
     }

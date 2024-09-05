@@ -10,6 +10,14 @@ public enum ReserveStatus {
         this.status = status;
     }
 
+    public String toString() {
+        if (status == true) {
+            return "ACTIVE";
+        } else {
+            return "CANCELLED";
+        }
+    }
+
     public boolean getStatus() {
         return status;
     }

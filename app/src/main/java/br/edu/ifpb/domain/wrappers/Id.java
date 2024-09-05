@@ -18,6 +18,10 @@ public class Id implements Serializable {
         this.id = id;
     }
 
+    public Id(String stringId) {
+        this.id = Integer.parseInt(stringId);
+    }
+
     public int getValue() {
         return id;
     }

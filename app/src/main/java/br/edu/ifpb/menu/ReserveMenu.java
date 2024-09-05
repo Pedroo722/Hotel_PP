@@ -8,7 +8,7 @@ import br.edu.ifpb.presenter.CommandInvoker;
 import br.edu.ifpb.interfaces.*;
 import br.edu.ifpb.enums.ReserveMenuOption;
 
-import java.util.InputMismatchException; 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ReserveMenu {

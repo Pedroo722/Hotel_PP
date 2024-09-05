@@ -6,6 +6,7 @@ import java.util.List;
 import br.edu.ifpb.data.RoomRepository;
 import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.domain.wrappers.RoomNumber;
 
 public class RoomController {
     private RoomRepository repository;
@@ -47,6 +48,14 @@ public class RoomController {
         }
         System.out.println();
     }    
+
+    public List<Room> getListRooms() {
+        return repository.getRooms();
+    }
+
+    public Room getRoomByNumber(RoomNumber roomNumber) {
+        return repository.findRoomByNumber(roomNumber);
+    }
 
     public void handleFinish() {
         repository.saveRoomsToDB();

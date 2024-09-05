@@ -25,6 +25,17 @@ public abstract class RoomType {
     public RoomDescription getDescription() { return description; }
     public RoomCapacity getCapacity() { return capacity; }
 
+    public static String getSmallRoomCapacity() { return SmallRoomType.getSmallTypeCapacity(); }
+    public static String getMediumRoomCapacity() { return MediumRoomType.getMediumTypeCapacity(); }
+    public static String getLargeRoomCapacity() { return LargeRoomType.getLargeTypeCapacity(); }
+    public static String getDeluxeRoomCapacity() { return DeluxeRoomType.getDeluxeTypeCapacity(); }
+
+    public static String getSmallRoomDescription() { return SmallRoomType.getSmallTypeDescription(); }
+    public static String getMediumRoomDescription() { return MediumRoomType.getMediumTypeDescription(); }
+    public static String getLargeRoomDescription() { return LargeRoomType.getLargeTypeDescription(); }
+    public static String getDeluxeRoomDescription() { return DeluxeRoomType.getDeluxeTypeDescription(); }
+
+
     public static RoomType getRoomTypeFromId(int typeId) {
         switch (typeId) {
             case 1:
@@ -59,7 +70,15 @@ class SmallRoomType extends RoomType {
 
     @Override
     public String getTypeName() {
-        return "Small-sized Room";
+        return "Small room for a single person";
+    }
+
+    public static String getSmallTypeDescription() {
+        return "Small room for a single person";
+    }
+
+    public static String getSmallTypeCapacity() {
+        return "1";
     }
 }
 
@@ -70,7 +89,15 @@ class MediumRoomType extends RoomType {
 
     @Override
     public String getTypeName() {
-        return "Medium-sized Room";
+        return "Twin room for 2 people";
+    }
+
+    public static String getMediumTypeDescription() {
+        return "Twin room for 2 people";
+    }
+
+    public static String getMediumTypeCapacity() {
+        return "2";
     }
 }
 
@@ -81,7 +108,15 @@ class LargeRoomType extends RoomType {
 
     @Override
     public String getTypeName() {
-        return "Large-sized Room";
+        return "Large room for a entire family";
+    }
+
+    public static String getLargeTypeDescription() {
+        return "Large room for a entire family";
+    }
+
+    public static String getLargeTypeCapacity() {
+        return "4";
     }
 }
 
@@ -93,5 +128,14 @@ class DeluxeRoomType extends RoomType {
     @Override
     public String getTypeName() {
         return "Deluxe Room";
+    }
+
+    
+    public static String getDeluxeTypeDescription() {
+        return "Deluxe room for premium services and up to 8 persons";
+    }
+
+    public static String getDeluxeTypeCapacity() {
+        return "8";
     }
 }

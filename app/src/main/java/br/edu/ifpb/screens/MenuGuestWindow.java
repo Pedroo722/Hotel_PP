@@ -2,16 +2,20 @@ package br.edu.ifpb.screens;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+
+import br.edu.ifpb.db.DataBaseManager;
+import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.presenter.controller.GuestController;
 
 public class MenuGuestWindow extends JFrame {
-
     private JLabel jLabelMenuGuest;
     private JButton jButtonAddGuest;
     private JButton jButtonRemoveGuest;
@@ -19,12 +23,14 @@ public class MenuGuestWindow extends JFrame {
     private JButton jButtonEditarGuest;
     private JScrollPane jScrollPaneGuest;
     private JTable jTableGuest;
-
+    private GuestController guestController;
 
     public MenuGuestWindow() {
         initComponents();
         setTableModel();
         setLocationRelativeTo(null);
+        DataBaseManager.initialize();
+        guestController = new GuestController();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -244,7 +250,7 @@ public class MenuGuestWindow extends JFrame {
 
 
     private void atualizarTabela() {
-        
+        // List<Guest> reserves = guestController.getListRooms();
     }
 
     
