@@ -74,7 +74,7 @@ class SmallRoomType extends RoomType {
     }
 
     public static String getSmallTypeDescription() {
-        return "Small room for a single person";
+        return "Quarto pequeno para uma única pessoa.";
     }
 
     public static String getSmallTypeCapacity() {
@@ -93,7 +93,7 @@ class MediumRoomType extends RoomType {
     }
 
     public static String getMediumTypeDescription() {
-        return "Twin room for 2 people";
+        return "Quarto duplo para 2 pessoas";
     }
 
     public static String getMediumTypeCapacity() {
@@ -112,7 +112,7 @@ class LargeRoomType extends RoomType {
     }
 
     public static String getLargeTypeDescription() {
-        return "Large room for a entire family";
+        return "Quarto grande para uma família inteira";
     }
 
     public static String getLargeTypeCapacity() {
@@ -132,7 +132,7 @@ class DeluxeRoomType extends RoomType {
 
     
     public static String getDeluxeTypeDescription() {
-        return "Deluxe room for premium services and up to 8 persons";
+        return "Quarto de luxo com serviços premium para até 8 pessoas";
     }
 
     public static String getDeluxeTypeCapacity() {

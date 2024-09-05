@@ -235,18 +235,18 @@ public class MenuReserveWindow extends JFrame {
 
     private void atualizarTabela() {
         List<Reserve> reserves = reserveController.getListReserves();
-
+    
         DefaultTableModel model = (DefaultTableModel) jTableReserve.getModel();
         model.setRowCount(0);
-
+    
         for (Reserve reserve : reserves) {
             Object[] rowData = new Object[] {
-                reserve.getReserveId().toString(),
-                reserve.getNumber().toString(),
-                reserve.getUserId().toString(),
-                reserve.getCheckIn().toString(),
-                reserve.getCheckOut().toString(),
-                reserve.getStatus().toString()
+                reserve.getReserveId() != null ? reserve.getReserveId().toString() : "N/A",
+                reserve.getNumber() != null ? reserve.getNumber().toString() : "N/A",
+                reserve.getUserId() != null ? reserve.getUserId().toString() : "N/A",
+                reserve.getCheckIn() != null ? reserve.getCheckIn().toString() : "N/A",
+                reserve.getCheckOut() != null ? reserve.getCheckOut().toString() : "N/A",
+                reserve.getStatus() != null ? reserve.getStatus().toString() : "N/A"
             };
             model.addRow(rowData);
         }
