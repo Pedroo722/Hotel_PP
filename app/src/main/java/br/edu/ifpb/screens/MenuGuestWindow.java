@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.domain.model.*;
@@ -143,7 +144,7 @@ public class MenuGuestWindow extends JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "CPF", "Quarto", "Status"
+                "ID Hóspede", "Nome", "CPF", "ID Reserva", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -250,7 +251,21 @@ public class MenuGuestWindow extends JFrame {
 
 
     private void atualizarTabela() {
-        // List<Guest> reserves = guestController.getListRooms();
+        List<Guest> guests = guestController.getListGuests();
+  
+        DefaultTableModel model = (DefaultTableModel) jTableGuest.getModel();
+        model.setRowCount(0);
+    
+        for (Guest guest : guests) {
+            Object[] rowData = new Object[] {
+                guest.getUserId() != null ? guest.getUserId().toString() : "N/A",
+                guest.getName() != null ? guest.getName().toString() : "N/A",
+                guest.getCpf() != null ? guest.getCpf().toString() : "N/A",
+                guest.getReserveId() != null ? guest.getReserveId().toString() : "N/A",
+                guest.getStatus() != null ? guest.getStatus().toString() : "N/A"
+            };
+            model.addRow(rowData);
+        }
     }
 
     

@@ -39,6 +39,10 @@ public class GuestController {
         }
     }
 
+    public List<Guest> getListGuests() {
+        return repository.getGuests();
+    }
+
     public void editGuest(Id id, Name newName, CPF newCPF) {
         UpdateGuestUseCase updateGuestUseCase = new UpdateGuestUseCase();
         updateGuestUseCase.updateGuest(id, newName, newCPF);

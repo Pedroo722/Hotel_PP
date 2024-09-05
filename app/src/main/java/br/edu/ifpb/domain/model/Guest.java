@@ -24,7 +24,6 @@ public class Guest implements Serializable {
         this.reserveId = reserveId;
         this.cpf = cpf;
         this.status = status;
-        this.reserveId = null;
     } 
 
     public Id getUserId() { return userId; }
