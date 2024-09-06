@@ -12,23 +12,12 @@ public class MainMenuWindow extends JFrame {
     }
 
     private void initComponents() {
-        JButton jButtonRoom = new JButton();
         JButton jButtonGuest = new JButton();
         JButton jButtonReservations = new JButton();
         JLabel jLabelMenu = new JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-
-        jButtonRoom.setBackground(new java.awt.Color(153, 153, 255));
-        jButtonRoom.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        jButtonRoom.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonRoom.setText("Quartos");
-        jButtonRoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRoomActionPerformed(evt);
-            }
-        });
 
         jButtonGuest.setBackground(new java.awt.Color(153, 153, 255));
         jButtonGuest.setFont(new java.awt.Font("Segoe UI", 0, 18));
@@ -61,8 +50,7 @@ public class MainMenuWindow extends JFrame {
                 .addGap(196, 196, 196)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonReservations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGuest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonGuest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(200, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -78,24 +66,20 @@ public class MainMenuWindow extends JFrame {
                 .addComponent(jButtonReservations, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonGuest, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
         pack();
     }
 
-    private void jButtonRoomActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }
-    
-    private void jButtonGuestActionPerformed(java.awt.event.ActionEvent bvt) {
-
+    private void jButtonGuestActionPerformed(java.awt.event.ActionEvent evt) {
+        dispose(); 
+        new MenuGuestWindow().setVisible(true);
     }
 
-    private void jButtonReservationsActionPerformed(java.awt.event.ActionEvent bvt) {
-
+    private void jButtonReservationsActionPerformed(java.awt.event.ActionEvent evt) {
+        dispose(); 
+        new MenuReserveWindow().setVisible(true); 
     }
 
     public static void main(String args[]) {

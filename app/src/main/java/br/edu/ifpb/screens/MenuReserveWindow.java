@@ -220,17 +220,18 @@ public class MenuReserveWindow extends JFrame {
     private void jButtonAddReserveActionPerformed(java.awt.event.ActionEvent evt) {
         // Ação para adicionar reserva
     }
+    
+    private void jButtonEditarReserveActionPerformed(java.awt.event.ActionEvent evt) {
+        // Ação para editar reserva
+    }
 
     private void jButtonRemoveReserveActionPerformed(java.awt.event.ActionEvent evt) {
         // Ação para remover reserva
     }
 
     private void jButtonReturnActionPerformed(java.awt.event.ActionEvent evt) {
-        // Ação para voltar
-    }
-
-    private void jButtonEditarReserveActionPerformed(java.awt.event.ActionEvent evt) {
-        // Ação para editar reserva
+        dispose(); 
+        new MainMenuWindow().setVisible(true);
     }
 
     private void atualizarTabela() {

@@ -220,7 +220,8 @@ public class MenuGuestWindow extends JFrame {
     }
 
     private void jButtonReturnActionPerformed(java.awt.event.ActionEvent evt) {
-        //
+        dispose(); 
+        new MainMenuWindow().setVisible(true);
     }
 
     private void setTableModel() {
