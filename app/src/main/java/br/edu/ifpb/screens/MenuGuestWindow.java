@@ -216,7 +216,18 @@ public class MenuGuestWindow extends JFrame {
     }
 
     private void jButtonEditarGuestActionPerformed(java.awt.event.ActionEvent evt) {
-        //
+        int selectedRow = jTableGuest.getSelectedRow(); 
+        if (selectedRow != -1) { 
+            String guestId = jTableGuest.getValueAt(selectedRow, 0).toString(); 
+            String name = jTableGuest.getValueAt(selectedRow, 1).toString(); 
+            String cpf = jTableGuest.getValueAt(selectedRow, 2).toString(); 
+
+            dispose(); 
+            EditarHospedeWindow editarHospedeWindow = new EditarHospedeWindow(guestId, name, cpf);
+            editarHospedeWindow.setVisible(true);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecione um hóspede para editar.");
+        }
     }
 
     private void jButtonReturnActionPerformed(java.awt.event.ActionEvent evt) {
