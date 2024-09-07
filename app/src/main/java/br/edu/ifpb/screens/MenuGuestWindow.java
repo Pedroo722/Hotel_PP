@@ -251,7 +251,23 @@ public class MenuGuestWindow extends JFrame {
     }
 
     private void setTableModel() {
-        
+        DefaultTableModel model = new DefaultTableModel(
+            new Object [][] {},
+            new String [] {
+                "ID Hóspede", "Nome", "CPF", "ID Reserva", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                Integer.class, String.class, String.class, Integer.class, String.class 
+            };
+    
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
+    
+        jTableGuest.setModel(model);
     }
 
     // Adicione esta classe StatusCellRenderer
@@ -279,17 +295,16 @@ public class MenuGuestWindow extends JFrame {
 
     private void atualizarTabela() {
         List<Guest> guests = guestController.getListGuests();
-  
         DefaultTableModel model = (DefaultTableModel) jTableGuest.getModel();
         model.setRowCount(0);
     
         for (Guest guest : guests) {
             Object[] rowData = new Object[] {
-                guest.getUserId() != null ? guest.getUserId().toString() : "N/A",
-                guest.getName() != null ? guest.getName().toString() : "N/A",
-                guest.getCpf() != null ? guest.getCpf().toString() : "N/A",
-                guest.getReserveId() != null ? guest.getReserveId().toString() : "N/A",
-                guest.getStatus() != null ? guest.getStatus().toString() : "N/A"
+                guest.getUserId() != null ? guest.getUserId().getValue() : "N/A", 
+                guest.getName() != null ? guest.getName() : "N/A",
+                guest.getCpf() != null ? guest.getCpf() : "N/A",
+                guest.getReserveId() != null ? guest.getReserveId().getValue() : "N/A",
+                guest.getStatus() != null ? guest.getStatus() : "N/A"
             };
             model.addRow(rowData);
         }
