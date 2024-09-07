@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.domain.model.*;
+import br.edu.ifpb.domain.wrappers.Id;
 import br.edu.ifpb.presenter.controller.GuestController;
 
 public class MenuGuestWindow extends JFrame {
@@ -208,11 +209,25 @@ public class MenuGuestWindow extends JFrame {
     }
 
     private void jButtonAddGuestActionPerformed(java.awt.event.ActionEvent evt) {
-        //
+        dispose(); 
+        new CadastrarHospedeWindow().setVisible(true);
     }
 
     private void jButtonRemoveGuestActionPerformed(java.awt.event.ActionEvent evt) {
-        //
+        int selectedRow = jTableGuest.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                    "Tem certeza de que deseja remover o hóspede selecionado?", 
+                    "Confirmação", javax.swing.JOptionPane.YES_NO_OPTION);
+            
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                String guestId = jTableGuest.getValueAt(selectedRow, 0).toString();
+                guestController.removeGuest(new Id(guestId));
+                atualizarTabela();
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecione um hóspede para remover.");
+        }
     }
 
     private void jButtonEditarGuestActionPerformed(java.awt.event.ActionEvent evt) {

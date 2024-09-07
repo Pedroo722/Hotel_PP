@@ -4,6 +4,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import br.edu.ifpb.db.DataBaseManager;
+import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.presenter.controller.ReserveController;
+
 public class CadastrarReservaWindow extends javax.swing.JFrame {
 
     private JLabel jLabelAdicionarReserva;
@@ -13,10 +17,14 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
     private JButton jButtonCadastrar;
     private JTextField jTextFieldID;
     private JTextField jTextFieldNumero;
+    private ReserveController reserveController;
 
     public CadastrarReservaWindow() {
         initComponents();
         setLocationRelativeTo(null);
+        DataBaseManager.initialize();
+        reserveController = new ReserveController();
+
     }
 
     private void initComponents() {
@@ -38,7 +46,7 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
         jLabelAdicionarReserva.setText("Adicionar Reserva");
 
         jLabelID.setFont(new java.awt.Font("Segoe UI", 0, 24));
-        jLabelID.setText("ID do Reserva:");
+        jLabelID.setText("ID do Hóspede:");
 
         jLabelNumero.setFont(new java.awt.Font("Segoe UI", 0, 24));
         jLabelNumero.setText("Número do Quarto:");
@@ -104,11 +112,23 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
     }
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        String idString = jTextFieldID.getText();
+        String numeroString = jTextFieldNumero.getText();
+    
+        Id guestId = new Id(idString);
+        RoomNumber roomNumber = new RoomNumber(numeroString);
+
+        try {
+            reserveController.addReserve(guestId, roomNumber);
+            javax.swing.JOptionPane.showMessageDialog(this, "Hóspede criado com sucesso!");    
+        } catch (RuntimeException e) {
+
+        }
     }
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {
-
+        dispose(); 
+        new MenuReserveWindow().setVisible(true);
     }
 
     public static void main(String args[]) {

@@ -174,9 +174,12 @@ public class EditarHospedeWindow extends javax.swing.JFrame {
             Name novoNome = new Name(nomeString);
             CPF novoCpf = new CPF(cpfString);
             
-            guestController.editGuest(guestId, novoNome, novoCpf);
-            
-            javax.swing.JOptionPane.showMessageDialog(this, "Hóspede editado com sucesso!");
+            try {
+                guestController.editGuest(guestId, novoNome, novoCpf);
+                javax.swing.JOptionPane.showMessageDialog(this, "Hóspede editado com sucesso!");    
+            } catch (Exception e) {
+                
+            }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Edição cancelada.");
         }
@@ -184,7 +187,6 @@ public class EditarHospedeWindow extends javax.swing.JFrame {
     
 
     private void JButtonVoltarActionPerformed(ActionEvent evt) {
-        
         dispose(); 
         new MenuGuestWindow().setVisible(true);
     }
