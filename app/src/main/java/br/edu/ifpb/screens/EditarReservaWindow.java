@@ -5,6 +5,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.WindowConstants;
+
+import br.edu.ifpb.db.DataBaseManager;
+import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.presenter.controller.ReserveController;
+
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,10 +26,19 @@ public class EditarReservaWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldIdReserva;
     private javax.swing.JTextField jTextFieldNovoNome;
     private javax.swing.JTextField jTextFieldNovoQuarto;
+    private ReserveController reserveController;
     
-    public EditarReservaWindow() {
+    public EditarReservaWindow(String idReserva, String idHospede, String numeroQuarto) {
         initComponents();
         setLocationRelativeTo(null);
+        DataBaseManager.initialize();
+        reserveController = new ReserveController();
+
+        jTextFieldIdReserva.setText(idReserva);
+        jTextFieldNovoNome.setText(idHospede);
+        jTextFieldNovoQuarto.setText(numeroQuarto);
+
+        jTextFieldIdReserva.setEditable(false);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -146,11 +160,34 @@ public class EditarReservaWindow extends javax.swing.JFrame {
     }
 
     private void jButtonEditarActionPerformed(ActionEvent evt) {
-
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "Tem certeza de que deseja editar esta reserva?", 
+            "Confirmação de Edição", 
+            javax.swing.JOptionPane.YES_NO_OPTION);
+    
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            String idString = jTextFieldIdReserva.getText();
+            String idHospedeString = jTextFieldNovoNome.getText();
+            String quartoString = jTextFieldNovoQuarto.getText();
+    
+            Id guestId = new Id(idString);
+            Id newGuest = new Id(idHospedeString);
+            RoomNumber newRoom = new RoomNumber(quartoString);
+            
+            try {
+                reserveController.editReserve(guestId, newGuest, newRoom);
+                javax.swing.JOptionPane.showMessageDialog(this, "Reserva editada com sucesso!");    
+            } catch (Exception e) {
+                
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Edição cancelada.");
+        }
     }
 
     private void JButtonVoltarActionPerformed(ActionEvent evt) {
-
+        dispose(); 
+        new MenuReserveWindow().setVisible(true);
     }
 
     public static void main(String args[]) {
@@ -165,6 +202,6 @@ public class EditarReservaWindow extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(EditarReservaWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(() -> new EditarReservaWindow().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new EditarReservaWindow("1", "1", "1").setVisible(true));
     }
 }

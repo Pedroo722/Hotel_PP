@@ -43,7 +43,6 @@ public class MenuReserveWindow extends JFrame {
         guestController = new GuestController();
         roomController = new RoomController();
         
-        atualizarTabela();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -218,15 +217,40 @@ public class MenuReserveWindow extends JFrame {
     }
 
     private void jButtonAddReserveActionPerformed(java.awt.event.ActionEvent evt) {
-        // Ação para adicionar reserva
+        dispose(); 
+        new CadastrarReservaWindow().setVisible(true);
     }
     
     private void jButtonEditarReserveActionPerformed(java.awt.event.ActionEvent evt) {
-        // Ação para editar reserva
+        int selectedRow = jTableReserve.getSelectedRow(); 
+        if (selectedRow != -1) { 
+            String reserveId = jTableReserve.getValueAt(selectedRow, 0).toString(); 
+            String guestId = jTableReserve.getValueAt(selectedRow, 1).toString(); 
+            String roomNumber = jTableReserve.getValueAt(selectedRow, 2).toString(); 
+
+            dispose(); 
+            EditarReservaWindow editarReservaWindow = new EditarReservaWindow(reserveId, guestId, roomNumber);
+            editarReservaWindow.setVisible(true);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecione um hóspede para editar.");
+        }
     }
 
     private void jButtonRemoveReserveActionPerformed(java.awt.event.ActionEvent evt) {
-        // Ação para remover reserva
+        int selectedRow = jTableReserve.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                    "Tem certeza de que deseja remover a reserva selecionada?", 
+                    "Confirmação", javax.swing.JOptionPane.YES_NO_OPTION);
+            
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                String reserveId = jTableReserve.getValueAt(selectedRow, 0).toString();
+                reserveController.removeReserve(new Id(reserveId));
+                atualizarTabela();
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecione um hóspede para remover.");
+        }
     }
 
     private void jButtonReturnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,9 +260,12 @@ public class MenuReserveWindow extends JFrame {
 
     private void atualizarTabela() {
         List<Reserve> reserves = reserveController.getListReserves();
-    
+        List<Room> rooms = roomController.getListRooms();
+        
         DefaultTableModel model = (DefaultTableModel) jTableReserve.getModel();
         model.setRowCount(0);
+
+        //        room.getNumber() != null ? room.getNumber().toString() : "N/A",      
     
         for (Reserve reserve : reserves) {
             Object[] rowData = new Object[] {
@@ -257,7 +284,7 @@ public class MenuReserveWindow extends JFrame {
         jTableReserve.setModel(new DefaultTableModel(
             new Object [][] {},
             new String [] {
-                "ID Reserva", "Número de Quarto", "Hóspede", "Check-In", "Check-Out", "Status"
+                "Reserva ID", "Número de Quarto", "Hóspede ID", "Check-In", "Check-Out", "Status"
             }
         ));
     }
@@ -269,17 +296,17 @@ public class MenuReserveWindow extends JFrame {
         String roomDescription = "";
         String roomCapacity = "";
     
-        String roomTypeId = room.getRoomTypeId().toString();
-        if (roomTypeId.equals("1")) {
+        Id roomTypeId = room.getRoomTypeId();
+        if (roomTypeId.getValue() == 1) {
             roomDescription = RoomType.getSmallRoomDescription();
             roomCapacity = RoomType.getSmallRoomCapacity();
-        } else if (roomTypeId.equals("2")) {
+        } else if (roomTypeId.getValue() == 2) {
             roomDescription = RoomType.getMediumRoomDescription();
             roomCapacity = RoomType.getMediumRoomCapacity();
-        } else if (roomTypeId.equals("4")) {
+        } else if (roomTypeId.getValue() == 3) {
             roomDescription = RoomType.getLargeRoomDescription();
             roomCapacity = RoomType.getLargeRoomCapacity();
-        } else if (roomTypeId.equals("8")) {
+        } else if (roomTypeId.getValue() == 4) {
             roomDescription = RoomType.getDeluxeRoomDescription();
             roomCapacity = RoomType.getDeluxeRoomCapacity();
         }
