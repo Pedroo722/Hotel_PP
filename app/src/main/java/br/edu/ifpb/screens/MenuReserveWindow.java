@@ -18,9 +18,9 @@ import javax.swing.JTextArea;
 
 import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.wrappers.Id;
-import br.edu.ifpb.domain.wrappers.RoomNumber;
+import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.presenter.controller.*;
+import javax.swing.JToggleButton; 
 
 public class MenuReserveWindow extends JFrame {
     private JLabel jLabelMenuReserve;
@@ -33,6 +33,8 @@ public class MenuReserveWindow extends JFrame {
     private ReserveController reserveController;
     private GuestController guestController;
     private RoomController roomController;
+    private JToggleButton jToggleButtonActive; 
+    private JToggleButton jToggleButtonFinished; 
 
     public MenuReserveWindow() {
         initComponents();
@@ -43,29 +45,25 @@ public class MenuReserveWindow extends JFrame {
         guestController = new GuestController();
         roomController = new RoomController();
         
-
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowActivated(java.awt.event.WindowEvent evt) {
-                atualizarTabela();
-            }
-
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent evt) {
+                atualizarTabela(); 
             }
         });
+
+        jToggleButtonActive.addActionListener(e -> atualizarTabela()); 
+        jToggleButtonFinished.addActionListener(e -> atualizarTabela()); 
 
         jTableReserve.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
                 if (isSelected) {
-                    component.setBackground(new Color(173, 216, 230)); // Azul claro
+                    component.setBackground(new Color(173, 216, 230)); 
                 } else {
                     component.setBackground(table.getBackground());
                 }
-
                 return component;
             }
         });
@@ -97,6 +95,8 @@ public class MenuReserveWindow extends JFrame {
         jButtonEditarReserve = new JButton();
         jScrollPaneReserve = new JScrollPane();
         jTableReserve = new JTable();
+        jToggleButtonActive = new JToggleButton("Reservas Ativas");
+        jToggleButtonFinished = new JToggleButton("Reservas Finalizadas");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(869, 570));
@@ -151,22 +151,11 @@ public class MenuReserveWindow extends JFrame {
         jTableReserve.setSelectionForeground(Color.BLUE);
         jTableReserve.setFont(new java.awt.Font("Segoe UI", 0, 14));
         jTableReserve.setModel(new DefaultTableModel(
-            new Object [][] {
-                // vazio
-            },
+            new Object [][] {},
             new String [] {
                 "ID Reserva", "Número de Quarto", "ID Hóspede", "Check-In", "Check-Out", "Status"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTableReserve.setFillsViewportHeight(true);
+        ));
         jScrollPaneReserve.setViewportView(jTableReserve);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,21 +165,20 @@ public class MenuReserveWindow extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(158, 158, 158)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPaneReserve, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonRemoveReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonAddReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonAddReserve)
                         .addGap(129, 129, 129)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonReturn)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButtonEditarReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(142, 142, 142))))))
+                        .addComponent(jButtonEditarReserve))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonRemoveReserve)
+                        .addGap(129, 129, 129)
+                        .addComponent(jButtonReturn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToggleButtonActive)
+                        .addGap(129, 129, 129)
+                        .addComponent(jToggleButtonFinished)))
+                .addContainerGap(158, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelMenuReserve)
@@ -210,10 +198,35 @@ public class MenuReserveWindow extends JFrame {
                     .addComponent(jButtonRemoveReserve)
                     .addComponent(jButtonReturn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jToggleButtonActive)
+                    .addComponent(jToggleButtonFinished))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneReserve, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
         );
 
         pack();
+    }
+
+    private void atualizarTabela() {
+        List<Reserve> reserves = reserveController.getListReserves();
+        DefaultTableModel model = (DefaultTableModel) jTableReserve.getModel();
+        model.setRowCount(0);
+
+        for (Reserve reserve : reserves) {
+            boolean isActive = reserve.getStatus() == ReserveStatus.ACTIVE;
+            if (jToggleButtonActive.isSelected() && isActive || jToggleButtonFinished.isSelected() && !isActive) {
+                Object[] rowData = new Object[] {
+                    reserve.getReserveId() != null ? reserve.getReserveId().toString() : "N/A",
+                    reserve.getNumber() != null ? reserve.getNumber().toString() : "N/A",
+                    reserve.getUserId() != null ? reserve.getUserId().toString() : "N/A",
+                    reserve.getCheckIn() != null ? reserve.getCheckIn().toString() : "N/A",
+                    reserve.getCheckOut() != null ? reserve.getCheckOut().toString() : "N/A",
+                    reserve.getStatus().toString()
+                };
+                model.addRow(rowData);
+            }
+        }
     }
 
     private void jButtonAddReserveActionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,29 +270,7 @@ public class MenuReserveWindow extends JFrame {
         dispose(); 
         new MainMenuWindow().setVisible(true);
     }
-
-    private void atualizarTabela() {
-        List<Reserve> reserves = reserveController.getListReserves();
-        List<Room> rooms = roomController.getListRooms();
-        
-        DefaultTableModel model = (DefaultTableModel) jTableReserve.getModel();
-        model.setRowCount(0);
-
-        //        room.getNumber() != null ? room.getNumber().toString() : "N/A",      
     
-        for (Reserve reserve : reserves) {
-            Object[] rowData = new Object[] {
-                reserve.getReserveId() != null ? reserve.getReserveId().toString() : "N/A",
-                reserve.getNumber() != null ? reserve.getNumber().toString() : "N/A",
-                reserve.getUserId() != null ? reserve.getUserId().toString() : "N/A",
-                reserve.getCheckIn() != null ? reserve.getCheckIn().toString() : "N/A",
-                reserve.getCheckOut() != null ? reserve.getCheckOut().toString() : "N/A",
-                reserve.getStatus() != null ? reserve.getStatus().toString() : "N/A"
-            };
-            model.addRow(rowData);
-        }
-    }
-
     private void setTableModel() {
         jTableReserve.setModel(new DefaultTableModel(
             new Object [][] {},
@@ -349,7 +340,6 @@ public class MenuReserveWindow extends JFrame {
         dialog.add(new JScrollPane(textArea));
         dialog.setVisible(true);
     }
-
 
     public static void main(String args[]) {
         try {
