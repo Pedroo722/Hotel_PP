@@ -59,6 +59,9 @@ public class ReserveController {
     public void checkOut(Id reserveId) {
         ReserveCheckOutUseCase reserveCheckOutUseCase = new ReserveCheckOutUseCase();
         reserveCheckOutUseCase.checkOut(reserveId);
+
+        UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase();
+        updateReserveStatusUseCase.updateReserveStatus(reserveId);
     }
 
     public void removeReserve(Id id) {    

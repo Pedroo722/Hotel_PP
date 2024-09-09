@@ -12,6 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import org.sqlite.date.ExceptionUtils;
+
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
@@ -81,6 +84,9 @@ public class MenuReserveWindow extends JFrame {
                     } else if (column == 1) { 
                         String roomNumber = jTableReserve.getValueAt(row, column).toString();
                         showRoomDetails(roomNumber);
+                    } else if (column == 4) { 
+                        String reserveId = jTableReserve.getValueAt(row, 0).toString();
+                        handleCheckOutAction(reserveId);
                     }
                 }
             }
@@ -339,6 +345,23 @@ public class MenuReserveWindow extends JFrame {
         
         dialog.add(new JScrollPane(textArea));
         dialog.setVisible(true);
+    }
+
+    private void handleCheckOutAction(String stringId) {
+        Id reserveId = new Id(stringId);
+        
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Deseja fazer o check-out dessa reserva selecionada?", 
+                "Confirmação", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            try {
+                reserveController.checkOut(reserveId);
+                 atualizarTabela();   
+             } catch (Exception e) {
+     
+             }   
+        }
     }
 
     public static void main(String args[]) {
