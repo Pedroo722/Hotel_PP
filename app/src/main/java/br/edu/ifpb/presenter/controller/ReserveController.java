@@ -69,10 +69,13 @@ public class ReserveController {
 
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
         updateGuestStatusUseCase.updateGuestStatus(reserve.getUserId());
+        
+        UpdateRoomStatusUseCase updateRoomStatusUseCase = new UpdateRoomStatusUseCase();
+        updateRoomStatusUseCase.updateRoomStatus(reserve.getNumber());
 
         RemoveReserveUseCase removeReserveUseCase = new RemoveReserveUseCase();
         removeReserveUseCase.removeReserve(id);
-        }    
+    }    
 
     public void handleFinish() {
         repository.saveReservesToDB();

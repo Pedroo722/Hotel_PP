@@ -4,6 +4,7 @@ import br.edu.ifpb.data.GuestRepository;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.GuestNotFoundException;
+import br.edu.ifpb.interfaces.observer.GuestStatusObserver;
 import br.edu.ifpb.interfaces.repository.GuestRepositoryInterface;
 
 public class UpdateGuestStatusUseCase {
@@ -19,16 +20,21 @@ public class UpdateGuestStatusUseCase {
 
     public void updateGuestStatus(Id userId) {
         Guest guest = repository.findGuestById(userId);
+
         if (guest == null) {
             throw new GuestNotFoundException();
         }
-        GuestStatus currentStatus = guest.getStatus();
         
+        GuestStatusObserver observer = new GuestStatusObserver();
+        guest.attach(observer);
+        GuestStatus currentStatus = guest.getStatus();
+
         if (currentStatus == GuestStatus.HOSTED) {
             guest.setStatus(GuestStatus.NOT_HOSTED);
-        } else if (currentStatus == GuestStatus.NOT_HOSTED) {
+        } else {
             guest.setStatus(GuestStatus.HOSTED);
         }
+
         repository.updateGuest(guest);
     }
 }

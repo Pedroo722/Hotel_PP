@@ -40,7 +40,7 @@ public class GuestRepository implements GuestRepositoryInterface {
                 pstmt.setString(1, guest.getName().toString());
                 pstmt.setString(2, guest.getCpf().toString());
                 pstmt.setInt(3, guest.getReserveId().getValue());
-                pstmt.setString(4, guest.getStatus().getValue());
+                pstmt.setString(4, guest.getStatus().toString());
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public class GuestRepository implements GuestRepositoryInterface {
                 } else {
                     insertStmt.setInt(4, -1);
                 }
-                insertStmt.setString(5, guest.getStatus().getValue());
+                insertStmt.setString(5, guest.getStatus().toString());
                 insertStmt.executeUpdate();
                 guests.add(guest);  // Adiciona à lista interna
             }
@@ -138,7 +138,7 @@ public class GuestRepository implements GuestRepositoryInterface {
                     } else {
                         pstmt.setInt(3, -1);
                     }
-                    pstmt.setString(4, updatedGuest.getStatus().getValue());
+                    pstmt.setString(4, updatedGuest.getStatus().toString());
                     pstmt.setInt(5, updatedGuest.getUserId().getValue());
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
