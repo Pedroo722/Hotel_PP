@@ -26,7 +26,7 @@ public class UpdateGuestStatusUseCase {
         
         if (currentStatus == GuestStatus.HOSTED) {
             guest.setStatus(GuestStatus.NOT_HOSTED);
-        } else {
+        } else if (currentStatus == GuestStatus.NOT_HOSTED) {
             guest.setStatus(GuestStatus.HOSTED);
         }
         repository.updateGuest(guest);

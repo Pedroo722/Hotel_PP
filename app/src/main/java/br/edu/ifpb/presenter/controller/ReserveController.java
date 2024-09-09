@@ -64,10 +64,15 @@ public class ReserveController {
         updateReserveStatusUseCase.updateReserveStatus(reserveId);
     }
 
-    public void removeReserve(Id id) {    
+    public void removeReserve(Id id) {            
+        Reserve reserve = repository.findReserveById(id);
+
+        UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
+        updateGuestStatusUseCase.updateGuestStatus(reserve.getUserId());
+
         RemoveReserveUseCase removeReserveUseCase = new RemoveReserveUseCase();
         removeReserveUseCase.removeReserve(id);
-    }    
+        }    
 
     public void handleFinish() {
         repository.saveReservesToDB();

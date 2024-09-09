@@ -13,8 +13,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import org.sqlite.date.ExceptionUtils;
-
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;

@@ -1,9 +1,8 @@
 package br.edu.ifpb.domain.model;
 
-import java.io.Serializable;
 import br.edu.ifpb.domain.wrappers.*;
 
-public class Guest implements Serializable {
+public class Guest {
     private Id userId;
     private Name name;
     private CPF cpf;

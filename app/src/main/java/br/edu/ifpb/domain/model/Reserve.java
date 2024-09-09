@@ -1,11 +1,10 @@
 package br.edu.ifpb.domain.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import br.edu.ifpb.domain.wrappers.*;
 
-public class Reserve implements Serializable {
+public class Reserve {
     private Id reserveId;
     private Id userId;
     private RoomNumber number;
