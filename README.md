@@ -8,13 +8,12 @@ Membros
 - Igor Vinicius da Silva
 - Maria Cecília dos Santos
 
-
-## Responsabilidade das Classes
+## Diagrama da Arquitetura de Padrão do Projeto
 
 O projeto foi estruturado de tal maneira que cada pasta contenha apenas as classes com suas designadas responsabilidades.
 
 
-Diagrama mostrando os relacionamentos entre as classes
+Diagrama de Padrão MVVM (Model-View-ModelView) mostrando os relacionamentos entre as classes
 
 ![Diagrama mostrando as responsabilidades das classes](Responsabilidade_Classes.png)
 
