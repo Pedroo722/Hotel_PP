@@ -16,38 +16,52 @@ public class RoomController {
     }
 
     public void listRooms() {
-        List<Room> rooms = repository.getRooms();
-        if (rooms.isEmpty()) {
-            System.out.println("\nA lista de quartos está vazia!\n");
-            return;
-        }
+        try {
+            List<Room> rooms = repository.getRooms();
+            if (rooms.isEmpty()) {
+                throw new NoRoomsAvailableException("A lista de quartos está vazia.");
+            }
 
-        int count = 1;
-        System.out.println("\n== Lista de Quartos ==");
-        for (Room room : rooms) {
-            System.out.println("Quarto: #" + count);
-            System.out.println(room.toString());
-            count++;
+            int count = 1;
+            System.out.println("\n== Lista de Quartos ==");
+            for (Room room : rooms) {
+                System.out.println("Quarto: #" + count);
+                System.out.println(room.toString());
+                count++;
+            }
+        } catch (NoRoomsAvailableException e) {
+            System.out.println(e.getMessage()); // Tratamento da exceção
         }
     }
 
     public void listAvailableRooms() {
-        List<Room> rooms = repository.getRooms();
-        if (rooms.isEmpty()) {
-            System.out.println("\nNão há quartos disponíveis!\n");
-            return;
-        }
-    
-        System.out.println("\n== Opções de Quartos Disponíveis ==");
-        for (Room room : rooms) {
-            if (CheckRoomStatusUseCase.isRoomAvailable(room)) {
-                System.out.println("* Número: " + room.getNumber().toString() +
-                                   " | Tipo de Quarto: " + room.getRoomTypeId().toString() +
-                                   " | Status: " + room.getStatus());
+        try {
+            List<Room> rooms = repository.getRooms();
+            if (rooms.isEmpty()) {
+                throw new NoRoomsAvailableException("Não há quartos disponíveis.");
             }
+
+            boolean availableRoomsFound = false;
+            System.out.println("\n== Opções de Quartos Disponíveis ==");
+            for (Room room : rooms) {
+                if (CheckRoomStatusUseCase.isRoomAvailable(room)) {
+                    availableRoomsFound = true;
+                    System.out.println("* Número: " + room.getNumber().toString() +
+                            " | Tipo de Quarto: " + room.getRoomTypeId().toString() +
+                            " | Status: " + room.getStatus());
+                }
+            }
+
+            if (!availableRoomsFound) {
+                throw new NoRoomsAvailableException("Nenhum quarto disponível no momento.");
+            }
+
+            System.out.println();
+        } catch (NoRoomsAvailableException e) {
+            System.out.println(e.getMessage()); // Tratamento da exceção
         }
-        System.out.println();
-    }    
+    }
+
 
     public List<Room> getListRooms() {
         return repository.getRooms();
