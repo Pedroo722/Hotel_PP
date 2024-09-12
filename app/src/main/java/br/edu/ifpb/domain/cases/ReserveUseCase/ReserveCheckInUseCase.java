@@ -25,9 +25,6 @@ public class ReserveCheckInUseCase {
             return;
         }
 
-        // fazer o metodogetTime() para receber horario atual
-        // então salvar a data
-
         reserve.setCheckIn(checkInDate);
         reserve.setStatus(ReserveStatus.ACTIVE);
         repository.updateReserve(reserve);

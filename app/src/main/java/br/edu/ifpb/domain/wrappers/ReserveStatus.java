@@ -14,7 +14,7 @@ public enum ReserveStatus {
         if (status == true) {
             return "ACTIVE";
         } else {
-            return "CANCELLED";
+            return "FINALIZED";
         }
     }
 
