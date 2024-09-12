@@ -10,7 +10,7 @@ public class DataBaseManager {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " name TEXT NOT NULL,\n"
                 + " cpf TEXT NOT NULL UNIQUE,\n"
-                + " reserve_id Integer,\n"
+                + " reserve_id INTEGER,\n"
                 + " guest_status TEXT,\n"
                 + " FOREIGN KEY(reserve_id) REFERENCES reserves(id)\n"
                 + ");";
@@ -28,10 +28,16 @@ public class DataBaseManager {
         String sqlRooms = "CREATE TABLE IF NOT EXISTS rooms (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " number TEXT NOT NULL UNIQUE,\n"
+                + " number_of_beds INTEGER NOT NULL,\n"
+                + " number_of_tvs INTEGER NOT NULL,\n"
+                + " number_of_bathrooms INTEGER NOT NULL,\n"
+                + " air_conditioning BOOLEAN NOT NULL,\n"
+                + " suite BOOLEAN NOT NULL,\n"
                 + " room_type_id INTEGER NOT NULL,\n"
                 + " room_status TEXT,\n"
-                + " FOREIGN KEY(room_type_id) REFERENCES roomtypes(id)\n"
+                + " FOREIGN KEY(room_type_id) REFERENCES room_types(id)\n"
                 + ");";
+
         
         String sqlRoomTypes = "CREATE TABLE IF NOT EXISTS room_types (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
@@ -41,12 +47,12 @@ public class DataBaseManager {
                 + ");";
 
         try (Connection conn = DataBaseManager.connect();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
             stmt.execute(sqlGuests);
             stmt.execute(sqlReserves);
             stmt.execute(sqlRooms);
             stmt.execute(sqlRoomTypes);
-            System.out.println("Tables 'guests', 'reserves', 'rooms', and 'roomtypes' have been created or already exist.");
+            System.out.println("Tables 'guests', 'reserves', 'rooms', and 'room_types' have been created or already exist.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -64,7 +70,7 @@ public class DataBaseManager {
 
     public static void printGuestsTableContents() {
         try (Connection conn = connect();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
             String sql = "SELECT * FROM guests";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -84,7 +90,7 @@ public class DataBaseManager {
 
     public static void printReservesTableContents() {
         try (Connection conn = connect();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
             String sql = "SELECT * FROM reserves";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -106,7 +112,7 @@ public class DataBaseManager {
 
     public static void printRoomsTableContents() {
         try (Connection conn = connect();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
             String sql = "SELECT * FROM rooms";
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -114,10 +120,17 @@ public class DataBaseManager {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String number = rs.getString("number");
+                int numberOfBeds = rs.getInt("number_of_beds");
+                int numberOfTvs = rs.getInt("number_of_tvs");
+                int numberOfBathrooms = rs.getInt("number_of_bathrooms");
+                boolean airConditioning = rs.getBoolean("air_conditioning");
+                boolean suite = rs.getBoolean("suite");
                 int roomTypeId = rs.getInt("room_type_id");
                 String roomStatus = rs.getString("room_status");
-                System.out.println("ID: " + id + ", Number: " + number + ", Room Type ID: " + roomTypeId 
-                        + ", Room Status: " + roomStatus);
+                System.out.println("ID: " + id + ", Number: " + number + ", Number of Beds: " + numberOfBeds
+                        + ", Number of TVs: " + numberOfTvs + ", Number of Bathrooms: " + numberOfBathrooms
+                        + ", Air Conditioning: " + (airConditioning ? "Yes" : "No") + ", Suite: " + (suite ? "Yes" : "No")
+                        + ", Room Type ID: " + roomTypeId + ", Room Status: " + roomStatus);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

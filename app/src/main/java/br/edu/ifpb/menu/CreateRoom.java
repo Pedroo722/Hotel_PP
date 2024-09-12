@@ -37,41 +37,40 @@ public class CreateRoom {
 
         // 6 small rooms
         for (int i = 0; i < 6; i++) {
-            rooms.add(new Room.RoomBuilder()
+            rooms.add(Room.RoomBuilder.smallRoom()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(smallRoomTypeId) 
+                    .withRoomTypeId(smallRoomTypeId)
                     .withStatus(status)
                     .build());
         }
 
         // 8 medium rooms
         for (int i = 0; i < 8; i++) {
-            rooms.add(new Room.RoomBuilder()
+            rooms.add(Room.RoomBuilder.mediumRoom()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(mediumRoomTypeId) 
-                    .withStatus()
+                    .withRoomTypeId(mediumRoomTypeId)
+                    .withStatus(status)
                     .build());
         }
 
         // 4 large rooms
         for (int i = 0; i < 4; i++) {
-            rooms.add(new Room.RoomBuilder()
+            rooms.add(Room.RoomBuilder.largeRoom()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(largeRoomTypeId) 
-                    .withStatus()
+                    .withRoomTypeId(largeRoomTypeId)
+                    .withStatus(status)
                     .build());
         }
 
         // 2 deluxe rooms
         for (int i = 0; i < 2; i++) {
-            rooms.add(new Room.RoomBuilder()
+            rooms.add(Room.RoomBuilder.deluxeRoom()
                     .withNumber(new RoomNumber(roomNumber++))
-                    .withRoomTypeId(deluxeRoomTypeId) 
-                    .withStatus()
+                    .withRoomTypeId(deluxeRoomTypeId)
+                    .withStatus(status)
                     .build());
         }
 
-        // Save in RoomRepository
         for (Room room : rooms) {
             roomRepository.addRoom(room);
             System.out.println(room.toString());

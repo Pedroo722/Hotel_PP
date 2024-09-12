@@ -122,7 +122,7 @@ class LargeRoomType extends RoomType {
 
 class DeluxeRoomType extends RoomType {
     public DeluxeRoomType() {
-        super(RoomDescription.LUXURY, new RoomCapacity(8));
+        super(RoomDescription.LUXURY, new RoomCapacity(2));
     }
 
     @Override
@@ -132,7 +132,7 @@ class DeluxeRoomType extends RoomType {
 
     
     public static String getDeluxeTypeDescription() {
-        return "Quarto de luxo com serviços premium para até 8 pessoas";
+        return "Quarto de luxo com serviços premium para até 2 pessoas";
     }
 
     public static String getDeluxeTypeCapacity() {

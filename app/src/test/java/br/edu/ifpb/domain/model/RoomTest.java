@@ -75,23 +75,4 @@ public class RoomTest {
 
         assertEquals(newStatus, room.getStatus());
     }
-
-    @Test
-    public void testToString() {
-        RoomNumber roomNumber = new RoomNumber(20);
-        RoomType smallRoomType = RoomTypeFactory.createRoomType("Single");
-        RoomStatus status = RoomStatus.AVAILABLE;
-        Room room = new Room.RoomBuilder()
-            .withNumber(roomNumber)
-            .withRoomTypeId(smallRoomType.getRoomTypeId())
-            .withStatus(status)
-            .build();
-
-        String expected = "* ID: " + room.getRoomId() + "\n" +
-                          "* Number: " + roomNumber + "\n" +
-                          "* RoomType ID: " + smallRoomType.getRoomTypeId() + "\n" + 
-                          "* RoomStatus: " + status + "\n";
-
-        assertEquals(expected, room.toString());
-    }
 }

@@ -307,7 +307,7 @@ public class MenuReserveWindow extends JFrame {
         }
     
         JDialog dialog = new JDialog(this, "Detalhes do Quarto", true);
-        dialog.setSize(500, 200);
+        dialog.setSize(600, 300);
         dialog.setLocationRelativeTo(this);
     
         JTextArea textArea = new JTextArea();
@@ -316,8 +316,13 @@ public class MenuReserveWindow extends JFrame {
                         + "Número do Quarto: " + room.getNumber() + "\n"
                         + "Capacidade: " + roomCapacity + "\n"
                         + "Descrição do Tipo de Quarto: " + roomDescription + "\n"
+                        + "Número de Camas: " + room.getNumberOfBeds() + "\n"
+                        + "Número de TVs: " + room.getNumberOfTvs() + "\n"
+                        + "Número de Banheiros: " + room.getNumberOfBathrooms() + "\n"
+                        + "Suíte: " + (room.isSuite() ? "Sim" : "Não") + "\n"
+                        + "Ar Condicionado: " + (room.hasAirConditioning() ? "Sim" : "Não") + "\n"
                         + "Status: " + room.getStatus());
-        
+    
         dialog.add(textArea);
         dialog.setVisible(true);
     }
