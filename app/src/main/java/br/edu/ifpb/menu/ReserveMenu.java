@@ -1,14 +1,18 @@
 package br.edu.ifpb.menu;
 
+import br.edu.ifpb.domain.services.*;
+import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.presenter.controller.ReserveController;
-import br.edu.ifpb.presenter.controller.RoomController;
+import br.edu.ifpb.presenter.controller.*;
 import br.edu.ifpb.presenter.reserveCommand.*;
 import br.edu.ifpb.presenter.CommandInvoker;
 import br.edu.ifpb.interfaces.*;
+import br.edu.ifpb.interfaces.decorator.*;
 import br.edu.ifpb.enums.ReserveMenuOption;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ReserveMenu {
@@ -23,6 +27,51 @@ public class ReserveMenu {
         this.roomController = roomController;
         this.commandInvoker = new CommandInvoker();
     }
+
+    private List<ServiceComponent> selectAdditionalServices() {
+        List<ServiceComponent> selectedServices = new ArrayList<>();
+        
+        System.out.println("\n== Seleção de Serviços Adicionais ==");
+        System.out.println("1 - Café da Manhã");
+        System.out.println("2 - Cuidados com Animais");
+        System.out.println("3 - Spa");
+        System.out.println("4 - Guia de Turismo");
+        System.out.println("5 - Nenhum");
+
+        System.out.print("\nEscolha o(s) serviço(s) adicional(is) (digite os números separados por espaço): ");
+        String[] input = scanner.nextLine().split(" ");
+
+        BreakFastService breakFastService = new BreakFastService(new BasicService("", 0.0));
+        PetCareService petCareService = new PetCareService(new BasicService("", 0.0));
+        SpaService spaService = new SpaService(new BasicService("", 0.0));
+        TourismGuideService tourismGuideService = new TourismGuideService(new BasicService("", 0.0));
+
+        
+        for (String s : input) {
+            switch (s) {
+                case "1":
+                    selectedServices.add(breakFastService);
+                    break;
+                case "2":
+                    selectedServices.add(petCareService);
+                    break;
+                case "3":
+                    selectedServices.add(spaService);
+                    break;
+                case "4":
+                    selectedServices.add(tourismGuideService);
+                    break;
+                case "5":
+                    break;
+                default:
+                    System.out.println("Opção inválida: " + s);
+                    break;
+            }
+        }
+        
+        return selectedServices;
+    }
+
 
     public void handleReserveOptions() {
         boolean reserveProcessing = true;
@@ -59,8 +108,17 @@ public class ReserveMenu {
                         System.out.print("Número do Quarto: ");
                         int roomNumberInt = scanner.nextInt();
                         RoomNumber roomNumber = new RoomNumber(roomNumberInt);
+                        scanner.nextLine();
 
-                        Command addReserveCommand = new AddReserveCommand(reserveController, guestId, roomNumber);
+                        List<ServiceComponent> services = selectAdditionalServices();
+                        
+                        Service service = new Service();
+                        
+                        for (ServiceComponent svc : services) {
+                            service.addService(svc);
+                        }
+
+                        Command addReserveCommand = new AddReserveCommand(reserveController, guestId, roomNumber, service.getServiceId());
                         commandInvoker.setCommand(addReserveCommand);
                         commandInvoker.executeCommand();
                         break;

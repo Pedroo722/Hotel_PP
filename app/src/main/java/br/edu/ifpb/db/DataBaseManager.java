@@ -15,10 +15,11 @@ public class DataBaseManager {
                 + " FOREIGN KEY(reserve_id) REFERENCES reserves(id)\n"
                 + ");";
         
-        String sqlReserves = "CREATE TABLE IF NOT EXISTS reserves (\n"
+            String sqlReserves = "CREATE TABLE IF NOT EXISTS reserves (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " user_id INTEGER NOT NULL,\n"
                 + " room_number TEXT NOT NULL,\n"
+                + " service_id INTEGER NOT NULL,\n"
                 + " check_in DATE NOT NULL,\n"
                 + " check_out DATE,\n"
                 + " reserve_status TEXT,\n"
@@ -46,13 +47,20 @@ public class DataBaseManager {
                 + " type_name TEXT NOT NULL\n"
                 + ");";
 
+        String sqlServices = "CREATE TABLE IF NOT EXISTS services (\n"
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                + " description TEXT NOT NULL\n"
+                + " components TEXT NOT NULL\n"
+                + ");";
+
         try (Connection conn = DataBaseManager.connect();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sqlGuests);
             stmt.execute(sqlReserves);
             stmt.execute(sqlRooms);
             stmt.execute(sqlRoomTypes);
-            System.out.println("Tables 'guests', 'reserves', 'rooms', and 'room_types' have been created or already exist.");
+            stmt.execute(sqlServices);
+            System.out.println("Tables 'guests', 'reserves', 'rooms', 'room_types' and 'services' have been created or already exist.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -99,11 +107,12 @@ public class DataBaseManager {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("user_id");
                 String roomNumber = rs.getString("room_number");
+                int serviceId = rs.getInt("service_id");
                 String checkIn = rs.getString("check_in");
                 String checkOut = rs.getString("check_out");
                 String reserveStatus = rs.getString("reserve_status");
                 System.out.println("ID: " + id + ", User ID: " + userId + ", Room Number: " + roomNumber 
-                        + ", Check In: " + checkIn + ", Check Out: " + checkOut + ", Status: " + reserveStatus);
+                        + ", Service ID: " + serviceId + ", Check In: " + checkIn + ", Check Out: " + checkOut + ", Status: " + reserveStatus);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -151,6 +160,23 @@ public class DataBaseManager {
                 String typeName = rs.getString("type_name");
                 System.out.println("ID: " + id + ", Description: " + description + ", Capacity: " + capacity 
                         + ", Type Name: " + typeName);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void printServicesTableContents() {
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            String sql = "SELECT * FROM services";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            System.out.println("\nContents of table: services");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String description = rs.getString("description");
+                System.out.println("ID: " + id + ", Description: " + description);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
