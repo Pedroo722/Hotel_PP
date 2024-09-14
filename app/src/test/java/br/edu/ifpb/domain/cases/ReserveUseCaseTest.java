@@ -1,11 +1,6 @@
 package br.edu.ifpb.domain.cases;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +51,8 @@ public class ReserveUseCaseTest {
 
         Id userId = new Id();
         RoomNumber roomNumber = new RoomNumber(101);
-        reserve = new Reserve(userId, roomNumber);
+        Id serviceId = new Id();
+        reserve = new Reserve(userId, roomNumber, serviceId);
 
         repositoryMock.addReserve(reserve);
     }
@@ -77,7 +73,7 @@ public class ReserveUseCaseTest {
     }
 
     @Test
-    public void testReserveCheckinUseCase(){
+    public void testReserveCheckinUseCase() {
         LocalDate checkInDate = LocalDate.now().plusDays(1);
         ReserveCheckInUseCase reserveCheckInUseCase = new ReserveCheckInUseCase(repositoryMock);
         reserveCheckInUseCase.checkIn(reserve.getReserveId(), checkInDate);
@@ -86,11 +82,10 @@ public class ReserveUseCaseTest {
         assertNotNull(checkedInReserve);
         assertEquals(checkInDate, checkedInReserve.getCheckIn());
         assertEquals(ReserveStatus.ACTIVE, checkedInReserve.getStatus());
-       
     }
 
     @Test
-    public void testReserveCheckoutUseCase(){
+    public void testReserveCheckoutUseCase() {
         ReserveCheckOutUseCase reserveCheckOutUseCase = new ReserveCheckOutUseCase(repositoryMock);
         reserveCheckOutUseCase.checkOut(reserve.getReserveId());
 
