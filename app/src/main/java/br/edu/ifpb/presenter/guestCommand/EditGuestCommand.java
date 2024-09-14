@@ -1,4 +1,3 @@
-// EditGuestCommand.java
 package br.edu.ifpb.presenter.guestCommand;
 
 import br.edu.ifpb.domain.wrappers.CPF;
