@@ -40,7 +40,7 @@ public class ReserveRepository implements ReserveRepositoryInterface {
     }
 
     public void saveReservesToDB() {
-        String sql = "INSERT INTO reserves(id, user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserves(id, user_id, room_number, service_id, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -48,9 +48,10 @@ public class ReserveRepository implements ReserveRepositoryInterface {
                 pstmt.setInt(1, reserve.getReserveId().getValue());
                 pstmt.setInt(2, reserve.getUserId().getValue());
                 pstmt.setString(3, reserve.getNumber().toString());
-                pstmt.setString(4, reserve.getCheckIn().toString());
-                pstmt.setString(5, reserve.getCheckOut().toString());
-                pstmt.setString(6, reserve.getStatus().toString());
+                pstmt.setInt(4, reserve.getServiceId().getValue()); 
+                pstmt.setString(5, reserve.getCheckIn().toString());
+                pstmt.setString(6, reserve.getCheckOut() != null ? reserve.getCheckOut().toString() : "Nulo");
+                pstmt.setString(7, reserve.getStatus().toString());
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -59,7 +60,7 @@ public class ReserveRepository implements ReserveRepositoryInterface {
     }
 
     public void loadReservesFromDB() {
-        String sql = "SELECT id, user_id, room_number, check_in, check_out, reserve_status FROM reserves";
+        String sql = "SELECT id, user_id, room_number, service_id, check_in, check_out, reserve_status FROM reserves";
     
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     
@@ -73,6 +74,7 @@ public class ReserveRepository implements ReserveRepositoryInterface {
                 try {
                     Id reserveId = new Id(rs.getInt("id"));
                     Id userId = new Id(rs.getInt("user_id"));
+                    Id serviceId = new Id(rs.getInt("service_id"));
     
                     String roomNumberStr = rs.getString("room_number");
                     Integer roomNumberInt = Integer.parseInt(roomNumberStr);
@@ -88,7 +90,7 @@ public class ReserveRepository implements ReserveRepositoryInterface {
     
                     ReserveStatus status = ReserveStatus.valueOf(rs.getString("reserve_status"));
     
-                    Reserve reserve = new Reserve(reserveId, userId, number, checkIn, checkOut, status);
+                    Reserve reserve = new Reserve(reserveId, userId, number, serviceId, checkIn, checkOut, status);
                     reserves.add(reserve);
                 } catch (DateTimeParseException e) {
                     System.out.println("Erro ao converter data: " + e.getMessage());
@@ -103,21 +105,22 @@ public class ReserveRepository implements ReserveRepositoryInterface {
 
     @Override
     public void addReserve(Reserve reserve) {
-        String sql = "INSERT INTO reserves(id, user_id, room_number, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserves(id, user_id, room_number, service_id, check_in, check_out, reserve_status) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, reserve.getReserveId().getValue());
             pstmt.setInt(2, reserve.getUserId().getValue());
             pstmt.setString(3, reserve.getNumber().toString());
-            pstmt.setString(4, reserve.getCheckIn().toString());
+            pstmt.setInt(4, reserve.getServiceId().getValue());
+            pstmt.setString(5, reserve.getCheckIn().toString());
 
             if (reserve.getCheckOut() != null) {
-                pstmt.setString(5, reserve.getCheckOut().toString());
+                pstmt.setString(6, reserve.getCheckOut().toString());
             } else {
-                pstmt.setString(5, "Nulo");
+                pstmt.setString(6, "Nulo");
             }
-            pstmt.setString(6, reserve.getStatus().toString());
+            pstmt.setString(7, reserve.getStatus().toString());
             pstmt.executeUpdate();
             reserves.add(reserve);
         } catch (SQLException e) {
@@ -127,16 +130,17 @@ public class ReserveRepository implements ReserveRepositoryInterface {
 
     @Override
     public void updateReserve(Reserve updatedReserve) {
-        String sql = "UPDATE reserves SET user_id = ?, room_number = ?, check_in = ?, check_out = ?, reserve_status = ? WHERE id = ?";
+        String sql = "UPDATE reserves SET user_id = ?, room_number = ?, service_id = ?, check_in = ?, check_out = ?, reserve_status = ? WHERE id = ?";
 
         try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, updatedReserve.getUserId().getValue());
             pstmt.setString(2, updatedReserve.getNumber().toString());
-            pstmt.setString(3, updatedReserve.getCheckIn().toString());
-            pstmt.setString(4, updatedReserve.getCheckOut().toString());
-            pstmt.setString(5, updatedReserve.getStatus().toString());
-            pstmt.setInt(6, updatedReserve.getReserveId().getValue());
+            pstmt.setInt(3, updatedReserve.getServiceId().getValue());
+            pstmt.setString(4, updatedReserve.getCheckIn().toString());
+            pstmt.setString(5, updatedReserve.getCheckOut() != null ? updatedReserve.getCheckOut().toString() : "Nulo");
+            pstmt.setString(6, updatedReserve.getStatus().toString());
+            pstmt.setInt(7, updatedReserve.getReserveId().getValue());
             pstmt.executeUpdate();
 
             // Atualiza a lista interna

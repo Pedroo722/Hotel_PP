@@ -8,15 +8,17 @@ public class AddReserveCommand implements Command {
     private ReserveController reserveController;
     private Id guestId;
     private RoomNumber roomNumber;
+    private Id serviceId;
 
-    public AddReserveCommand(ReserveController reserveController, Id guestId, RoomNumber roomNumber) {
+    public AddReserveCommand(ReserveController reserveController, Id guestId, RoomNumber roomNumber, Id serviceId) {
         this.reserveController = reserveController;
         this.guestId = guestId;
         this.roomNumber = roomNumber;
+        this.serviceId = serviceId;
     }
 
     @Override
     public void execute() {
-        reserveController.addReserve(guestId, roomNumber);
+        reserveController.addReserve(guestId, roomNumber, serviceId);
     }
 }

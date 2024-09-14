@@ -16,8 +16,8 @@ public class ReserveController {
         this.repository = ReserveRepository.getInstance();
     }
 
-    public void addReserve(Id guestId, RoomNumber roomNumber) {
-        Reserve newReserve = new Reserve(guestId, roomNumber);
+    public void addReserve(Id guestId, RoomNumber roomNumber, Id serviceId) {
+        Reserve newReserve = new Reserve(guestId, roomNumber, serviceId);
         repository.addReserve(newReserve);
         
         UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();

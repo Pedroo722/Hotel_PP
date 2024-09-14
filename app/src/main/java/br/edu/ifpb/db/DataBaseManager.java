@@ -19,10 +19,12 @@ public class DataBaseManager {
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " user_id INTEGER NOT NULL,\n"
                 + " room_number TEXT NOT NULL,\n"
+                + " service_id INTEGER,\n"
                 + " check_in DATE NOT NULL,\n"
                 + " check_out DATE,\n"
                 + " reserve_status TEXT,\n"
                 + " FOREIGN KEY(user_id) REFERENCES guests(id)\n"
+                + " FOREIGN KEY(service_id) REFERENCES services(id)\n"
                 + ");";
 
         String sqlRooms = "CREATE TABLE IF NOT EXISTS rooms (\n"
@@ -38,6 +40,14 @@ public class DataBaseManager {
                 + " FOREIGN KEY(room_type_id) REFERENCES room_types(id)\n"
                 + ");";
 
+        String sqlServices = "CREATE TABLE IF NOT EXISTS services (\n"
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                + " breakfeast_service BOOLEAN NOT NULL,\n"
+                + " pet_care_service BOOLEAN NOT NULL,\n"
+                + " spa_service BOOLEAN NOT NULL,\n"
+                + " tourism_guide_service BOOLEAN NOT NULL\n"
+                + ");";
+            
         
         String sqlRoomTypes = "CREATE TABLE IF NOT EXISTS room_types (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
@@ -49,10 +59,11 @@ public class DataBaseManager {
         try (Connection conn = DataBaseManager.connect();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sqlGuests);
+            stmt.execute(sqlServices);
             stmt.execute(sqlReserves);
             stmt.execute(sqlRooms);
             stmt.execute(sqlRoomTypes);
-            System.out.println("Tables 'guests', 'reserves', 'rooms', and 'room_types' have been created or already exist.");
+            System.out.println("Tables 'guests', 'reserves', 'services', 'rooms', and 'room_types' have been created or already exist.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -99,11 +110,12 @@ public class DataBaseManager {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("user_id");
                 String roomNumber = rs.getString("room_number");
+                int serviceId = rs.getInt("service_id");
                 String checkIn = rs.getString("check_in");
                 String checkOut = rs.getString("check_out");
                 String reserveStatus = rs.getString("reserve_status");
-                System.out.println("ID: " + id + ", User ID: " + userId + ", Room Number: " + roomNumber 
-                        + ", Check In: " + checkIn + ", Check Out: " + checkOut + ", Status: " + reserveStatus);
+                System.out.println("ID: " + id + ", User ID: " + userId + ", Room Number: " + roomNumber + ", Service ID: " + serviceId +
+                        ", Check In: " + checkIn + ", Check Out: " + checkOut + ", Status: " + reserveStatus);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -156,4 +168,29 @@ public class DataBaseManager {
             System.out.println(e.getMessage());
         }
     }
+
+    public static void printServicesTableContents() {
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            String sql = "SELECT * FROM services";
+            ResultSet rs = stmt.executeQuery(sql);
+    
+            System.out.println("\nContents of table: services");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                boolean breakfastService = rs.getBoolean("breakfeast_service");
+                boolean petCareService = rs.getBoolean("pet_care_service");
+                boolean spaService = rs.getBoolean("spa_service");
+                boolean tourismGuideService = rs.getBoolean("tourism_guide_service");
+    
+                System.out.println("ID: " + id 
+                    + ", Breakfast: " + (breakfastService ? "Yes" : "No")
+                    + ", Pet Care: " + (petCareService ? "Yes" : "No")
+                    + ", Spa: " + (spaService ? "Yes" : "No")
+                    + ", Tourism Guide: " + (tourismGuideService ? "Yes" : "No"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }    
 }
