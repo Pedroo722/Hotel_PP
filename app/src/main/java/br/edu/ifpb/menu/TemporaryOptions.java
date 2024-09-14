@@ -34,6 +34,7 @@ public class TemporaryOptions {
                     DataBaseManager.printReservesTableContents();
                     DataBaseManager.printRoomsTableContents();
                     DataBaseManager.printRoomTypesTableContents();
+                    DataBaseManager.printServicesTableContents();
                     break;
                 case 3:
                     temporaryProcessing = false;

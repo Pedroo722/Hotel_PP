@@ -11,6 +11,7 @@ public class MainMenu {
     private ReserveController reserveController;
     private GuestController guestController;
     private RoomController roomController;
+    private ServiceController serviceController;
 
     public MainMenu() {
         scanner = new Scanner(System.in);
@@ -18,6 +19,7 @@ public class MainMenu {
         reserveController = new ReserveController();
         guestController = new GuestController();
         roomController = new RoomController();
+        serviceController = new ServiceController();
     }
 
     public void start() {
@@ -45,7 +47,7 @@ public class MainMenu {
     
                 switch (MainMenuOption.values()[option - 1]) {
                     case RESERVE_OPTION:
-                        ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController, roomController);
+                        ReserveMenu reserveMenu = new ReserveMenu(scanner, reserveController, roomController, serviceController);
                         reserveMenu.handleReserveOptions();
                         break;
                     case GUEST_OPTION:
