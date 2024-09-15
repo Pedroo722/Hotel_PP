@@ -3,8 +3,12 @@ package br.edu.ifpb.screens;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.exceptions.*;
 import br.edu.ifpb.presenter.controller.GuestController;
 import br.edu.ifpb.db.DataBaseManager;
 
@@ -34,6 +38,23 @@ public class CadastrarHospedeWindow extends javax.swing.JFrame {
         jButtonCadastrar = new JButton();
         jTextFieldNome = new JTextField();
         jTextFieldCpf = new JTextField();
+
+        jTextFieldCpf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                formatarCPF();
+            }
+    
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                formatarCPF();
+            }
+    
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                formatarCPF();
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(869, 570));
@@ -110,18 +131,42 @@ public class CadastrarHospedeWindow extends javax.swing.JFrame {
         pack();
     }
 
+    private void formatarCPF() {
+        String texto = jTextFieldCpf.getText().replaceAll("[^\\d]", "");
+    
+        StringBuilder cpfFormatado = new StringBuilder();
+    
+        for (int i = 0; i < texto.length(); i++) {
+            if (i == 3 || i == 6) {
+                cpfFormatado.append('.');
+            } else if (i == 9) {
+                cpfFormatado.append('-');
+            }
+            cpfFormatado.append(texto.charAt(i));
+        }
+    
+        String novoTexto = cpfFormatado.toString();
+        if (!jTextFieldCpf.getText().equals(novoTexto)) {
+            javax.swing.SwingUtilities.invokeLater(() -> jTextFieldCpf.setText(novoTexto));
+        }
+    }
+
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
         String nomeString = jTextFieldNome.getText();
-        String CpfString = jTextFieldCpf.getText();
-    
+        String CpfString = jTextFieldCpf.getText().replaceAll("[^\\d]", "");
+
         Name guestName = new Name(nomeString);
         CPF roomNumber = new CPF(CpfString);
 
         try {
             guestController.addGuest(guestName, roomNumber);
             javax.swing.JOptionPane.showMessageDialog(this, "Hóspede criado com sucesso!");    
-        } catch (RuntimeException e) {
-
+            jTextFieldNome.setText("");
+            jTextFieldCpf.setText("");
+        } catch (GuestAlreadyExistsException e) {
+            JOptionPane.showMessageDialog(this, "Operação falha. Hóspede com esse número de CPF já está cadastrado no sistema.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (InvalidCPFException e) {
+            JOptionPane.showMessageDialog(this, "Operação falha. Insira um número de CPF válido.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 
