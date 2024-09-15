@@ -31,7 +31,6 @@ public class Guest implements Observable<Guest> {
         this.observers = new ArrayList<>();
     }
 
-    
     public Id getUserId() { return userId; }
     public Name getName() { return name; }
     public CPF getCpf() { return cpf; }
@@ -43,6 +42,7 @@ public class Guest implements Observable<Guest> {
     public void setCpf(CPF cpf) { this.cpf = cpf; }
     public void setReserveId(Id reserveId) { this.reserveId = reserveId; }
 
+    // Padrão Comportamental: Observer
     public void setStatus(GuestStatus status) {
         this.status = status;
         notifyObservers();  

@@ -7,11 +7,13 @@ import br.edu.ifpb.interfaces.service.*;
 
 public class Service {
     private Id serviceId;
+    private RoomRateStrategy roomRateStrategy; // Padrão Estrutural: Strategy
     private ServiceDecorator services; // Padrão Estrutural: Decorator
 
     public Service() {
         this.serviceId = new Id();
         this.services = new BaseService(); 
+        this.roomRateStrategy = new RoomRateStrategy();
     }
 
     public Id getServiceId() { return serviceId; }
@@ -20,7 +22,7 @@ public class Service {
     public void setServiceId(Id serviceId) { this.serviceId = serviceId; }
     public void addService(ServiceDecorator service) { this.services = service; }
 
-    public double calculateTotalPrice(RoomRateStrategy roomRateStrategy, Reserve reserve) {
+    public double calculateTotalPrice(Reserve reserve) {
         double basePrice = roomRateStrategy.calculateBasePrice(reserve);
         double serviceCost = services.calculateCost();
         return basePrice + serviceCost;
