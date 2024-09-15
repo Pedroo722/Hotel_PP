@@ -77,6 +77,10 @@ public class ReserveController {
         removeReserveUseCase.removeReserve(id);
     }    
 
+    public Reserve getReserveById(Id reserveId) {
+        return repository.findReserveById(reserveId);
+    }
+
     public void handleFinish() {
         repository.saveReservesToDB();
     }
