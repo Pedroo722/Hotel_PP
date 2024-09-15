@@ -1,27 +1,19 @@
 package br.edu.ifpb.screens;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.List;
-import javax.swing.JDialog;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import java.awt.*;
 
 import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.presenter.controller.*;
-import javax.swing.JToggleButton; 
+import br.edu.ifpb.presenter.controller.*; 
 
 public class MenuReserveWindow extends JFrame {
     private JLabel jLabelMenuReserve;
@@ -78,19 +70,16 @@ public class MenuReserveWindow extends JFrame {
                 int column = jTableReserve.columnAtPoint(e.getPoint());
 
                 if (row >= 0 && row < jTableReserve.getRowCount() && column >= 0 && column < jTableReserve.getColumnCount()) {
-                    if (column == 2) { 
-                        String guestId = jTableReserve.getValueAt(row, column).toString();
-                        showGuestDetails(guestId);
-                    } else if (column == 1) { 
-                        String roomNumber = jTableReserve.getValueAt(row, column).toString();
-                        showRoomDetails(roomNumber);
-                    } else if (column == 4) { 
+                    if (column == 1 | column == 2 | column == 3) {
+                        String reserveId = jTableReserve.getValueAt(row, 0).toString();
+                        String roomNumber = jTableReserve.getValueAt(row, 1).toString();
+                        String guestId = jTableReserve.getValueAt(row, 2).toString();
+                        String serviceId = jTableReserve.getValueAt(row, 3).toString();
+
+                        showDetailsPanel(reserveId, guestId, roomNumber, serviceId);
+                    } else if (column == 5) { 
                         String reserveId = jTableReserve.getValueAt(row, 0).toString();
                         handleCheckOutAction(reserveId);
-                    } else if (column == 3) {
-                        String serviceId = jTableReserve.getValueAt(row, column).toString();
-                        String reserveId = jTableReserve.getValueAt(row, 0).toString();
-                        showServicesDetails(serviceId, reserveId);
                     }
                 }
             }
@@ -291,10 +280,30 @@ public class MenuReserveWindow extends JFrame {
         ));
     }
 
-    private void showRoomDetails(String stringNumber) {
+    private void showDetailsPanel(String reserveId, String guestId, String stringNumber, String serviceId) {
+        JDialog dialog = new JDialog(this, "Detalhes da Reserva", true);
+        dialog.setSize(500, 250);
+        
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        // aba do hóspede
+        JPanel guestPanel = new JPanel();
+        guestPanel.setLayout(new BoxLayout(guestPanel, BoxLayout.Y_AXIS));
+        guestPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        Guest guest = guestController.getGuestById(new Id(guestId));
+        guestPanel.add(new JLabel("<html><b>Nome:</b> <font color='blue'>" + guest.getName()));
+        guestPanel.add(new JLabel("<html><b>CPF:</b> <font color='blue'>" + guest.getCpf()));
+        guestPanel.add(new JLabel("<html><b>Status:</b> <font color='blue'>" + guest.getStatus()));
+
+        // aba quarto
+        JPanel roomPanel = new JPanel();
+        roomPanel.setLayout(new BoxLayout(roomPanel, BoxLayout.Y_AXIS));
+        roomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         RoomNumber roomNumber = new RoomNumber(stringNumber);
         Room room = roomController.getRoomByNumber(roomNumber);
-    
+
         String roomDescription = "";
         String roomCapacity = "";
     
@@ -312,69 +321,34 @@ public class MenuReserveWindow extends JFrame {
             roomDescription = RoomType.getDeluxeRoomDescription();
             roomCapacity = RoomType.getDeluxeRoomCapacity();
         }
-    
-        JDialog dialog = new JDialog(this, "Detalhes do Quarto", true);
-        dialog.setSize(600, 300);
+
+        roomPanel.add(new JLabel("<html><b>Número do Quarto:</b> <font color='blue'>" + room.getNumber()));
+        roomPanel.add(new JLabel("<html><b>Descrição do Tipo do Quarto:</b> <font color='blue'>" + roomDescription));
+        roomPanel.add(new JLabel("<html><b>Capacidade:</b> <font color='blue'>" + roomCapacity));
+        roomPanel.add(new JLabel("<html><b>Número de Camas:</b> <font color='blue'>" + room.getNumberOfBeds()));
+        roomPanel.add(new JLabel("<html><b>Número de TVs</b> <font color='blue'>" + room.getNumberOfTvs()));
+        roomPanel.add(new JLabel("<html><b>Número de Banheiros</b> <font color='blue'>" + room.getNumberOfBathrooms()));
+        roomPanel.add(new JLabel("<html><b>Ar Condicionado</b> <font color='blue'>" + (room.hasAirConditioning() ? "Sim" : "Não")));
+        roomPanel.add(new JLabel("<html><b>Status</b> <font color='green'>" + room.getStatus()));
+
+        // aba Serviços
+        JPanel servicePanel = new JPanel();
+        servicePanel.setLayout(new BoxLayout(servicePanel, BoxLayout.Y_AXIS));
+        servicePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        Service service = serviceController.getServiceById(new Id(serviceId));
+        Reserve reserve = reserveController.getReserveById(new Id(reserveId));
+
+        servicePanel.add(new JLabel("<html><b>Serviço ID:</b> <font color='blue'>" + service.getServiceId()));
+        servicePanel.add(new JLabel("<html><b>Serviços Utilizados:</b> <font color='blue'>" + service.getServices().getDescription()));
+        servicePanel.add(new JLabel("<html><b>Custo Total da Reserva:</b> <font color='blue'>R$" + service.calculateTotalPrice(reserve)));
+
+        tabbedPane.addTab("Hóspede", guestPanel);
+        tabbedPane.addTab("Quarto", roomPanel);
+        tabbedPane.addTab("Serviços", servicePanel);
+
+        dialog.add(tabbedPane);
         dialog.setLocationRelativeTo(this);
-    
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setText("ID do Quarto: " + room.getRoomId() + "\n"
-                        + "Número do Quarto: " + room.getNumber() + "\n"
-                        + "Capacidade: " + roomCapacity + "\n"
-                        + "Descrição do Tipo de Quarto: " + roomDescription + "\n"
-                        + "Número de Camas: " + room.getNumberOfBeds() + "\n"
-                        + "Número de TVs: " + room.getNumberOfTvs() + "\n"
-                        + "Número de Banheiros: " + room.getNumberOfBathrooms() + "\n"
-                        + "Suíte: " + (room.isSuite() ? "Sim" : "Não") + "\n"
-                        + "Ar Condicionado: " + (room.hasAirConditioning() ? "Sim" : "Não") + "\n"
-                        + "Status: " + room.getStatus());
-    
-        dialog.add(textArea);
-        dialog.setVisible(true);
-    }
-
-    private void showGuestDetails(String guestId) {
-        Guest guest = guestController.getGuestById(new Id(guestId));
-        
-        if (guest == null) {
-            JOptionPane.showMessageDialog(this, "Hóspede não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        JDialog dialog = new JDialog(this, "Detalhes do Hóspede", true);
-        dialog.setSize(400, 300);
-        dialog.setLocationRelativeTo(this);
-        
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setText("ID do Hóspede: " + guest.getUserId() + "\n"
-                        + "Nome: " + guest.getName() + "\n"
-                        + "CPF: " + guest.getCpf() + "\n"
-                        + "Status: " + guest.getStatus());
-        
-        dialog.add(new JScrollPane(textArea));
-        dialog.setVisible(true);
-    }
-
-    private void showServicesDetails(String stringId, String reserveIdString) {
-        Id serviceId = new Id(stringId);
-        Id reserveId = new Id(reserveIdString);
-
-        Service service = serviceController.getServiceById(serviceId);
-        Reserve reserve = reserveController.getReserveById(reserveId);
-
-        JDialog dialog = new JDialog(this, "Detalhes dos Serviços da Reserva", true);
-        dialog.setSize(600, 300);
-        dialog.setLocationRelativeTo(this);
-    
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setText("ID do Serviço: " + service.getServiceId() + "\n"
-                        + "Serviços Utilizados: " + service.getServices().getDescription() + "\n"
-                        + "Custo Total: " + service.calculateTotalPrice(reserve));
-    
-        dialog.add(textArea);
         dialog.setVisible(true);
     }
 
