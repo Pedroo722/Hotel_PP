@@ -90,35 +90,50 @@ public class GuestRepository implements GuestRepositoryInterface {
     public void addGuest(Guest guest) {
         String checkSql = "SELECT COUNT(*) FROM guests WHERE cpf = ?";
         String insertSql = "INSERT INTO guests(id, name, cpf, reserve_id, guest_status) VALUES(?, ?, ?, ?, ?)";
-
+    
         try (Connection conn = this.connect();
-            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
-            PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+             PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
             
             // Verifica se o CPF já existe no banco
             checkStmt.setString(1, guest.getCpf().toString());
             ResultSet rs = checkStmt.executeQuery();
             
             if (rs.next() && rs.getInt(1) > 0) {
-                System.out.println("Hóspede com este CPF já existe no banco de dados.");
+                throw new GuestAlreadyExistsException();
             } else {
-                // Se não existir, tem que inserir novo hóspede
-                insertStmt.setInt(1, guest.getUserId().getValue());
-                insertStmt.setString(2, guest.getName().toString());
-                insertStmt.setString(3, guest.getCpf().toString());
-                if (guest.getReserveId() != null) {
-                    insertStmt.setInt(4, guest.getReserveId().getValue());
-                } else {
-                    insertStmt.setInt(4, -1);
+                // Se não existir, tenta inserir novo hóspede
+                int guestId = guest.getUserId().getValue();
+                boolean inserted = false;
+    
+                while (!inserted) {
+                    try {
+                        insertStmt.setInt(1, guestId);
+                        insertStmt.setString(2, guest.getName().toString());
+                        insertStmt.setString(3, guest.getCpf().toString());
+                        if (guest.getReserveId() != null) {
+                            insertStmt.setInt(4, guest.getReserveId().getValue());
+                        } else {
+                            insertStmt.setInt(4, -1);
+                        }
+                        insertStmt.setString(5, guest.getStatus().toString());
+                        insertStmt.executeUpdate();
+                        guests.add(guest);  // Adiciona à lista interna
+                        inserted = true; // Define como inserido
+                    } catch (SQLException e) {
+                        // Verifica se é uma exceção de chave primária
+                        if (e.getMessage().contains("UNIQUE constraint failed: guests.id")) {
+                            guestId++; // Incrementa o ID e tenta novamente
+                        } else {
+                            throw e; 
+                        }
+                    }
                 }
-                insertStmt.setString(5, guest.getStatus().toString());
-                insertStmt.executeUpdate();
-                guests.add(guest);  // Adiciona à lista interna
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }    
 
     @Override
     public void updateGuest(Guest updatedGuest) {
@@ -142,7 +157,7 @@ public class GuestRepository implements GuestRepositoryInterface {
                     pstmt.setInt(5, updatedGuest.getUserId().getValue());
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
-                    System.out.println("Erro ao atualizar hóspede: " + e.getMessage());
+                    throw new GuestNotFoundException();
                 }
                 return;
             }
@@ -166,7 +181,7 @@ public class GuestRepository implements GuestRepositoryInterface {
                 // Remove da lista interna se a remoção no banco de dados foi bem-sucedida
                 guests.removeIf(guest -> guest.getUserId().equals(id));
             } else {
-                System.out.println("Nenhum hóspede encontrado com o ID fornecido.");
+                throw new GuestNotFoundException();
             }
     
         } catch (SQLException e) {
