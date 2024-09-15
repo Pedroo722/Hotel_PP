@@ -1,32 +1,29 @@
 package br.edu.ifpb.screens;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
+import java.util.*;
+import javax.swing.*;
 
 import br.edu.ifpb.db.DataBaseManager;
+import br.edu.ifpb.domain.cases.GuestUseCase.*;
+import br.edu.ifpb.domain.cases.RoomUseCase.*;
 import br.edu.ifpb.domain.model.*;
-import br.edu.ifpb.domain.model.services.BreakFastService;
-import br.edu.ifpb.domain.model.services.PetCareService;
-import br.edu.ifpb.domain.model.services.SpaService;
-import br.edu.ifpb.domain.model.services.TourismGuideService;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.presenter.controller.ReserveController;
-import br.edu.ifpb.presenter.controller.ServiceController;
+import br.edu.ifpb.domain.model.services.*;
+import br.edu.ifpb.presenter.controller.*;
 
 public class CadastrarReservaWindow extends javax.swing.JFrame {
     private JLabel jLabelAdicionarReserva;
     private JLabel jLabelID;
     private JLabel jLabelNumero;
+    private JLabel jLabelHóspede; 
     private JButton jButtonVoltar;
     private JButton jButtonCadastrar;
-    private JTextField jTextFieldID;
-    private JTextField jTextFieldNumero;
+    private JComboBox<String> jComboBoxHóspede;
+    private JComboBox<String> jComboBoxNumero;
+    private GuestController guestController;
     private ReserveController reserveController;
+    private RoomController roomController;
     private ServiceController serviceController;
-
-    
     private JCheckBox jCheckBoxServiço1;
     private JCheckBox jCheckBoxServiço2;
     private JCheckBox jCheckBoxServiço3;
@@ -38,17 +35,22 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         DataBaseManager.initialize();
         serviceController = new ServiceController();
+        guestController = new GuestController();
+        roomController = new RoomController();
         reserveController = new ReserveController();
+        populateAvailableRooms();
+        populateGuestList(); 
     }
 
     private void initComponents() {
         jLabelAdicionarReserva = new JLabel();
         jLabelID = new JLabel();
         jLabelNumero = new JLabel();
+        jLabelHóspede = new JLabel("ID do Hóspede:"); 
         jButtonVoltar = new JButton();
         jButtonCadastrar = new JButton();
-        jTextFieldID = new JTextField();
-        jTextFieldNumero = new JTextField();
+        jComboBoxHóspede = new JComboBox<>(); 
+        jComboBoxNumero = new JComboBox<>();
         
         jCheckBoxServiço1 = new JCheckBox("Serviço de Café da Manhã");
         jCheckBoxServiço2 = new JCheckBox("Serviço de Pet Care");
@@ -85,9 +87,6 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
         jButtonCadastrar.setText("Cadastrar");
         jButtonCadastrar.addActionListener(evt -> jButtonCadastrarActionPerformed(evt));
 
-        jTextFieldID.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldNumero.setBackground(new java.awt.Color(255, 255, 255));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,12 +102,12 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
                         .addComponent(jLabelAdicionarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabelID)
+                                .addComponent(jLabelID) 
                                 .addComponent(jLabelNumero))
                             .addGap(72, 72, 72)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldID, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-                                .addComponent(jTextFieldNumero))))
+                                .addComponent(jComboBoxHóspede, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) 
+                                .addComponent(jComboBoxNumero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelServicosAdicionais)
                         .addGap(125, 125, 125)))
@@ -129,14 +128,14 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabelAdicionarReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelID)
-                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelID) 
+                    .addComponent(jComboBoxHóspede, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)) 
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNumero)
-                    .addComponent(jTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelServicosAdicionais) 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -157,9 +156,39 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
         pack();
     }
 
+    private void populateAvailableRooms() {
+        List<Room> roomList = roomController.getListRooms();
+        List<Room> availableList = new ArrayList<>();
+
+        for (Room room : roomList) {
+            if (CheckRoomStatusUseCase.isRoomAvailable(room)) {
+                availableList.add(room);
+            }
+        }
+
+        for (Room room : availableList) {
+            jComboBoxNumero.addItem(String.valueOf(room.getNumber()));
+        }
+    }
+
+    private void populateGuestList() {
+        List<Guest> guestList = guestController.getListGuests();
+        List<Guest> unhostedGuests = new ArrayList<>();
+
+        for (Guest guest : guestList) {
+            if (CheckGuestStatusUseCase.isGuestAvailable(guest)) {
+                unhostedGuests.add(guest);
+            }
+        }
+
+        for (Guest guest : unhostedGuests) {
+            jComboBoxHóspede.addItem(String.valueOf(guest.getUserId())); 
+        }
+    }
+
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
-        String idString = jTextFieldID.getText();
-        String numeroString = jTextFieldNumero.getText();
+        String idString = (String) jComboBoxHóspede.getSelectedItem();
+        String numeroString = (String) jComboBoxNumero.getSelectedItem(); 
 
         Id guestId = new Id(idString);
         RoomNumber roomNumber = new RoomNumber(numeroString);
@@ -169,7 +198,7 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
         boolean hasBreakfast = jCheckBoxServiço1.isSelected();
         boolean hasPetCare = jCheckBoxServiço2.isSelected();
         boolean hasSpa = jCheckBoxServiço3.isSelected();
-        boolean hasTourism = jCheckBoxServiço4.isSelected(); 
+        boolean hasTourism = jCheckBoxServiço4.isSelected();
 
         if (hasBreakfast) {
             service.addService(new BreakFastService(service.getServices()));

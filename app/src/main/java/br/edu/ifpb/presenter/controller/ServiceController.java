@@ -24,7 +24,7 @@ public class ServiceController {
         boolean hasTourism = description.contains("Guia");
 
         if (!hasBreakfast && !hasPetCare && !hasSpa && !hasTourism) {
-            System.out.println("Nenhum serviço adicional foi selecionado.");
+//            System.out.println("Nenhum serviço adicional foi selecionado.");
             return;
         }
 
