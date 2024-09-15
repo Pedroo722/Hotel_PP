@@ -63,7 +63,7 @@ public class DataBaseManager {
             stmt.execute(sqlReserves);
             stmt.execute(sqlRooms);
             stmt.execute(sqlRoomTypes);
-            System.out.println("Tables 'guests', 'reserves', 'services', 'rooms', and 'room_types' have been created or already exist.");
+//            System.out.println("Tables 'guests', 'reserves', 'services', 'rooms', and 'room_types' have been created or already exist.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
