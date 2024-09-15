@@ -10,5 +10,4 @@ public interface RoomRepositoryInterface {
     public void addRoom(Room room);
     public void updateRoom(Room updatedRoom);
     public List<Room> getRooms();
-    // public List<Room> loadRoomsFromFile();
 }

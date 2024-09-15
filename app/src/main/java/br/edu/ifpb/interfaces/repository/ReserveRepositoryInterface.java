@@ -11,5 +11,4 @@ public interface ReserveRepositoryInterface {
     public void updateReserve(Reserve updatedReserve);
     public void removeReserve(Id id);
     public List<Reserve> getReserves();
-    // public List<Reserve> loadReservesFromFile();
 }

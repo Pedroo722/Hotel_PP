@@ -11,5 +11,4 @@ public interface GuestRepositoryInterface {
     public void updateGuest(Guest updatedGuest);
     public void removeGuest(Id id);
     public List<Guest> getGuests();
-    // public List<Guest> loadGuestsFromFile();
 }

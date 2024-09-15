@@ -13,9 +13,10 @@ import java.util.List;
 import br.edu.ifpb.domain.model.services.*;
 import br.edu.ifpb.domain.wrappers.*;
 import br.edu.ifpb.exceptions.*;
+import br.edu.ifpb.interfaces.repository.ServiceRepositoryInterface;
 import br.edu.ifpb.interfaces.service.*;
 
-public class ServiceRepository {
+public class ServiceRepository implements ServiceRepositoryInterface {
     private List<Service> services;
     private static ServiceRepository instance;
 
@@ -136,6 +137,7 @@ public class ServiceRepository {
         }
     }
 
+    @Override
     public void addService(Service service, boolean hasBreakfast, boolean hasPetCare, boolean hasSpa, boolean hasTourism) {
         String insertSql = "INSERT INTO services (id, breakfeast_service, pet_care_service, spa_service, tourism_guide_service) VALUES (?, ?, ?, ?, ?)";
 
@@ -154,6 +156,7 @@ public class ServiceRepository {
         }
     }
 
+    @Override
     public void updateService(Service service) {
         String updateSql = "UPDATE services SET breakfeast_service = ?, pet_care_service = ?, spa_service = ?, tourism_guide_service = ? WHERE id = ?";
     
@@ -183,6 +186,7 @@ public class ServiceRepository {
         }
     }
 
+    @Override
     public void removeService(Id serviceId) {
         String deleteSql = "DELETE FROM services WHERE id = ?";
     
@@ -203,11 +207,12 @@ public class ServiceRepository {
         }
     }
     
-
+    @Override
     public List<Service> getServices() {
         return services;
     }
 
+    @Override
     public Service findServiceById(Id serviceId) {
         for (Service service : services) {
             if (service.getServiceId().equals(serviceId)) {
