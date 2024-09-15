@@ -51,10 +51,9 @@ public class MenuGuestWindow extends JFrame {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
                 if (isSelected) { 
-                    component.setBackground(new Color(173, 216, 230)); // Azul claro
+                    component.setBackground(new Color(173, 216, 230)); // Azul claro se selecionado
                     
                 } else {
-                    // Se não estiver selecionado, use a cor padrão de fundo
                     component.setBackground(table.getBackground());
                 }
 
@@ -278,7 +277,7 @@ public class MenuGuestWindow extends JFrame {
             String status = value.toString();
 
             if (isSelected) {
-                component.setBackground(new Color(173, 216, 230)); // Azul claro quando selecionado
+                component.setBackground(new Color(173, 216, 230));
             } else if ("Baixa Quantidade".equals(status)) {
                 component.setBackground(Color.RED);
             } else if ("Alta Quantidade".equals(status)) {
@@ -302,7 +301,7 @@ public class MenuGuestWindow extends JFrame {
                 guest.getUserId() != null ? guest.getUserId().getValue() : "N/A", 
                 guest.getName() != null ? guest.getName() : "N/A",
                 guest.getCpf() != null ? guest.getCpf() : "N/A",
-                guest.getReserveId() != null ? guest.getReserveId().getValue() : "N/A",
+                guest.getReserveId() != null && guest.getReserveId().getValue() != -1 ? guest.getReserveId().getValue() : "N/A",
                 guest.getStatus() != null ? guest.getStatus() : "N/A"
             };
             model.addRow(rowData);
