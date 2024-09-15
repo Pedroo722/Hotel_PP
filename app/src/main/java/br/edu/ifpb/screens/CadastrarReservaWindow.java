@@ -16,7 +16,6 @@ import br.edu.ifpb.presenter.controller.ReserveController;
 import br.edu.ifpb.presenter.controller.ServiceController;
 
 public class CadastrarReservaWindow extends javax.swing.JFrame {
-
     private JLabel jLabelAdicionarReserva;
     private JLabel jLabelID;
     private JLabel jLabelNumero;
@@ -115,11 +114,11 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
                         .addGap(125, 125, 125)))
                 .addContainerGap(60, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(200, 200, 200)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBoxServiço1)
                     .addComponent(jCheckBoxServiço2))
-                .addGap(100, 100, 100)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBoxServiço3)
                     .addComponent(jCheckBoxServiço4))
