@@ -34,6 +34,7 @@ public class MenuReserveWindow extends JFrame {
     private ReserveController reserveController;
     private GuestController guestController;
     private RoomController roomController;
+    private ServiceController serviceController;
     private JToggleButton jToggleButtonActive; 
     private JToggleButton jToggleButtonFinished; 
 
@@ -45,6 +46,7 @@ public class MenuReserveWindow extends JFrame {
         reserveController = new ReserveController();
         guestController = new GuestController();
         roomController = new RoomController();
+        serviceController = new ServiceController();
         
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -85,6 +87,10 @@ public class MenuReserveWindow extends JFrame {
                     } else if (column == 4) { 
                         String reserveId = jTableReserve.getValueAt(row, 0).toString();
                         handleCheckOutAction(reserveId);
+                    } else if (column == 3) {
+                        String serviceId = jTableReserve.getValueAt(row, column).toString();
+                        String reserveId = jTableReserve.getValueAt(row, 0).toString();
+                        showServicesDetails(serviceId, reserveId);
                     }
                 }
             }
@@ -216,7 +222,7 @@ public class MenuReserveWindow extends JFrame {
         List<Reserve> reserves = reserveController.getListReserves();
         DefaultTableModel model = (DefaultTableModel) jTableReserve.getModel();
         model.setRowCount(0);
-
+    
         for (Reserve reserve : reserves) {
             boolean isActive = reserve.getStatus() == ReserveStatus.ACTIVE;
             if (jToggleButtonActive.isSelected() && isActive || jToggleButtonFinished.isSelected() && !isActive) {
@@ -224,6 +230,7 @@ public class MenuReserveWindow extends JFrame {
                     reserve.getReserveId() != null ? reserve.getReserveId().toString() : "N/A",
                     reserve.getNumber() != null ? reserve.getNumber().toString() : "N/A",
                     reserve.getUserId() != null ? reserve.getUserId().toString() : "N/A",
+                    reserve.getServiceId() != null ? reserve.getServiceId().toString() : "N/A",
                     reserve.getCheckIn() != null ? reserve.getCheckIn().toString() : "N/A",
                     reserve.getCheckOut() != null ? reserve.getCheckOut().toString() : "N/A",
                     reserve.getStatus().toString()
@@ -279,7 +286,7 @@ public class MenuReserveWindow extends JFrame {
         jTableReserve.setModel(new DefaultTableModel(
             new Object [][] {},
             new String [] {
-                "Reserva ID", "Número de Quarto", "Hóspede ID", "Check-In", "Check-Out", "Status"
+                "Reserva ID", "Número de Quarto", "Hóspede ID", "Service ID", "Check-In", "Check-Out", "Status"
             }
         ));
     }
@@ -350,6 +357,27 @@ public class MenuReserveWindow extends JFrame {
         dialog.setVisible(true);
     }
 
+    private void showServicesDetails(String stringId, String reserveIdString) {
+        Id serviceId = new Id(stringId);
+        Id reserveId = new Id(reserveIdString);
+
+        Service service = serviceController.getServiceById(serviceId);
+        Reserve reserve = reserveController.getReserveById(reserveId);
+
+        JDialog dialog = new JDialog(this, "Detalhes dos Serviços da Reserva", true);
+        dialog.setSize(600, 300);
+        dialog.setLocationRelativeTo(this);
+    
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setText("ID do Serviço: " + service.getServiceId() + "\n"
+                        + "Serviços Utilizados: " + service.getServices().getDescription() + "\n"
+                        + "Custo Total: " + service.calculateTotalPrice(reserve));
+    
+        dialog.add(textArea);
+        dialog.setVisible(true);
+    }
+
     private void handleCheckOutAction(String stringId) {
         Id reserveId = new Id(stringId);
         
@@ -360,12 +388,14 @@ public class MenuReserveWindow extends JFrame {
         if (confirm == javax.swing.JOptionPane.YES_OPTION) {
             try {
                 reserveController.checkOut(reserveId);
-                 atualizarTabela();   
+                atualizarTabela();   
              } catch (Exception e) {
      
              }   
         }
     }
+
+    
 
     public static void main(String args[]) {
         try {
