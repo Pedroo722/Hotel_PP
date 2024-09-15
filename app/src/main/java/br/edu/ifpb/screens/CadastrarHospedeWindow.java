@@ -165,6 +165,8 @@ public class CadastrarHospedeWindow extends javax.swing.JFrame {
             jTextFieldCpf.setText("");
         } catch (GuestAlreadyExistsException e) {
             JOptionPane.showMessageDialog(this, "Operação falha. Hóspede com esse número de CPF já está cadastrado no sistema.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (InvalidNameException e) {
+            JOptionPane.showMessageDialog(this, "Operação falha. Insira um nome válido.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (InvalidCPFException e) {
             JOptionPane.showMessageDialog(this, "Operação falha. Insira um número de CPF válido.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }

@@ -5,10 +5,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.WindowConstants;
+import javax.swing.JOptionPane;
 
 import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.presenter.controller.GuestController;
 import br.edu.ifpb.domain.wrappers.*;
+import br.edu.ifpb.exceptions.InvalidCPFException;
+import br.edu.ifpb.exceptions.InvalidNameException;
 
 import java.awt.Dimension;
 import java.awt.Color;
@@ -166,19 +169,21 @@ public class EditarHospedeWindow extends javax.swing.JFrame {
             javax.swing.JOptionPane.YES_NO_OPTION);
     
         if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-            String idString = jTextFieldIdHospede.getText();
-            String nomeString = jTextFieldNovoNome.getText();
-            String cpfString = jTextFieldNovoCpf.getText();
-    
-            Id guestId = new Id(idString);
-            Name novoNome = new Name(nomeString);
-            CPF novoCpf = new CPF(cpfString);
-            
             try {
+                String idString = jTextFieldIdHospede.getText();
+                String nomeString = jTextFieldNovoNome.getText();
+                String cpfString = jTextFieldNovoCpf.getText();
+        
+                Id guestId = new Id(idString);
+                Name novoNome = new Name(nomeString);
+                CPF novoCpf = new CPF(cpfString);
+
                 guestController.editGuest(guestId, novoNome, novoCpf);
                 javax.swing.JOptionPane.showMessageDialog(this, "Hóspede editado com sucesso!");    
-            } catch (Exception e) {
-                
+            } catch (InvalidNameException e) {
+                JOptionPane.showMessageDialog(this, "Operação falha. Insira um nome válido.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            } catch (InvalidCPFException e) {
+                JOptionPane.showMessageDialog(this, "Operação falha. Insira um número de CPF válido.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Edição cancelada.");
