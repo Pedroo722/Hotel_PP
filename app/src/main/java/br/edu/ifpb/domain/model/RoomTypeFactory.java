@@ -1,5 +1,7 @@
 package br.edu.ifpb.domain.model;
 
+import br.edu.ifpb.domain.model.roomtypes.*;
+
 // Padrão de Criação: Factory
 public class RoomTypeFactory {
     public static RoomType createRoomType(String type) {

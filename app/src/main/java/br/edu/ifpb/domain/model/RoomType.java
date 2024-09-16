@@ -1,5 +1,6 @@
 package br.edu.ifpb.domain.model;
 
+import br.edu.ifpb.domain.model.roomtypes.*;
 import br.edu.ifpb.domain.wrappers.*;
 
 public abstract class RoomType {
@@ -59,83 +60,5 @@ public abstract class RoomType {
         sb.append("* Capacity: ").append(capacity).append("\n");
         sb.append("* Size: ").append(description.getSize()).append("\n");
         return sb.toString();
-    }
-}
-
-// Classes usadas pela RoomTypeFactory
-class SmallRoomType extends RoomType {
-    public SmallRoomType() {
-        super(RoomDescription.SMALL, new RoomCapacity(1));
-    }
-
-    @Override
-    public String getTypeName() {
-        return "Small room for a single person";
-    }
-
-    public static String getSmallTypeDescription() {
-        return "Quarto pequeno para uma única pessoa.";
-    }
-
-    public static String getSmallTypeCapacity() {
-        return "1";
-    }
-}
-
-class MediumRoomType extends RoomType {
-    public MediumRoomType() {
-        super(RoomDescription.MEDIUM, new RoomCapacity(2));
-    }
-
-    @Override
-    public String getTypeName() {
-        return "Twin room for 2 people";
-    }
-
-    public static String getMediumTypeDescription() {
-        return "Quarto duplo para 2 pessoas";
-    }
-
-    public static String getMediumTypeCapacity() {
-        return "2";
-    }
-}
-
-class LargeRoomType extends RoomType {
-    public LargeRoomType() {
-        super(RoomDescription.LARGE, new RoomCapacity(4));
-    }
-
-    @Override
-    public String getTypeName() {
-        return "Large room for a entire family";
-    }
-
-    public static String getLargeTypeDescription() {
-        return "Quarto grande para uma família inteira";
-    }
-
-    public static String getLargeTypeCapacity() {
-        return "4";
-    }
-}
-
-class DeluxeRoomType extends RoomType {
-    public DeluxeRoomType() {
-        super(RoomDescription.LUXURY, new RoomCapacity(2));
-    }
-
-    @Override
-    public String getTypeName() {
-        return "Deluxe Room";
-    }
-
-    
-    public static String getDeluxeTypeDescription() {
-        return "Quarto de luxo com serviços premium para até 2 pessoas";
-    }
-
-    public static String getDeluxeTypeCapacity() {
-        return "8";
     }
 }
