@@ -22,8 +22,7 @@ As principais pastas são:
 
 ### BD
 
-**BD** - A pasta que futuramente será responsável pelo banco de dados do projeto, onde os dados são salvos entre as diferentes execuções.
-
+**BD** - Pasta reponsável pelo DataBaseManager, classe que age como gerenciador do banco de dados SQLite.
 
 ### Repository
 
