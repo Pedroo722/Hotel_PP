@@ -146,15 +146,7 @@ public class MenuGuestWindow extends JFrame {
             new String [] {
                 "ID Hóspede", "Nome", "CPF", "ID Reserva", "Status"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jTableGuest.setFillsViewportHeight(true);
         jScrollPaneGuest.setViewportView(jTableGuest);
 
@@ -255,16 +247,7 @@ public class MenuGuestWindow extends JFrame {
             new String [] {
                 "ID Hóspede", "Nome", "CPF", "ID Reserva", "Status"
             }
-        ) {
-            Class[] types = new Class [] {
-                Integer.class, String.class, String.class, Integer.class, String.class 
-            };
-    
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return types[columnIndex];
-            }
-        };
+        );
     
         jTableGuest.setModel(model);
     }

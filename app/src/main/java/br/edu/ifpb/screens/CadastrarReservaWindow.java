@@ -15,7 +15,6 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
     private JLabel jLabelAdicionarReserva;
     private JLabel jLabelID;
     private JLabel jLabelNumero;
-    private JLabel jLabelHóspede; 
     private JButton jButtonVoltar;
     private JButton jButtonCadastrar;
     private JComboBox<String> jComboBoxHóspede;
@@ -46,7 +45,6 @@ public class CadastrarReservaWindow extends javax.swing.JFrame {
         jLabelAdicionarReserva = new JLabel();
         jLabelID = new JLabel();
         jLabelNumero = new JLabel();
-        jLabelHóspede = new JLabel("ID do Hóspede:"); 
         jButtonVoltar = new JButton();
         jButtonCadastrar = new JButton();
         jComboBoxHóspede = new JComboBox<>(); 
