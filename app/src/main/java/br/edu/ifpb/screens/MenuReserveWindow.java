@@ -13,7 +13,12 @@ import java.awt.*;
 import br.edu.ifpb.db.DataBaseManager;
 import br.edu.ifpb.domain.model.*;
 import br.edu.ifpb.domain.wrappers.*;
-import br.edu.ifpb.presenter.controller.*; 
+import br.edu.ifpb.interfaces.Command;
+import br.edu.ifpb.presenter.CommandInvoker;
+import br.edu.ifpb.presenter.controller.*;
+import br.edu.ifpb.presenter.reserveCommand.CheckOutReserveCommand;
+import br.edu.ifpb.presenter.reserveCommand.RemoveReserveCommand;
+import br.edu.ifpb.presenter.serviceCommand.RemoveServiceCommand; 
 
 public class MenuReserveWindow extends JFrame {
     private JLabel jLabelMenuReserve;
@@ -23,6 +28,7 @@ public class MenuReserveWindow extends JFrame {
     private JButton jButtonEditarReserve;
     private JScrollPane jScrollPaneReserve;
     private JTable jTableReserve;
+    private CommandInvoker commandInvoker;
     private ReserveController reserveController;
     private GuestController guestController;
     private RoomController roomController;
@@ -35,6 +41,7 @@ public class MenuReserveWindow extends JFrame {
         setTableModel();
         setLocationRelativeTo(null);
         DataBaseManager.initialize();
+        this.commandInvoker = new CommandInvoker();
         reserveController = new ReserveController();
         guestController = new GuestController();
         roomController = new RoomController();
@@ -259,8 +266,14 @@ public class MenuReserveWindow extends JFrame {
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 String reserveId = jTableReserve.getValueAt(selectedRow, 0).toString();
                 String serviceId = jTableReserve.getValueAt(selectedRow, 3).toString();
-                reserveController.removeReserve(new Id(reserveId));
-                serviceController.removeService(new Id(serviceId));
+
+                Command removeReserveCommand = new RemoveReserveCommand(reserveController, new Id(reserveId));
+                commandInvoker.setCommand(removeReserveCommand);
+                commandInvoker.executeCommand();
+
+                Command removeServiceCommand = new RemoveServiceCommand(serviceController, new Id(serviceId));  
+                commandInvoker.setCommand(removeServiceCommand);
+                commandInvoker.executeCommand();
                 atualizarTabela();
             }
         } else {
@@ -331,6 +344,7 @@ public class MenuReserveWindow extends JFrame {
         roomPanel.add(new JLabel("<html><b>Número de TVs</b> <font color='blue'>" + room.getNumberOfTvs()));
         roomPanel.add(new JLabel("<html><b>Número de Banheiros</b> <font color='blue'>" + room.getNumberOfBathrooms()));
         roomPanel.add(new JLabel("<html><b>Ar Condicionado</b> <font color='blue'>" + (room.hasAirConditioning() ? "Sim" : "Não")));
+        roomPanel.add(new JLabel("<html><b>Súite</b> <font color='blue'>" + (room.isSuite() ? "Sim" : "Não")));
         roomPanel.add(new JLabel("<html><b>Status</b> <font color='green'>" + room.getStatus()));
 
         // aba Serviços
@@ -363,7 +377,9 @@ public class MenuReserveWindow extends JFrame {
 
         if (confirm == javax.swing.JOptionPane.YES_OPTION) {
             try {
-                reserveController.checkOut(reserveId);
+                Command checkOutReserveCommand = new CheckOutReserveCommand(reserveController, reserveId);
+                commandInvoker.setCommand(checkOutReserveCommand);
+                commandInvoker.executeCommand();
                 atualizarTabela();   
              } catch (Exception e) {
      

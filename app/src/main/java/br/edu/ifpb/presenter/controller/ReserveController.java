@@ -57,11 +57,16 @@ public class ReserveController {
     }
 
     public void checkOut(Id reserveId) {
+        Reserve reserve = repository.findReserveById(reserveId);
+
         ReserveCheckOutUseCase reserveCheckOutUseCase = new ReserveCheckOutUseCase();
         reserveCheckOutUseCase.checkOut(reserveId);
 
         UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase();
         updateReserveStatusUseCase.updateReserveStatus(reserveId);
+
+        UpdateGuestStatusUseCase updateGuestStatusUseCase = new UpdateGuestStatusUseCase();
+        updateGuestStatusUseCase.updateGuestStatus(reserve.getUserId());
     }
 
     public void removeReserve(Id id) {            

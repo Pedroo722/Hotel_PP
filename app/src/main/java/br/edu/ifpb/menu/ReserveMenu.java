@@ -26,7 +26,7 @@ public class ReserveMenu {
         this.scanner = scanner;
         this.reserveController = reserveController;
         this.roomController = roomController;
-        this.serviceController = serviceController;  // Recebendo ServiceController no construtor
+        this.serviceController = serviceController; 
         this.commandInvoker = new CommandInvoker();
     }
 
@@ -120,7 +120,7 @@ public class ReserveMenu {
                         commandInvoker.setCommand(removeReserveCommand);
                         commandInvoker.executeCommand();
 
-                        Command removeServiceCommand = new RemoveServiceCommand(serviceController, removeId);  // Corrigido para passar serviceController
+                        Command removeServiceCommand = new RemoveServiceCommand(serviceController, removeId);
                         commandInvoker.setCommand(removeServiceCommand);
                         commandInvoker.executeCommand();
                         break;
