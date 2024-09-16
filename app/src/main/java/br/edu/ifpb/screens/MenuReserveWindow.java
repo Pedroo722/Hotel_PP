@@ -258,7 +258,9 @@ public class MenuReserveWindow extends JFrame {
             
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 String reserveId = jTableReserve.getValueAt(selectedRow, 0).toString();
+                String serviceId = jTableReserve.getValueAt(selectedRow, 0).toString();
                 reserveController.removeReserve(new Id(reserveId));
+                serviceController.removeService(new Id(serviceId));
                 atualizarTabela();
             }
         } else {

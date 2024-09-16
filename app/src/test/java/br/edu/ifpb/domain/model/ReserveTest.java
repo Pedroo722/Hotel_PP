@@ -109,8 +109,8 @@ public class ReserveTest {
         Id serviceId = new Id();
         Reserve reserve = new Reserve(userId, roomNumber, serviceId); 
         
-        reserve.setStatus(ReserveStatus.CANCELED);
+        reserve.setStatus(ReserveStatus.FINALIZED);
         
-        assertEquals(ReserveStatus.CANCELED, reserve.getStatus());
+        assertEquals(ReserveStatus.FINALIZED, reserve.getStatus());
     }
 }

@@ -21,7 +21,7 @@ public class UpdateReserveStatusUseCase {
         ReserveStatus currentStatus = reserve.getStatus();
 
         if (currentStatus == ReserveStatus.ACTIVE) {
-            reserve.setStatus(ReserveStatus.CANCELED);
+            reserve.setStatus(ReserveStatus.FINALIZED);
         } else {
             reserve.setStatus(ReserveStatus.ACTIVE);
         }

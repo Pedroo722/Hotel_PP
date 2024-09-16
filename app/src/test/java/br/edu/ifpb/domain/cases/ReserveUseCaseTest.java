@@ -102,7 +102,7 @@ public class ReserveUseCaseTest {
         UpdateReserveStatusUseCase updateReserveStatusUseCase = new UpdateReserveStatusUseCase(repositoryMock);
         updateReserveStatusUseCase.updateReserveStatus(reserve.getReserveId());
 
-        assertEquals(ReserveStatus.CANCELED, repositoryMock.findReserveById(reserve.getReserveId()).getStatus());
+        assertEquals(ReserveStatus.FINALIZED, repositoryMock.findReserveById(reserve.getReserveId()).getStatus());
     }
 
     @Test

@@ -2,7 +2,7 @@ package br.edu.ifpb.domain.wrappers;
 
 public enum ReserveStatus {
     ACTIVE(true),
-    CANCELED(false);
+    FINALIZED(false);
 
     private final boolean status;
 
