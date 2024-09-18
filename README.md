@@ -70,4 +70,4 @@ E também fazem chamadas e atualizações no repositório de sua classe model es
 
 ## Diagrama de Classes do Banco de Dados
 
-![Esquema_Banco_de_Dados](https://github.com/user-attachments/assets/7796fc49-74df-45e5-a585-0286b20035cb)
+![Esquema_DB_Corrigido](https://github.com/user-attachments/assets/3cc3855b-e0b2-4d5e-8281-f935f8c451a8)
